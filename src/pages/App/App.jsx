@@ -1,6 +1,7 @@
 import debug from "debug";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import NavBar from "../../components/NavBar/NavBar";
 import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
 
@@ -15,9 +16,12 @@ const App = () => {
   return (
     <main>
       {user ? (
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+        <>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </>
       ) : (
         <AuthPage />
       )}

@@ -127,6 +127,8 @@ git checkout <name>
 git merge main
 ```
 
+- If **git merge main** returns "Already up to date.", proceed to Step 8.
+
 ### Step 7: Resolving Conflicts (if any)
 
 - If there are conflicts, Git will prompt you to resolve them.

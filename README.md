@@ -91,10 +91,12 @@ git pull origin main
 
 - Replace <name> with your branch name (e.g. edmund).
 - Do rmb to run npm install **on your branch**, and checking if all the dependecies are installed before working.
+- Create a .env file after installation. Follow the .env.example format and indicate your secrets.
 
 ```bash
 git checkout -b <name>
 npm install
+touch .env
 ```
 
 ### Step 4: Making Commits

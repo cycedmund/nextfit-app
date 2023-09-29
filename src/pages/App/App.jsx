@@ -11,7 +11,7 @@ localStorage.debug = "nextfit:*";
 log("Start React");
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState([]);
 
   return (
     <main>
@@ -19,7 +19,7 @@ const App = () => {
         <>
           <NavBar />
           <Routes>
-            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
           </Routes>
         </>
       ) : (

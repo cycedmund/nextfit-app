@@ -38,19 +38,19 @@
 - Handles relationships such as one-to-many (1-M) and many-to-many (M-M) modeling.
 - Potentially implements external APIs related to the database.
 
-### Responsibilities
+### Other Responsibilities
 
 - Not fixed, we can discuss this further so that everyone can do some React, some Express and some DB management.
 
-#### Frontend (Edmund and Evangelene)
+Frontend (Edmund and Evangelene)
 
 - React
 
-#### Backend (Cristelle and Zahra)
+Backend (Cristelle and Zahra)
 
 - Express
 
-#### Database (Zahra and Edmund)
+Database (Zahra and Edmund)
 
 - MongoDB
 
@@ -189,18 +189,18 @@ Save clothes, save money, save yourself.
 
 - Sizes, type (dropdown), color, quantity.
 
-1. User wants outfit suggestions based on various criteria:
+2. User wants outfit suggestions based on various criteria:
 
 - User wants outfit suggestion based on a piece of clothing.
 - User wants outfit suggestion based on weather.
 - User wants outfit suggestion based on event / outfit guidelines (e.g. smart casual, sporty, casual, formal)
 
-1. User wants to categorize clothes:
+3. User wants to categorize clothes:
 
 - Sort by guidelines, type, size.
 - Filter
 
-1. User wants to know when they use the outfit suggestion.
+4. User wants to know when they use the outfit suggestion.
 
 - Sustainability considerations:
 

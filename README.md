@@ -181,7 +181,7 @@ Save clothes, save money, save yourself.
 
 ### User Stories
 
-1. User wants a form to input their clothes
+1. User wants a form to input their clothes.
 
 - Sizes, type (dropdown), color, quantity.
 

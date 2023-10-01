@@ -109,29 +109,21 @@ git add -A
 git commit -m "feat: your commit message"
 ```
 
-### Step 5: Updating the Main Branch once again
+### Step 5: Fetch and Merge from the Main Branch once again
 
 - Ensures that changes made by other team members are incorporated into your local copy of the main branch.
+- Integrates your changes from your branch with the latest version of the main branch.
+
+In your <name> branch,
 
 ```bash
-git checkout main
 git pull origin main
 ```
 
-### Step 6: Merging Your Changes
-
-- Integrates your changes from your branch with the latest version of the main branch.
-
-```bash
-git checkout <name>
-git merge main
-```
-
-- If **git merge main** returns "Already up to date.", proceed to Step 8.
-
-### Step 7: Resolving Conflicts (if any)
-
 - If there are conflicts, Git will prompt you to resolve them.
+
+### Step 6: Resolving Conflicts (if any)
+
 - After resolving conflicts, run the following commands:
   - If unable to resolve conflicts or unsure, please ask in Slack.
 
@@ -143,7 +135,7 @@ git commit
 - Note: It is not necessary to input another commit message.
   - You will be prompted with the commit message editor, type 'Esc' followed by ':wq' to save and exit.
 
-### Step 8: Pushing Your Changes
+### Step 7: Pushing Your Changes
 
 - Uploads your local branch to the repo.
 
@@ -151,7 +143,7 @@ git commit
 git push origin <name>
 ```
 
-### Step 9: Submit Pull Request on Github
+### Step 8: Submit Pull Request on Github
 
 - You can submit the Pull Request after completing a feature.
 
@@ -161,7 +153,7 @@ git push origin <name>
 - Title should be similar to the commit message, if possible.
 - Short description of the feature, if possible.
 
-### Step 10: Wait for Pull Request to be merged
+### Step 9: Wait for Pull Request to be merged
 
 - Inform in slack so I can go and merge the pull request.
 

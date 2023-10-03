@@ -1,10 +1,10 @@
 const BASE_URL = "/api/users";
 
-export async function signUpAPI(userData) {
+export async function signUpAPI(formData) {
   const response = await fetch(BASE_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userData),
+    body: JSON.stringify(formData),
   });
 
   if (response.ok) {

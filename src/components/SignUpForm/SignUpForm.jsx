@@ -115,11 +115,11 @@ function SignUpForm() {
 
 export default SignUpForm;
 
-//* further improvements:
+// TODO - further improvements:
 // 1. password and repeat password cannot be the same ->
 //    one option is to disable button.
 // 2. username and email address, if taken, show error ->
-//    show database error unique: true
+//    route database error unique: true
 // 3. Indicate error for input field
 // 4. autocomplete and error prompt field not aligned to start of inputfield
 // 5. pw length set to min. 3 in db -> show prompt

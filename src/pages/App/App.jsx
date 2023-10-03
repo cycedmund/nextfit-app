@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
+import { getUser } from "../../utilities/users-service";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
@@ -11,7 +12,7 @@ localStorage.debug = "nextfit:*";
 log("Start React");
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(getUser());
 
   return (
     <main>
@@ -23,10 +24,13 @@ function App() {
           </Routes>
         </>
       ) : (
-        <AuthPage />
+        <AuthPage setUser={setUser} />
       )}
     </main>
   );
 }
 
 export default App;
+
+// TODO - further improvements:
+// 1. For now pass down setUser, ideally shouldn't pass down setter

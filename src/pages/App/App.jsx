@@ -31,6 +31,3 @@ function App() {
 }
 
 export default App;
-
-// TODO - further improvements:
-// 1. For now pass down setUser, ideally shouldn't pass down setter

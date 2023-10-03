@@ -17,6 +17,7 @@ export function getToken() {
     localStorage.removeItem("token");
     return null;
   }
+  return token;
 }
 
 export function getUser() {

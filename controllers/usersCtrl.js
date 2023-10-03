@@ -26,6 +26,3 @@ function createJWT(user) {
 }
 
 module.exports = { create };
-
-// TODO - further improvements:
-// 1. handle validation errors -> if err === "error string"

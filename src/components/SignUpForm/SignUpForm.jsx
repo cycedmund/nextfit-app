@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signUpService } from "../../utilities/users-service";
 
 function SignUpForm() {
-  const [formData, setFormData] = useState({
+  const [userData, setUserData] = useState({
     email: "",
     username: "",
     password: "",
@@ -10,8 +10,8 @@ function SignUpForm() {
   });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
@@ -19,7 +19,7 @@ function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await signUpService(formData);
+      const user = await signUpService(userData);
       console.log(user);
       //! setUser(user) -> from props
     } catch (err) {
@@ -45,7 +45,7 @@ function SignUpForm() {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
+            value={userData.email}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             placeholder="name@gmail.com"
@@ -63,7 +63,7 @@ function SignUpForm() {
             type="username"
             id="username"
             name="username"
-            value={formData.username}
+            value={userData.username}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
@@ -80,7 +80,7 @@ function SignUpForm() {
             type="password"
             id="password"
             name="password"
-            value={formData.password}
+            value={userData.password}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
@@ -97,7 +97,7 @@ function SignUpForm() {
             type="password"
             id="repeat-password"
             name="repeat"
-            value={formData.repeat}
+            value={userData.repeat}
             onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required

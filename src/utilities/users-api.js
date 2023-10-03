@@ -1,15 +1,15 @@
+import sendRequest from "./send-request";
+
 const BASE_URL = "/api/users";
 
-export async function signUpAPI(formData) {
-  const response = await fetch(BASE_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
-  });
+export function signUpAPI(userData) {
+  return sendRequest(BASE_URL, "POST", userData);
+}
 
-  if (response.ok) {
-    return response.json();
-  } else {
-    throw new Error("Invalid Sign Up");
-  }
+export function loginAPI(credentials) {
+  return sendRequest(`${BASE_URL}/login`, "POST", credentials);
+}
+
+export function checkTokenAPI() {
+  return sendRequest(`${BASE_URL}/check-token`);
 }

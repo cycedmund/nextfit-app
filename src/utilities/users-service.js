@@ -1,10 +1,21 @@
-import { signUpAPI } from "./users-api";
+import { signUpAPI, loginAPI, checkTokenAPI } from "./users-api";
 
-export async function signUpService(formData) {
-  const token = await signUpAPI(formData);
+export async function signUpService(userData) {
+  const token = await signUpAPI(userData);
   localStorage.setItem("token", token);
   // return token;
   return getUser();
+}
+
+export async function loginService(credentials) {
+  const token = await loginAPI(credentials);
+  localStorage.setItem("token", token);
+  // return token;
+  return getUser();
+}
+
+export function checkTokenService() {
+  return checkTokenAPI().then((dateStr) => new Date(dateStr));
 }
 
 export function getToken() {

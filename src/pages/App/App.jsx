@@ -4,14 +4,15 @@ import { Routes, Route } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
+import { getUser } from "../../utilities/users-service";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
 
 log("Start React");
 
-const App = () => {
-  const [user, setUser] = useState([]);
+function App() {
+  const [user, setUser] = useState(getUser());
 
   return (
     <main>
@@ -23,10 +24,10 @@ const App = () => {
           </Routes>
         </>
       ) : (
-        <AuthPage />
+        <AuthPage setUser={setUser} />
       )}
     </main>
   );
-};
+}
 
 export default App;

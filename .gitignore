@@ -215,4 +215,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Notes
+TODOLIST.js
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,osx,node,visualstudiocode

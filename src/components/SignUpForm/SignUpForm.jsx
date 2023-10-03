@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { signUpService } from "../../utilities/users-service";
 
 function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -15,13 +16,23 @@ function SignUpForm() {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await signUpService(formData);
+      console.log(user);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="container bg-neutral-400 mx-auto max-w-md px-4">
       <header className="text-black font-bold text-2xl text-center mt-4">
         Create an account to start using{" "}
         <span className="text-[#E50914] text-3xl">NEXTFIT</span>
       </header>
-      <form className="p-8">
+      <form className="p-8" onSubmit={handleSubmit}>
         <div className="mb-6">
           <label
             htmlFor="email"
@@ -104,8 +115,11 @@ function SignUpForm() {
 
 export default SignUpForm;
 
-//* features to include:
+//* further improvements:
 // 1. password and repeat password cannot be the same ->
 //    one option is to disable button.
-// 2. username and email address, if taken, show error
+// 2. username and email address, if taken, show error ->
+//    show database error unique: true
 // 3. Indicate error for input field
+// 4. autocomplete and error prompt field not aligned to start of inputfield
+// 5. pw length set to min. 3 in db -> show prompt

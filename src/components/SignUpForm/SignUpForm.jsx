@@ -21,7 +21,7 @@ function SignUpForm() {
     try {
       const user = await signUpService(formData);
       console.log(user);
-      //setUser(user) -> from props
+      //! setUser(user) -> from props
     } catch (err) {
       console.error(err);
     }

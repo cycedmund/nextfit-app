@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { signUpService } from "../../utilities/users-service";
+import { useNavigate } from "react-router-dom";
 
 function SignUpForm() {
   const [userData, setUserData] = useState({
@@ -8,6 +9,7 @@ function SignUpForm() {
     password: "",
     repeat: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setUserData({
@@ -21,7 +23,11 @@ function SignUpForm() {
     try {
       const user = await signUpService(userData);
       console.log(user);
-      //! setUser(user) -> from props
+      if (user && !user.error) {
+        navigate("/home");
+      } else {
+        navigate("/signup");
+      }
     } catch (err) {
       console.error(err);
     }

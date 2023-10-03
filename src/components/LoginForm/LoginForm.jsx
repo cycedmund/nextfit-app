@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { loginService } from "../../utilities/users-service";
+import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm({ setUser }) {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({
@@ -19,7 +21,12 @@ function LoginForm() {
     try {
       const user = await loginService(credentials);
       console.log(user);
-      //! setUser(user) -> from props
+      setUser(user);
+      if (user && !user.error) {
+        navigate("/home");
+      } else {
+        navigate("/login");
+      }
     } catch (err) {
       console.error(err);
     }

@@ -10,8 +10,8 @@ localStorage.debug = "nextfit:*";
 
 log("Start React");
 
-const App = () => {
-  const [user, setUser] = useState([]);
+function App() {
+  const [user, setUser] = useState(null);
 
   return (
     <main>
@@ -27,6 +27,6 @@ const App = () => {
       )}
     </main>
   );
-};
+}
 
 export default App;

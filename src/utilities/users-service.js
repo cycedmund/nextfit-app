@@ -14,8 +14,8 @@ export async function loginService(credentials) {
   return getUser();
 }
 
-export function checkTokenService() {
-  return checkTokenAPI().then((dateStr) => new Date(dateStr));
+export async function logOutService() {
+  localStorage.removeItem("token");
 }
 
 export function getToken() {
@@ -34,4 +34,8 @@ export function getToken() {
 export function getUser() {
   const token = getToken();
   return token ? JSON.parse(atob(token.split(".")[1])).user : null;
+}
+
+export function checkTokenService() {
+  return checkTokenAPI().then((dateStr) => new Date(dateStr));
 }

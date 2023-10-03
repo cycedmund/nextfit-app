@@ -29,6 +29,11 @@ async function login(req, res) {
   }
 }
 
+function checkToken(req, res) {
+  debug("req.user: %o", req.user);
+  res.json(req.user);
+}
+
 //* ===== Helper Functions ===== *//
 
 function createJWT(user) {
@@ -40,4 +45,4 @@ function createJWT(user) {
   );
 }
 
-module.exports = { create, login };
+module.exports = { create, login, checkToken };

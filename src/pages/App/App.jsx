@@ -2,6 +2,7 @@ import debug from "debug";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
+import LandingPage from "../LandingPage/LandingPage";
 import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
 import { getUser } from "../../utilities/users-service";
@@ -25,6 +26,7 @@ function App() {
         </>
       ) : (
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<AuthPage setUser={setUser} />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
         </Routes>

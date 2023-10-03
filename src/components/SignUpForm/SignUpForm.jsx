@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { signUpService } from "../../utilities/users-service";
 import { useNavigate } from "react-router-dom";
+import { set } from "mongoose";
 
-function SignUpForm() {
+function SignUpForm({ setUser }) {
   const [userData, setUserData] = useState({
     email: "",
     username: "",
@@ -23,6 +24,7 @@ function SignUpForm() {
     try {
       const user = await signUpService(userData);
       console.log(user);
+      setUser(user);
       if (user && !user.error) {
         navigate("/home");
       } else {

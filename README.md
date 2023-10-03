@@ -120,7 +120,14 @@ In your <name> branch,
 git pull origin main
 ```
 
-- If there are conflicts, Git will prompt you to resolve them.
+- If prompted with suggestions to rebase, follow these:
+
+```bash
+git config pull.rebase false
+git pull origin main
+```
+
+- If there are conflicts, Git will prompt you to resolve them (See Below).
 
 ### Step 6: Resolving Conflicts (if any)
 

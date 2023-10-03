@@ -5,6 +5,9 @@ const path = require("path");
 const logger = require("morgan");
 const debug = require("debug")("nextfit:server");
 
+//* Routers
+const usersRouter = require("./routes/usersRouter");
+
 //* App
 const app = express();
 
@@ -14,9 +17,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "dist")));
 
 //* Routes -> all routes to start with /api
-app.get("/api", (req, res) => {
-  res.send("Hello World");
-});
+app.use("/api/users", usersRouter);
 
 //? This should be the last route -> this is for react router
 app.get("/*", (req, res) => {

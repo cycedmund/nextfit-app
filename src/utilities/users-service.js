@@ -1,16 +1,14 @@
 import { signUpAPI, loginAPI, checkTokenAPI } from "./users-api";
 
 export async function signUpService(userData) {
-  const token = await signUpAPI(userData);
-  localStorage.setItem("token", token);
-  // return token;
+  const data = await signUpAPI(userData);
+  localStorage.setItem("token", data.data.token);
   return getUser();
 }
 
 export async function loginService(credentials) {
-  const token = await loginAPI(credentials);
-  localStorage.setItem("token", token);
-  // return token;
+  const data = await loginAPI(credentials);
+  localStorage.setItem("token", data.data.token);
   return getUser();
 }
 
@@ -20,7 +18,7 @@ export async function logOutService() {
 
 export function getToken() {
   const token = localStorage.getItem("token");
-  if (!token) return null;
+  if (token === null) return null;
 
   const payload = JSON.parse(atob(token.split(".")[1]));
 
@@ -33,9 +31,10 @@ export function getToken() {
 
 export function getUser() {
   const token = getToken();
-  return token ? JSON.parse(atob(token.split(".")[1])).user : null;
+  return token === null ? null : JSON.parse(atob(token.split(".")[1])).user;
 }
 
 export function checkTokenService() {
   return checkTokenAPI().then((dateStr) => new Date(dateStr));
 }
+//change above to async

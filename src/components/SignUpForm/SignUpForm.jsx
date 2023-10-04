@@ -23,8 +23,8 @@ function SignUpForm({ setUser }) {
     try {
       const user = await signUpService(userData);
       console.log(user);
-      setUser(user);
-      if (user && !user.error) {
+      if (user !== null && user !== undefined) {
+        setUser(user);
         navigate("/home");
       } else {
         navigate("/signup");

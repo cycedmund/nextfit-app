@@ -8,10 +8,20 @@ async function create(req, res) {
     const newUser = await User.create(req.body);
     debug("created new user: %o", req.body);
     const token = createJWT(newUser);
-    res.status(201).json(token);
+    res.status(201).json({
+      status: "success",
+      data: {
+        token: token,
+      },
+    });
   } catch (err) {
     debug("Error creating: %o", err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Internal Server Error",
+      error: err,
+    });
   }
 }
 
@@ -22,10 +32,21 @@ async function login(req, res) {
     if (!user) throw new Error();
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new Error();
-    res.status(200).json(createJWT(user));
+    const token = createJWT(user);
+    res.status(200).json({
+      status: "success",
+      data: {
+        token: token,
+      },
+    });
   } catch (err) {
     debug("Error creating: %o", err);
-    res.status(401).json({ error: "Bad Credentials" });
+    res.status(401).json({
+      status: "error",
+      code: 401,
+      message: "Bad Credentials",
+      error: err,
+    });
   }
 }
 
@@ -37,12 +58,7 @@ function checkToken(req, res) {
 //* ===== Helper Functions ===== *//
 
 function createJWT(user) {
-  return jwt.sign(
-    // data payload
-    { user },
-    process.env.SECRET,
-    { expiresIn: "24h" }
-  );
+  return jwt.sign({ user }, process.env.SECRET, { expiresIn: "24h" });
 }
 
 module.exports = { create, login, checkToken };

@@ -21,8 +21,8 @@ function LoginForm({ setUser }) {
     try {
       const user = await loginService(credentials);
       console.log(user);
-      setUser(user);
-      if (user && !user.error) {
+      if (user !== null && user !== undefined) {
+        setUser(user);
         navigate("/home");
       } else {
         navigate("/login");

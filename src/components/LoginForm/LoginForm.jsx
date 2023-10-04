@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginService } from "../../utilities/users-service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function LoginForm({ setUser }) {
   const [credentials, setCredentials] = useState({
@@ -79,7 +79,10 @@ function LoginForm({ setUser }) {
           Sign In
         </button>
         <footer className="mt-10">
-          New to Nextfit? <span className="text-black">Sign up now.</span>
+          New to Nextfit?{" "}
+          <span className="text-black">
+            <Link to="/signup">Sign up now.</Link>
+          </span>
         </footer>
       </form>
     </div>
@@ -87,7 +90,3 @@ function LoginForm({ setUser }) {
 }
 
 export default LoginForm;
-
-// TODO
-// 1. add link to Signup Now
-// 2. amend CSS

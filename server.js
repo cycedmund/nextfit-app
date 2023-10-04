@@ -8,6 +8,7 @@ const checkToken = require("./config/checkToken");
 
 //* Routers
 const usersRouter = require("./routes/usersRouter");
+const apparelRouter = require("./routes/apparelRouter");
 
 //* App
 const app = express();
@@ -21,6 +22,7 @@ app.use(checkToken);
 
 //* Routes -> all routes to start with /api
 app.use("/api/users", usersRouter);
+app.use("/api/apparel", apparelRouter);
 
 //? This should be the last route -> this is for react router
 app.get("/*", (req, res) => {

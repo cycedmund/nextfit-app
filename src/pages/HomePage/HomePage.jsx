@@ -1,5 +1,11 @@
+import ApparelForm from "../../components/ApparelForm/ApparelForm";
+
 function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <ApparelForm />
+    </div>
+  );
 }
 
 export default HomePage;

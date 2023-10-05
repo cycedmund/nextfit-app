@@ -1,5 +1,5 @@
 function WardrobePage() {
-  return <div>My Wardrobe</div>;
+  return <h1 className="font-bebas text-4xl">My Wardrobe</h1>;
 }
 
 export default WardrobePage;

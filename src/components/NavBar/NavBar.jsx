@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { logOutService } from "../../utilities/users-service";
+import { TbUserSquare } from "react-icons/tb";
 
 function NavBar({ user, setUser }) {
   const navigate = useNavigate();
@@ -13,13 +14,39 @@ function NavBar({ user, setUser }) {
 
   return (
     <nav>
-      <Link to="/home">Home</Link>
-      <Link to="/wardrobe">My Wardrobe</Link>
-      &nbsp;&nbsp;<span>Welcome, {user.username}</span>
-      &nbsp;&nbsp;
-      <Link to="/" onClick={handleLogOut}>
-        Logout
-      </Link>
+      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 font-inter font-extralight">
+        <div className="flex items-center">
+          <span className="self-center text-4xl font-bebas whitespace-nowrap mr-10">
+            NEXTFIT
+          </span>
+          <Link to="/home" className="mr-6 text-md  text-white hover:underline">
+            Home
+          </Link>
+          <Link
+            to="/wardrobe"
+            className="text-md  text-white hover:underline mr-6"
+          >
+            My Wardrobe
+          </Link>
+          <Link
+            to="/wardrobe/favourites"
+            className="text-md  text-white hover:underline"
+          >
+            My Favourites
+          </Link>
+        </div>
+        <div className="flex items-center">
+          <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
+          <span className="mr-6 text-sm">{user.username}</span>
+          <Link
+            to="/"
+            onClick={handleLogOut}
+            className="mr-6 text-sm hover:underline"
+          >
+            Logout
+          </Link>
+        </div>
+      </div>
     </nav>
   );
 }

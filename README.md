@@ -164,6 +164,15 @@ git push origin <name>
 
 - Inform in slack so I can go and merge the pull request.
 
+### Step 10: Fetch and Merge Latest Changes with our branch
+
+```bash
+git checkout main
+git pull origin main
+git checkout <name>
+git pull origin main
+```
+
 ### Git Commit Guidelines
 
 - Make small commits for each feature or fix.

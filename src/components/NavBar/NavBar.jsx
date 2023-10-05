@@ -14,6 +14,7 @@ function NavBar({ user, setUser }) {
   return (
     <nav>
       <Link to="/home">Home</Link>
+      <Link to="/wardrobe">My Wardrobe</Link>
       &nbsp;&nbsp;<span>Welcome, {user.username}</span>
       &nbsp;&nbsp;
       <Link to="/" onClick={handleLogOut}>

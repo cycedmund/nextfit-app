@@ -1,5 +1,5 @@
 function WardrobePage() {
-  return <div>WardrobePage</div>;
+  return <div>My Wardrobe</div>;
 }
 
 export default WardrobePage;

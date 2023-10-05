@@ -26,7 +26,7 @@ const s3Bucket = multerS3({
   },
 });
 
-const upload = multer({ storage: s3Bucket }).array("file", 4);
+const upload = multer({ storage: s3Bucket }).array("images", 10);
 
 module.exports = function uploadToS3(req, res, next) {
   upload(req, res, function (err) {

@@ -1,4 +1,4 @@
-const Apparel = require("../models/apparelModel");
+const Wardrobe = require("../models/wardrobeModel");
 const debug = require("debug")("nextfit:controllers:apparelCtrl");
 
 const AWS_S3_OBJECT_URL = process.env.AWS_S3_OBJECT_URL;
@@ -20,7 +20,7 @@ async function create(req, res) {
   const { name, category, fit, images } = req.body;
   const apparelInfo = { name, category, fit, images };
   try {
-    const newApparelItem = await Apparel.create({
+    const newApparelItem = await Wardrobe.create({
       ...apparelInfo,
       user: req.user._id,
     });

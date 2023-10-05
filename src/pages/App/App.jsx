@@ -6,6 +6,7 @@ import LandingPage from "../LandingPage/LandingPage";
 import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
 import { getUser } from "../../utilities/users-service";
+import WardrobeRoutes from "../../components/WardrobeRoutes/WardrobeRoutes";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
@@ -22,6 +23,7 @@ function App() {
           <NavBar user={user} setUser={setUser} />
           <Routes>
             <Route path="/home" element={<HomePage />} />
+            <Route path="/wardrobe/*" element={<WardrobeRoutes />} />
           </Routes>
         </>
       ) : (

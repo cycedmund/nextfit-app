@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import {
   addApparelService,
   uploadToS3Service,
-} from "../../utilities/apparel-service";
+} from "../../utilities/wardrobe-service";
 
 const log = debug("nextfit:src:components:ApparelForm");
 

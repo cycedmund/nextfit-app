@@ -1,16 +1,28 @@
 import debug from "debug";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import {
+  addApparelService,
+  uploadToS3Service,
+} from "../../utilities/apparel-service";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelForm() {
-  const [apparelData, setApparelData] = useState({
+  const initialApparelData = {
     name: "",
     category: "",
     fit: "",
     images: [],
     preview: [],
-  });
+  };
+  const [apparelData, setApparelData] = useState(initialApparelData);
+  const inputImage = useRef(null);
+
+  const resetApparelForm = () => {
+    setApparelData(initialApparelData);
+    inputImage.current.value = "";
+    //setError("")
+  };
 
   const handleChange = (e) => {
     setApparelData({
@@ -39,19 +51,21 @@ function ApparelForm() {
     e.preventDefault();
     if (apparelData.images.length === 0) return;
 
-    const formData = new FormData();
+    const imgFormData = new FormData();
     apparelData.images.forEach((img) => {
-      formData.append("images", img);
+      imgFormData.append("images", img);
     });
-    log("images appended to form", formData);
+    log("images appended to form", imgFormData);
 
     try {
-      const responseS3 = await fetch("/api/apparel/upload", {
-        method: "POST",
-        body: formData,
+      const imgURL = await uploadToS3Service(imgFormData);
+      const apparelItem = await addApparelService({
+        ...apparelData,
+        images: imgURL,
       });
-      const dataS3 = await responseS3.json();
-      console.log(dataS3);
+      console.log(apparelItem);
+      // setState(apparelItem) -> navigate to wardrobe
+      resetApparelForm();
     } catch (err) {
       console.error(err);
     }
@@ -62,7 +76,7 @@ function ApparelForm() {
       <header className="text-white font-bold text-2xl text-center mt-4">
         Add to your closet
       </header>
-      <form className="p-8" onSubmit={handleSubmit}>
+      <form className="p-8" onSubmit={handleSubmit} autoComplete="off">
         <div className="mb-6">
           <label
             htmlFor="name"
@@ -93,8 +107,12 @@ function ApparelForm() {
             name="category"
             value={apparelData.category}
             onChange={handleChange}
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
+            <option value="" disabled>
+              Select a Category
+            </option>
             <option>Short Sleeve Tops</option>
             <option>Long Sleeve Tops</option>
             <option>Dress</option>
@@ -116,8 +134,12 @@ function ApparelForm() {
             name="fit"
             value={apparelData.fit}
             onChange={handleChange}
+            required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
+            <option value="" disabled>
+              Select a Fit
+            </option>
             <option>Baggy</option>
             <option>Normal</option>
             <option>Tight</option>
@@ -129,18 +151,20 @@ function ApparelForm() {
             htmlFor="image"
           >
             Upload Apparel Images
-            <br />
+            {/* <br />
             <small className="text-gray-500">
               (For multiple files, upload all at once)
-            </small>
+            </small> */}
           </label>
           <input
+            ref={inputImage}
             className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
             id="image"
             type="file"
             accept="image/*"
+            required
             onChange={handleImgFileInput}
-            multiple
+            //! multiple
           />
         </div>
         <div className="flex">
@@ -169,7 +193,4 @@ function ApparelForm() {
 
 export default ApparelForm;
 
-// TODO
-// 1. remove state, when remove images from upload -> a delete button
-// 2. cater for multiple inputs? or only limit to one category?
-// 3. slice and only allow 10 image input -> accept array of 10 files
+// URL.createObjectURL -> https://reacthustle.com/blog/react-preview-images-before-uploading

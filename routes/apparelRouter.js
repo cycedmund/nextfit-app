@@ -3,8 +3,9 @@ const router = express.Router();
 const apparelCtrl = require("../controllers/apparelCtrl");
 
 const uploadToS3 = require("../config/uploadToS3");
-// const ensureLoggedIn = require("../config/ensureLoggedIn");
+const ensureLoggedIn = require("../config/ensureLoggedIn");
 
-router.post("/upload", uploadToS3, apparelCtrl.uploadImg);
+router.post("/upload", ensureLoggedIn, uploadToS3, apparelCtrl.uploadImg);
+router.post("/", ensureLoggedIn, apparelCtrl.create);
 
 module.exports = router;

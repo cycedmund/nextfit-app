@@ -16,7 +16,7 @@ function NavBar({ user, setUser }) {
     <nav>
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 font-inter font-extralight">
         <div className="flex items-center">
-          <span className="self-center text-4xl font-bebas whitespace-nowrap mr-10">
+          <span className="self-center text-4xl font-bebas text-[#E50914] whitespace-nowrap mr-10">
             NEXTFIT
           </span>
           <Link to="/home" className="mr-6 text-md  text-white hover:underline">

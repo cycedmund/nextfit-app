@@ -1,25 +1,49 @@
+import debug from "debug";
 import { useState } from "react";
+
+const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelForm() {
   const [apparelData, setApparelData] = useState({
-    images: [],
+    name: "",
     category: "",
     fit: "",
-    name: "",
+    images: [],
+    preview: [],
   });
+
+  const handleChange = (e) => {
+    setApparelData({
+      ...apparelData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleImgFileInput = (e) => {
     const imgFiles = Array.from(e.target.files);
-    const preview = [];
+    const updatedPreview = [];
 
     imgFiles.forEach((img) => {
       const imgUrl = URL.createObjectURL(img);
-      preview.push(imgUrl);
+      updatedPreview.push(imgUrl);
     });
     setApparelData({
       ...apparelData,
-      images: [...preview],
+      images: [...apparelData.images, ...imgFiles],
+      preview: [...apparelData.preview, ...updatedPreview],
     });
+    log("Image uploaded");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (apparelData.images.length === 0) return;
+
+    const imageFormData = new FormData();
+    apparelData.images.forEach((img) => {
+      imageFormData.append("images", img);
+    });
+    log("images appended to form", imageFormData);
   };
 
   return (
@@ -27,7 +51,7 @@ function ApparelForm() {
       <header className="text-white font-bold text-2xl text-center mt-4">
         Add to your closet
       </header>
-      <form className="p-8">
+      <form className="p-8" onSubmit={handleSubmit}>
         <div className="mb-6">
           <label
             htmlFor="name"
@@ -40,8 +64,8 @@ function ApparelForm() {
             id="name"
             name="name"
             placeholder="T-shirt / V neck sweatshirt"
-            // value={}
-            // onChange={}
+            value={apparelData.name}
+            onChange={handleChange}
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 rounded-md"
             required
           />
@@ -56,6 +80,8 @@ function ApparelForm() {
           <select
             id="category"
             name="category"
+            value={apparelData.category}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option>Short Sleeve Tops</option>
@@ -77,6 +103,8 @@ function ApparelForm() {
           <select
             id="fit"
             name="fit"
+            value={apparelData.fit}
+            onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option>Baggy</option>
@@ -105,8 +133,8 @@ function ApparelForm() {
           />
         </div>
         <div className="flex">
-          {apparelData.images.length !== 0 &&
-            apparelData.images.map((img, idx) => (
+          {apparelData.preview.length !== 0 &&
+            apparelData.preview.map((img, idx) => (
               <img
                 key={idx}
                 src={img}
@@ -131,5 +159,6 @@ function ApparelForm() {
 export default ApparelForm;
 
 //TODO
-// 1. remove state, when remove images from upload
+// 1. remove state, when remove images from upload -> a delete button
 // 2. cater for multiple inputs? or only limit to one category?
+// 3. slice and only allow 10 image input -> accept array of 10 files

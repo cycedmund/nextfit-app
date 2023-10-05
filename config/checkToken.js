@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
       debug("decoded user request header: %o", decoded);
       // If valid token, decoded will be the token's entire payload
       // If invalid token, err will be set
-      req.user = err ? null : decoded.user;
+      req.user = err ? res.status(401).json({ err }) : decoded.user;
       // If your app cares... (optional)
       req.exp = err ? null : new Date(decoded.exp * 1000);
       return next();

@@ -50,10 +50,10 @@ async function login(req, res) {
   }
 }
 
-function checkToken(req, res) {
-  debug("req.user: %o", req.user);
-  res.json(req.user);
-}
+// function checkToken(req, res) {
+//   debug("req.user: %o", req.user);
+//   res.json(req.user);
+// }
 
 //* ===== Helper Functions ===== *//
 
@@ -61,4 +61,4 @@ function createJWT(user) {
   return jwt.sign({ user }, process.env.SECRET, { expiresIn: "24h" });
 }
 
-module.exports = { create, login, checkToken };
+module.exports = { create, login };

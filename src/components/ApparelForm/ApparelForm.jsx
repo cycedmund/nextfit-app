@@ -35,15 +35,26 @@ function ApparelForm() {
     log("Image uploaded");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (apparelData.images.length === 0) return;
 
-    const imageFormData = new FormData();
+    const formData = new FormData();
     apparelData.images.forEach((img) => {
-      imageFormData.append("images", img);
+      formData.append("images", img);
     });
-    log("images appended to form", imageFormData);
+    log("images appended to form", formData);
+
+    try {
+      const responseS3 = await fetch("/api/apparel/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const dataS3 = await responseS3.json();
+      console.log(dataS3);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -158,7 +169,7 @@ function ApparelForm() {
 
 export default ApparelForm;
 
-//TODO
+// TODO
 // 1. remove state, when remove images from upload -> a delete button
 // 2. cater for multiple inputs? or only limit to one category?
 // 3. slice and only allow 10 image input -> accept array of 10 files

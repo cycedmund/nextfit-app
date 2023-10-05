@@ -14,3 +14,7 @@ export function uploadToS3API(imgFormData) {
 export function addApparelAPI(apparelData) {
   return sendRequest(`${BASE_URL}/apparel/new`, "POST", apparelData);
 }
+
+export function getAllApparelAPI() {
+  return sendRequest(BASE_URL);
+}

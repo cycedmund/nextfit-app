@@ -1,4 +1,4 @@
-import { uploadToS3API, addApparelAPI } from "./wardrobe-api";
+import { uploadToS3API, addApparelAPI, getAllApparelAPI } from "./wardrobe-api";
 
 export async function uploadToS3Service(imgFormData) {
   const data = await uploadToS3API(imgFormData);
@@ -11,4 +11,9 @@ export async function uploadToS3Service(imgFormData) {
 export async function addApparelService(apparelData) {
   const apparelItem = await addApparelAPI(apparelData);
   return apparelItem;
+}
+
+export async function getAllApparelService() {
+  const allApparel = await getAllApparelAPI();
+  return allApparel.data.apparel;
 }

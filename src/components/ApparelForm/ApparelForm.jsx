@@ -113,13 +113,10 @@ function ApparelForm() {
             <option value="" disabled>
               Select a Category
             </option>
-            <option>Short Sleeve Tops</option>
-            <option>Long Sleeve Tops</option>
-            <option>Dress</option>
-            <option>Sweater</option>
-            <option>Hoodie</option>
-            <option>Pants</option>
-            <option>Jeans</option>
+            <option>Top</option>
+            <option>Bottom</option>
+            <option>Outerwear</option>
+            <option>Overall</option>
           </select>
         </div>
         <div className="mb-6">

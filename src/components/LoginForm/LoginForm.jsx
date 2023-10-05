@@ -20,7 +20,6 @@ function LoginForm({ setUser }) {
     e.preventDefault();
     try {
       const user = await loginService(credentials);
-      console.log(user);
       if (user !== null && user !== undefined) {
         setUser(user);
         navigate("/home");

@@ -19,10 +19,10 @@ const s3Bucket = multerS3({
   s3: s3,
   bucket: AWS_BUCKET_NAME,
   metadata: function (req, file, cb) {
-    cb(null, { fieldname: file.fieldname });
+    cb(null, { fieldname: file.fieldname, contentType: file.mimetype });
   },
   key: function (req, file, cb) {
-    cb(null, Date.now().toString());
+    cb(null, file.originalname);
   },
 });
 

@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logOutService } from "../../utilities/users-service";
 
 function NavBar({ user, setUser }) {
-  const handleLogOut = () => {
+  const navigate = useNavigate();
+
+  const handleLogOut = (e) => {
+    e.preventDefault();
     logOutService();
     setUser(null);
+    navigate("/");
   };
 
   return (

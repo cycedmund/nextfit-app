@@ -13,11 +13,10 @@ const apparelTypes = [
   "Sweatpants",
   "Blouse",
   "Dress",
-  "Sundress",
-  "Gown",
   "Skirt",
   "Jumpsuit",
   "Romper",
+  "Long Sleeve Shirt",
 ];
 
 export const allSubCategories = apparelTypes.sort();

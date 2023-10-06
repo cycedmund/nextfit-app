@@ -6,8 +6,8 @@ const AWS_S3_OBJECT_URL = process.env.AWS_S3_OBJECT_URL;
 function uploadImg(req, res) {
   debug("files received: %o", req.files);
   const { files } = req;
-  const imgURLs = files.map((img) => {
-    return `${AWS_S3_OBJECT_URL}/${img.key}`;
+  const imgURLs = files.map((file) => {
+    return `${AWS_S3_OBJECT_URL}/${file.processedImage.key}`;
   });
   debug("image converted to url:", imgURLs);
   res

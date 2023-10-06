@@ -77,7 +77,12 @@ function ApparelForm() {
       <header className="text-white font-bold text-2xl text-center mt-4">
         Add to your closet
       </header>
-      <form className="p-8" onSubmit={handleSubmit} autoComplete="off">
+      <form
+        className="p-8"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        encType="multipart/form-data"
+      >
         <div className="mb-6">
           <label
             htmlFor="mainCategory"

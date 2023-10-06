@@ -140,7 +140,7 @@ git commit
 ```
 
 - Note: It is not necessary to input another commit message.
-  - You will be prompted with the commit message editor, type 'Esc' followed by ':wq' to save and exit.
+  - You will be prompted with the commit message editor, type 'Esc' followed by ':wq' to save and exit OR try typing control+c on Mac.
 
 ### Step 7: Pushing Your Changes
 

@@ -4,6 +4,7 @@ import {
   addApparelService,
   uploadToS3Service,
 } from "../../utilities/wardrobe-service";
+import { allSubCategories } from "../../../data/sub-categories";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -76,28 +77,15 @@ function ApparelForm() {
       <header className="text-white font-bold text-2xl text-center mt-4">
         Add to your closet
       </header>
-      <form className="p-8" onSubmit={handleSubmit} autoComplete="off">
-        {/* <div className="mb-6">
-          <label
-            htmlFor="name"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Name
-          </label>
-          <input
-            type="name"
-            id="name"
-            name="name"
-            placeholder="T-shirt / V neck sweatshirt"
-            value={apparelData.name}
-            onChange={handleChange}
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 rounded-md"
-            required
-          />
-        </div> */}
+      <form
+        className="p-8"
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        encType="multipart/form-data"
+      >
         <div className="mb-6">
           <label
-            htmlFor="category"
+            htmlFor="mainCategory"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Main Category
@@ -111,7 +99,7 @@ function ApparelForm() {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option value="" disabled>
-              Select a Category
+              Select a Main Category
             </option>
             <option>Top</option>
             <option>Bottom</option>
@@ -121,7 +109,7 @@ function ApparelForm() {
         </div>
         <div className="mb-6">
           <label
-            htmlFor="mainCategory"
+            htmlFor="subCategory"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Sub Category
@@ -137,12 +125,9 @@ function ApparelForm() {
             <option value="" disabled>
               Select a Sub Category
             </option>
-            <option>T-shirt</option>
-            <option>Buttoned Shirt</option>
-            <option>Dress</option>
-            <option>Jeans</option>
-            <option>Pants</option>
-            <option>Skirt</option>
+            {allSubCategories.map((category, index) => (
+              <option key={index}>{category}</option>
+            ))}
           </select>
         </div>
         <div className="mb-6">

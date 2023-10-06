@@ -25,9 +25,9 @@ function WardrobePage() {
 
   const categories = getUniqueCategories(apparel);
 
-  const handleDelete = async (apparelID, s3objectID) => {
+  const handleDelete = async (apparelID) => {
     try {
-      await deleteApparelService(apparelID, s3objectID);
+      await deleteApparelService(apparelID);
       const remainingApparel = apparel.filter((item) => item._id !== apparelID);
       log("deleted apparel:", remainingApparel);
       setApparel(remainingApparel);

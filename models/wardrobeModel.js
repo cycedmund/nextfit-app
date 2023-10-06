@@ -30,7 +30,14 @@ const wardrobeSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
+
+wardrobeSchema.virtual("s3ObjectID").get(function () {
+  const deconstructedURL = this.imageURL.split("/");
+  const s3ObjectID = deconstructedURL[deconstructedURL.length - 1];
+  return s3ObjectID;
+});
 
 module.exports = model("Wardrobe", wardrobeSchema);

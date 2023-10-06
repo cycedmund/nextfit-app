@@ -1,32 +1,14 @@
 import { useEffect, useState } from "react";
-import { getAllApparelService } from "../../utilities/wardrobe-service";
+import {
+  getAllApparelService,
+  getUniqueCategories,
+} from "../../utilities/wardrobe-service";
 import { LuPlusSquare } from "react-icons/lu";
 import debug from "debug";
 import { Link } from "react-router-dom";
 import ApparelRow from "../../components/ApparelRow/ApparelRow";
 
 const log = debug("nextfit:src:pages:WardrobePage");
-
-//* <---- Helper Function ---->
-function sortedCategory(category) {
-  const order = ["Top", "Bottom", "Outerwear", "Overall"];
-  const getIndex = order.indexOf(category);
-  log("order & index:", order, getIndex);
-  return getIndex;
-}
-
-function getUniqueCategories(apparel) {
-  if (apparel.length === 0) {
-    return [];
-  }
-
-  const categories = [...new Set(apparel.map((item) => item.mainCategory))];
-  const sortCategories = categories.sort(
-    (a, b) => sortedCategory(a) - sortedCategory(b)
-  );
-  log("get categories:", categories);
-  return sortCategories;
-}
 
 function WardrobePage() {
   const [apparel, setApparel] = useState([]);

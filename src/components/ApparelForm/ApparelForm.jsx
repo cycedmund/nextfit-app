@@ -3,8 +3,9 @@ import { useState, useRef } from "react";
 import {
   addApparelService,
   uploadToS3Service,
+  checkMainCategory,
 } from "../../utilities/wardrobe-service";
-import { allSubCategories } from "../../../data/sub-categories";
+import { order } from "../../../data/apparel-categories";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -105,10 +106,9 @@ function ApparelForm() {
             <option value="" disabled>
               Select a Main Category
             </option>
-            <option>Top</option>
-            <option>Bottom</option>
-            <option>Outerwear</option>
-            <option>Overall</option>
+            {order.map((category, index) => (
+              <option key={index}>{category}</option>
+            ))}
           </select>
         </div>
         <div className="mb-6">
@@ -123,15 +123,18 @@ function ApparelForm() {
             name="subCategory"
             value={apparelData.subCategory}
             onChange={handleChange}
+            disabled={!apparelData.mainCategory}
             required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option value="" disabled>
               Select a Sub Category
             </option>
-            {allSubCategories.map((category, index) => (
-              <option key={index}>{category}</option>
-            ))}
+            {checkMainCategory(apparelData.mainCategory).map(
+              (category, index) => (
+                <option key={index}>{category}</option>
+              )
+            )}
           </select>
         </div>
         <div className="mb-6">
@@ -186,9 +189,7 @@ function ApparelForm() {
                 key={idx}
                 src={img}
                 alt={`Preview Image ${idx + 1}`}
-                width={100}
-                height={100}
-                className="mx-auto mb-6"
+                className="mx-auto mb-6 w-full"
               />
             ))}
         </div>

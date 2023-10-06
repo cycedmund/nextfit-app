@@ -29,8 +29,8 @@ export async function getAllApparelService() {
   return allApparel.data.apparel;
 }
 
-export async function deleteApparelService(apparelID, s3objectID) {
-  await deleteApparelAPI(apparelID, s3objectID);
+export async function deleteApparelService(apparelID) {
+  await deleteApparelAPI(apparelID);
 }
 
 export function getUniqueCategories(apparel) {

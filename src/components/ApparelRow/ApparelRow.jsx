@@ -10,12 +10,6 @@ function ApparelRow({ category, apparel, handleDelete }) {
   );
   log("categorised apparel:", categorizedApparel);
 
-  const getS3ImgObjectKey = (url) => {
-    const deconstructedURL = url.split("/");
-    const s3ImgObjectKey = deconstructedURL[deconstructedURL.length - 1];
-    return s3ImgObjectKey;
-  };
-
   return (
     <div>
       <header className="mx-4 font-inter font-thin text-2xl">{category}</header>
@@ -26,9 +20,7 @@ function ApparelRow({ category, apparel, handleDelete }) {
               <span className="flex items-center justify-end">
                 <PiPencil className="text-md mb-2 mr-1 fill-black" />
                 <RxCross1
-                  onClick={() =>
-                    handleDelete(item._id, getS3ImgObjectKey(item.imageURL))
-                  }
+                  onClick={() => handleDelete(item._id)}
                   className="text-md mb-2 text-black cursor-pointer"
                 />
               </span>

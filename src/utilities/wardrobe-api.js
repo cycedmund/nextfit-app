@@ -14,6 +14,6 @@ export function getAllApparelAPI() {
   return sendRequest(BASE_URL);
 }
 
-export function deleteApparelAPI(apparelID, s3objectID) {
-  return sendRequest(`${BASE_URL}/${apparelID}/${s3objectID}`, "DELETE");
+export function deleteApparelAPI(apparelID) {
+  return sendRequest(`${BASE_URL}/${apparelID}`, "DELETE");
 }

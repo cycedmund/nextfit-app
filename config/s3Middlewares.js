@@ -4,6 +4,7 @@ const sharp = require("sharp");
 const { Rembg } = require("rembg-node");
 const debug = require("debug")("nextfit:config:uploadToS3");
 const { v4: uuidv4 } = require("uuid");
+const Wardrobe = require("../models/wardrobeModel");
 
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const AWS_REGION = process.env.AWS_REGION;
@@ -81,7 +82,10 @@ module.exports = {
     });
   },
   deleteFromS3: async function (req, res, next) {
-    const { s3ObjectID } = req.params;
+    const apparelToDelete = await Wardrobe.findById(req.params.apparelID);
+    debug("apparelToDelete: %o", apparelToDelete);
+    const s3ObjectID = apparelToDelete.s3ObjectID;
+    debug("s3ObjectID virtual:", s3ObjectID);
 
     const params = {
       Bucket: AWS_BUCKET_NAME,

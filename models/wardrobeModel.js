@@ -17,6 +17,7 @@ const wardrobeSchema = new Schema(
     },
     wornFrequency: {
       type: Number,
+      default: 0,
     },
     imageURL: {
       type: String,

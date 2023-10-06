@@ -3,8 +3,9 @@ import { useState, useRef } from "react";
 import {
   addApparelService,
   uploadToS3Service,
+  checkMainCategory,
 } from "../../utilities/wardrobe-service";
-import { allSubCategories } from "../../../data/sub-categories";
+import { order } from "../../../data/apparel-categories";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -17,12 +18,13 @@ function ApparelForm() {
     preview: [],
   };
   const [apparelData, setApparelData] = useState(initialApparelData);
+  const [status, setStatus] = useState(null);
   const inputImage = useRef(null);
 
   const resetApparelForm = () => {
     setApparelData(initialApparelData);
     inputImage.current.value = "";
-    //setError("")
+    setStatus(null);
   };
 
   const handleChange = (e) => {
@@ -51,13 +53,13 @@ function ApparelForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (apparelData.images.length === 0) return;
+    setStatus("loading");
 
     const imgFormData = new FormData();
     apparelData.images.forEach((img) => {
       imgFormData.append("images", img);
     });
     log("images appended to form", imgFormData);
-
     try {
       const imgURL = await uploadToS3Service(imgFormData);
       const apparelItem = await addApparelService({
@@ -69,6 +71,9 @@ function ApparelForm() {
       resetApparelForm();
     } catch (err) {
       console.error(err);
+      setStatus("Submission failed, please try again");
+    } finally {
+      setStatus("Apparel saved!");
     }
   };
 
@@ -101,10 +106,9 @@ function ApparelForm() {
             <option value="" disabled>
               Select a Main Category
             </option>
-            <option>Top</option>
-            <option>Bottom</option>
-            <option>Outerwear</option>
-            <option>Overall</option>
+            {order.map((category, index) => (
+              <option key={index}>{category}</option>
+            ))}
           </select>
         </div>
         <div className="mb-6">
@@ -119,15 +123,18 @@ function ApparelForm() {
             name="subCategory"
             value={apparelData.subCategory}
             onChange={handleChange}
+            disabled={!apparelData.mainCategory}
             required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
           >
             <option value="" disabled>
               Select a Sub Category
             </option>
-            {allSubCategories.map((category, index) => (
-              <option key={index}>{category}</option>
-            ))}
+            {checkMainCategory(apparelData.mainCategory).map(
+              (category, index) => (
+                <option key={index}>{category}</option>
+              )
+            )}
           </select>
         </div>
         <div className="mb-6">
@@ -182,18 +189,22 @@ function ApparelForm() {
                 key={idx}
                 src={img}
                 alt={`Preview Image ${idx + 1}`}
-                width={100}
-                height={100}
-                className="mx-auto mb-6"
+                className="mx-auto mb-6 w-full h-[400px]"
               />
             ))}
         </div>
-        <button
-          type="submit"
-          className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
-        >
-          Create
-        </button>
+        {status === "loading" ? (
+          <div className="flex items-center justify-center">
+            <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>
+          </div>
+        ) : (
+          <button
+            type="submit"
+            className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
+          >
+            Submit
+          </button>
+        )}
       </form>
     </div>
   );

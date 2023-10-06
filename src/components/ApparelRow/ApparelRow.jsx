@@ -1,12 +1,20 @@
 import debug from "debug";
+import { RxCross1 } from "react-icons/rx";
+import { PiPencil } from "react-icons/pi";
 
 const log = debug("nextfit:src:components:ApparelRow");
 
-function ApparelRow({ category, apparel }) {
+function ApparelRow({ category, apparel, handleDelete }) {
   const categorizedApparel = apparel.filter(
     (item) => item.mainCategory === category
   );
-  log(categorizedApparel);
+  log("categorised apparel:", categorizedApparel);
+
+  const getS3ImgObjectKey = (url) => {
+    const deconstructedURL = url.split("/");
+    const s3ImgObjectKey = deconstructedURL[deconstructedURL.length - 1];
+    return s3ImgObjectKey;
+  };
 
   return (
     <div>
@@ -15,6 +23,15 @@ function ApparelRow({ category, apparel }) {
         {categorizedApparel.map((item) => (
           <article className="border-white" key={item._id}>
             <div className="items-center bg-stone-400 p-2 rounded-lg shadow md:flex-row md:max-w-xl">
+              <span className="flex items-center justify-end">
+                <PiPencil className="text-md mb-2 mr-1 fill-black" />
+                <RxCross1
+                  onClick={() =>
+                    handleDelete(item._id, getS3ImgObjectKey(item.imageURL))
+                  }
+                  className="text-md mb-2 text-black cursor-pointer"
+                />
+              </span>
               <img
                 className="h-auto max-w-full rounded-lg object-cover"
                 src={item.imageURL}
@@ -25,6 +42,9 @@ function ApparelRow({ category, apparel }) {
                   {item.subCategory}
                 </h5>
                 <p className="text-sm text-zinc-500">Fit: {item.fit}</p>
+                <p className="text-sm text-zinc-500">
+                  Worn {item.wornFrequency} times
+                </p>
               </div>
             </div>
           </article>

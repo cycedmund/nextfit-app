@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { getAllApparelService } from "../../utilities/wardrobe-service";
+import {
+  deleteApparelService,
+  getAllApparelService,
+  getUniqueCategories,
+} from "../../utilities/wardrobe-service";
 import { LuPlusSquare } from "react-icons/lu";
 import debug from "debug";
 import { Link } from "react-router-dom";
@@ -7,40 +11,30 @@ import ApparelRow from "../../components/ApparelRow/ApparelRow";
 
 const log = debug("nextfit:src:pages:WardrobePage");
 
-//* <---- Helper Function ---->
-function sortedCategory(category) {
-  const order = ["Top", "Bottom", "Outerwear", "Overall"];
-  const getIndex = order.indexOf(category);
-  log("order & index:", order, getIndex);
-  return getIndex;
-}
-
-function getUniqueCategories(apparel) {
-  if (apparel.length === 0) {
-    return [];
-  }
-
-  const categories = [...new Set(apparel.map((item) => item.mainCategory))];
-  const sortCategories = categories.sort(
-    (a, b) => sortedCategory(a) - sortedCategory(b)
-  );
-  log("get categories:", categories);
-  return sortCategories;
-}
-
 function WardrobePage() {
   const [apparel, setApparel] = useState([]);
 
   useEffect(() => {
     const fetchApparelData = async () => {
       const allApparel = await getAllApparelService();
-      log(allApparel);
+      log("fetch all apparel:", allApparel);
       setApparel(allApparel);
     };
     fetchApparelData();
   }, []);
 
   const categories = getUniqueCategories(apparel);
+
+  const handleDelete = async (apparelID, s3objectID) => {
+    try {
+      await deleteApparelService(apparelID, s3objectID);
+      const remainingApparel = apparel.filter((item) => item._id !== apparelID);
+      log("deleted apparel:", remainingApparel);
+      setApparel(remainingApparel);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-screen-xl p-4">
@@ -56,7 +50,12 @@ function WardrobePage() {
       <main className="flex flex-col">
         {categories.map((category, index) => {
           return (
-            <ApparelRow key={index} category={category} apparel={apparel} />
+            <ApparelRow
+              key={index}
+              category={category}
+              apparel={apparel}
+              handleDelete={handleDelete}
+            />
           );
         })}
       </main>

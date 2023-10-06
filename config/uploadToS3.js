@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+const debug = require("debug")("nextfit:config:uploadToS3");
 
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const AWS_REGION = process.env.AWS_REGION;
@@ -14,6 +15,8 @@ const s3 = new AWS.S3({
   },
   region: AWS_REGION,
 });
+
+debug("s3 object: %o", s3);
 
 const s3Bucket = multerS3({
   s3: s3,

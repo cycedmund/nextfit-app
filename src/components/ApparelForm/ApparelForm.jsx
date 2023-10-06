@@ -17,12 +17,13 @@ function ApparelForm() {
     preview: [],
   };
   const [apparelData, setApparelData] = useState(initialApparelData);
+  const [status, setStatus] = useState(null);
   const inputImage = useRef(null);
 
   const resetApparelForm = () => {
     setApparelData(initialApparelData);
     inputImage.current.value = "";
-    //setError("")
+    setStatus(null);
   };
 
   const handleChange = (e) => {
@@ -51,13 +52,13 @@ function ApparelForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (apparelData.images.length === 0) return;
+    setStatus("loading");
 
     const imgFormData = new FormData();
     apparelData.images.forEach((img) => {
       imgFormData.append("images", img);
     });
     log("images appended to form", imgFormData);
-
     try {
       const imgURL = await uploadToS3Service(imgFormData);
       const apparelItem = await addApparelService({
@@ -69,6 +70,9 @@ function ApparelForm() {
       resetApparelForm();
     } catch (err) {
       console.error(err);
+      setStatus("Submission failed, please try again");
+    } finally {
+      setStatus("Apparel saved!");
     }
   };
 
@@ -188,12 +192,18 @@ function ApparelForm() {
               />
             ))}
         </div>
-        <button
-          type="submit"
-          className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
-        >
-          Create
-        </button>
+        {status === "loading" ? (
+          <div className="flex items-center justify-center">
+            <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>
+          </div>
+        ) : (
+          <button
+            type="submit"
+            className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
+          >
+            Submit
+          </button>
+        )}
       </form>
     </div>
   );

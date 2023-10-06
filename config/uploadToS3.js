@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 const multer = require("multer");
 const sharp = require("sharp");
+const { Rembg } = require("rembg-node");
 const debug = require("debug")("nextfit:config:uploadToS3");
 const { v4: uuidv4 } = require("uuid");
 
@@ -11,6 +12,10 @@ const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 const uniqueID = uuidv4().split("-")[0];
 debug("generate uuid: %s", uniqueID);
+
+const rembg = new Rembg({
+  logging: true,
+});
 
 const s3 = new AWS.S3({
   credentials: {
@@ -34,17 +39,21 @@ module.exports = function uploadToS3(req, res, next) {
     debug("received files in multer: %o", req.files);
     try {
       for (const file of req.files) {
-        const resizedImage = await sharp(file.buffer)
+        const input = sharp(file.buffer);
+        const removedBackground = await rembg.remove(input);
+        const resizedImage = await removedBackground
           .resize(300, 300, { fit: sharp.fit.fill })
-          .toFormat("jpeg")
-          .jpeg({ mozjpeg: true, quality: 80 })
+          .flatten({ background: "#C5C5C5" })
+          .toFormat("png")
+          .png({ quality: 80 })
           .toBuffer();
 
         debug("processed image: %o", resizedImage);
+
         const params = {
           Bucket: AWS_BUCKET_NAME,
           Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".jpeg")}`,
-          Body: resizedImage,
+          Body: removedBackground,
           ContentType: "image/jpeg",
         };
 

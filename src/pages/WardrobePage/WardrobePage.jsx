@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  deleteApparelService,
   getAllApparelService,
   getUniqueCategories,
 } from "../../utilities/wardrobe-service";
@@ -16,13 +17,24 @@ function WardrobePage() {
   useEffect(() => {
     const fetchApparelData = async () => {
       const allApparel = await getAllApparelService();
-      log(allApparel);
+      log("fetch all apparel:", allApparel);
       setApparel(allApparel);
     };
     fetchApparelData();
   }, []);
 
   const categories = getUniqueCategories(apparel);
+
+  const handleDelete = async (apparelID, s3objectID) => {
+    try {
+      await deleteApparelService(apparelID, s3objectID);
+      const remainingApparel = apparel.filter((item) => item._id !== apparelID);
+      log("deleted apparel:", remainingApparel);
+      setApparel(remainingApparel);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-screen-xl p-4">
@@ -38,7 +50,12 @@ function WardrobePage() {
       <main className="flex flex-col">
         {categories.map((category, index) => {
           return (
-            <ApparelRow key={index} category={category} apparel={apparel} />
+            <ApparelRow
+              key={index}
+              category={category}
+              apparel={apparel}
+              handleDelete={handleDelete}
+            />
           );
         })}
       </main>

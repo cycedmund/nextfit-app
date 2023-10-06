@@ -4,7 +4,12 @@ import {
   overallSub,
   topSub,
 } from "../../data/apparel-categories";
-import { uploadToS3API, addApparelAPI, getAllApparelAPI } from "./wardrobe-api";
+import {
+  uploadToS3API,
+  addApparelAPI,
+  getAllApparelAPI,
+  deleteApparelAPI,
+} from "./wardrobe-api";
 
 export async function uploadToS3Service(imgFormData) {
   const data = await uploadToS3API(imgFormData);
@@ -22,6 +27,10 @@ export async function addApparelService(apparelData) {
 export async function getAllApparelService() {
   const allApparel = await getAllApparelAPI();
   return allApparel.data.apparel;
+}
+
+export async function deleteApparelService(apparelID, s3objectID) {
+  await deleteApparelAPI(apparelID, s3objectID);
 }
 
 export function getUniqueCategories(apparel) {

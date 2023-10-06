@@ -189,7 +189,7 @@ function ApparelForm() {
                 key={idx}
                 src={img}
                 alt={`Preview Image ${idx + 1}`}
-                className="mx-auto mb-6 w-full"
+                className="mx-auto mb-6 w-full h-[400px]"
               />
             ))}
         </div>

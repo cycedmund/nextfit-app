@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const wardrobeCtrl = require("../controllers/wardrobeCtrl");
-const uploadToS3 = require("../config/uploadToS3");
+const { uploadToS3, deleteFromS3 } = require("../config/s3Middlewares");
 
 router.get("/", wardrobeCtrl.getAll);
 router.post("/new/upload", uploadToS3, wardrobeCtrl.uploadImg);
 router.post("/new", wardrobeCtrl.create);
+router.delete("/:apparelID/:s3ObjectID", deleteFromS3, wardrobeCtrl.del);
 
 module.exports = router;

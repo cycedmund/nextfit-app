@@ -63,4 +63,23 @@ async function getAll(req, res) {
   }
 }
 
-module.exports = { uploadImg, create, getAll };
+async function del(req, res) {
+  debug("see req.params: %o", req.params);
+  try {
+    const apparel = await Wardrobe.findOneAndDelete({
+      _id: req.params.apparelID,
+      user: req.user._id,
+    });
+    debug("delete apparel by user: %o", apparel);
+    res.status(200).json({ status: "success" });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Error deleting apparel",
+      error: err,
+    });
+  }
+}
+
+module.exports = { uploadImg, create, getAll, del };

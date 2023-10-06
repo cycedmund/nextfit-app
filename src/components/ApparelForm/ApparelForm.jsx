@@ -9,8 +9,8 @@ const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelForm() {
   const initialApparelData = {
-    name: "",
-    category: "",
+    mainCategory: "",
+    subCategory: "",
     fit: "",
     images: [],
     preview: [],
@@ -77,7 +77,7 @@ function ApparelForm() {
         Add to your closet
       </header>
       <form className="p-8" onSubmit={handleSubmit} autoComplete="off">
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <label
             htmlFor="name"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -94,18 +94,18 @@ function ApparelForm() {
             className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 rounded-md"
             required
           />
-        </div>
+        </div> */}
         <div className="mb-6">
           <label
             htmlFor="category"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
-            Category
+            Main Category
           </label>
           <select
-            id="category"
-            name="category"
-            value={apparelData.category}
+            id="mainCategory"
+            name="mainCategory"
+            value={apparelData.mainCategory}
             onChange={handleChange}
             required
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -117,6 +117,32 @@ function ApparelForm() {
             <option>Bottom</option>
             <option>Outerwear</option>
             <option>Overall</option>
+          </select>
+        </div>
+        <div className="mb-6">
+          <label
+            htmlFor="mainCategory"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Sub Category
+          </label>
+          <select
+            id="subCategory"
+            name="subCategory"
+            value={apparelData.subCategory}
+            onChange={handleChange}
+            required
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          >
+            <option value="" disabled>
+              Select a Sub Category
+            </option>
+            <option>T-shirt</option>
+            <option>Buttoned Shirt</option>
+            <option>Dress</option>
+            <option>Jeans</option>
+            <option>Pants</option>
+            <option>Skirt</option>
           </select>
         </div>
         <div className="mb-6">
@@ -137,8 +163,8 @@ function ApparelForm() {
             <option value="" disabled>
               Select a Fit
             </option>
-            <option>Baggy</option>
-            <option>Normal</option>
+            <option>Loose</option>
+            <option>Regular</option>
             <option>Tight</option>
           </select>
         </div>

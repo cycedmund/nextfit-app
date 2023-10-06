@@ -17,11 +17,12 @@ function uploadImg(req, res) {
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
-  const { name, category, fit, images } = req.body;
-  const apparelInfo = { name, category, fit, images };
+  const { mainCategory, subCategory, fit } = req.body;
+  const apparelInfo = { mainCategory, subCategory, fit };
   try {
     const newApparelItem = await Wardrobe.create({
       ...apparelInfo,
+      imageURL: req.body.images,
       user: req.user._id,
     });
     res.status(201).json({

@@ -8,7 +8,7 @@ function WardrobeRoutes() {
     <Routes>
       <Route index element={<WardrobePage />} />
       <Route path="/favourites" element={<FavouritesPage />} />
-      <Route path="/apparel/new" element={<ApparelForm />} />
+      <Route path="/new" element={<ApparelForm />} />
     </Routes>
   );
 }

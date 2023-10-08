@@ -2,79 +2,87 @@ import debug from "debug";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef } from "react";
-import { RxCross1 } from "react-icons/rx";
-import { PiPencil } from "react-icons/pi";
+import { useRef, useState } from "react";
+import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
+import ApparelCard from "./ApparelCard";
 
 const log = debug("nextfit:src:components:ApparelRow");
 
 function ApparelRow({ category, apparel, handleDelete }) {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef(null);
-  const settings = {
-    infinite: false,
-    speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    arrows: false,
-  };
-  const next = () => {
-    sliderRef.current.slickNext();
-  };
-  const prev = () => {
-    sliderRef.current.slickPrev();
-  };
 
   const categorizedApparel = apparel.filter(
     (item) => item.mainCategory === category
   );
   log("categorised apparel:", categorizedApparel);
 
+  const settings = {
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    arrows: false,
+    afterChange: (index) => {
+      log("index of afterChange", index);
+      setCurrentSlideIndex(index);
+    },
+  };
+
+  const next = () => {
+    if (currentSlideIndex < categorizedApparel.length - 5) {
+      log("next + currentSlideIndex", currentSlideIndex);
+      sliderRef.current.slickNext();
+    }
+  };
+  const prev = () => {
+    if (currentSlideIndex > 0) {
+      log("prev + currentSlideIndex", currentSlideIndex);
+      sliderRef.current.slickPrev();
+    }
+  };
+
   return (
-    <div className="p-6">
-      <header className="mx-4 p-6 font-inter font-thin text-2xl">
+    <div className="p-6 relative">
+      <header className="mx-4 px-6 font-inter font-thin text-2xl">
         {category}
       </header>
-      <button
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 w-10"
+      <MdNavigateBefore
         onClick={prev}
-      >
-        {"<"}
-      </button>
-      <Slider ref={sliderRef} {...settings} className="p-6">
-        {categorizedApparel.map((item) => (
-          <article key={item._id}>
-            <div className="items-center bg-stone-400 p-2 rounded-lg shadow md:flex-row md:max-w-xl">
-              <span className="flex items-center justify-end">
-                <PiPencil className="text-md mb-2 mr-1 fill-black" />
-                <RxCross1
-                  onClick={() => handleDelete(item._id)}
-                  className="text-md mb-2 text-black cursor-pointer"
-                />
-              </span>
-              <img
-                className="h-auto max-w-full rounded-lg object-cover"
-                src={item.imageURL}
-                alt={item.subCategory}
-              />
-              <div className="flex flex-col justify-between p-2 leading-normal">
-                <h5 className="text-lg mb-2 tracking-tight text-gray-900">
-                  {item.subCategory}
-                </h5>
-                <p className="text-sm text-zinc-500">Fit: {item.fit}</p>
-                <p className="text-sm text-zinc-500">
-                  Worn {item.wornFrequency} times
-                </p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </Slider>
-      <button
-        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 w-10"
+        className={`absolute top-[50%] -translate-y-1/2 left-0 z-50 text-7xl cursor-pointer ${
+          currentSlideIndex === 0 ? "opacity-0" : "opacity-100"
+        }`}
+      />
+      {categorizedApparel.length > 5 ? (
+        <Slider ref={sliderRef} {...settings} className="px-6 py-4">
+          {categorizedApparel.map((item) => (
+            <ApparelCard
+              item={item}
+              handleDelete={handleDelete}
+              key={item._id}
+            />
+          ))}
+        </Slider>
+      ) : (
+        <div className="grid grid-cols-5 px-6 py-4">
+          {categorizedApparel.map((item) => (
+            <ApparelCard
+              item={item}
+              handleDelete={handleDelete}
+              key={item._id}
+            />
+          ))}
+        </div>
+      )}
+
+      <MdNavigateNext
         onClick={next}
-      >
-        {">"}
-      </button>
+        className={`absolute top-[50%] -translate-y-1/2 right-0 z-50 text-7xl cursor-pointer ${
+          currentSlideIndex >= categorizedApparel.length - 5
+            ? "opacity-0"
+            : "opacity-100"
+        }`}
+      />
     </div>
   );
 }

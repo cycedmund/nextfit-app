@@ -2,6 +2,8 @@ import { useState } from "react";
 import { loginService } from "../../utilities/users-service";
 import { useNavigate, Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import Swal from "sweetalert2";
+import { swalBasicSettings } from "../../utilities/wardrobe-service";
 
 function LoginForm({ setUser, handlePasswordVisibility, visibility }) {
   const [credentials, setCredentials] = useState({
@@ -22,9 +24,19 @@ function LoginForm({ setUser, handlePasswordVisibility, visibility }) {
     try {
       const user = await loginService(credentials);
       if (user !== null && user !== undefined) {
-        setUser(user);
-        navigate("/home");
+        const prompt = await Swal.fire({
+          ...swalBasicSettings(`Welcome Back ${user.username}!`, "success"),
+          confirmButtonText: "Enter",
+        });
+        if (prompt.isConfirmed) {
+          setUser(user);
+          navigate("/home");
+        }
       } else {
+        Swal.fire({
+          ...swalBasicSettings("Sorry!", "error"),
+          text: "Please try again.",
+        });
         navigate("/login");
       }
     } catch (err) {

@@ -21,7 +21,7 @@ function ApparelCard({ item, handleDelete }) {
           <h5 className="text-lg mb-2 tracking-tight text-gray-900">
             {item.subCategory}
           </h5>
-          <p className="text-sm text-zinc-500">{item.fit} fit</p>
+          <i className="text-sm text-zinc-500">{item.fit} fit</i>
           <p className="text-sm text-zinc-500">
             Worn {item.wornFrequency} times
           </p>

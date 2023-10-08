@@ -11,9 +11,6 @@ const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
-const uniqueID = uuidv4().split("-")[0];
-debug("generate uuid: %s", uniqueID);
-
 const rembg = new Rembg({
   logging: true,
 });
@@ -32,6 +29,11 @@ const upload = multer({ storage: multer.memoryStorage() }).array("images", 10);
 
 module.exports = {
   uploadToS3: function (req, res, next) {
+    const randomIdx = (max) => Math.floor(Math.random() * max);
+    const splitUUID = uuidv4().split("-");
+    const uniqueID = splitUUID[randomIdx(2)] + "-" + splitUUID[randomIdx(4)];
+    debug("generate uuid: %s", uniqueID);
+
     upload(req, res, async function (err) {
       if (err) {
         console.log(err);

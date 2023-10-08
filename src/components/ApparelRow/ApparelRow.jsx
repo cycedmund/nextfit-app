@@ -46,6 +46,7 @@ function ApparelRow({ category, apparel, handleDelete }) {
     <div className="p-6 relative">
       <header className="mx-4 px-6 font-inter font-thin text-2xl">
         {category}
+        {"s"}
       </header>
       <MdNavigateBefore
         onClick={prev}

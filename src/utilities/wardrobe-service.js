@@ -37,7 +37,6 @@ export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {
     return [];
   }
-
   const categories = [...new Set(apparel.map((item) => item.mainCategory))];
   const sortCategories = categories.sort(
     (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
@@ -65,4 +64,16 @@ export function checkMainCategory(main) {
     default:
       return [];
   }
+}
+
+export function swalBasicSettings(title, icon) {
+  const settings = {
+    title: title,
+    icon: icon,
+    background: "#6B6B6B",
+    color: "white",
+    confirmButtonColor: "#E50914",
+    cancelButtonColor: "#000000",
+  };
+  return settings;
 }

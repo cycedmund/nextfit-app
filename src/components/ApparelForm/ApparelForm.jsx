@@ -4,8 +4,12 @@ import {
   addApparelService,
   uploadToS3Service,
   checkMainCategory,
+  swalBasicSettings,
 } from "../../utilities/wardrobe-service";
 import { order } from "../../../data/apparel-categories";
+import Swal from "sweetalert2";
+import { GiClothes } from "react-icons/gi";
+import { FaCaretDown } from "react-icons/fa6";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -62,12 +66,11 @@ function ApparelForm() {
     log("images appended to form", imgFormData);
     try {
       const imgURL = await uploadToS3Service(imgFormData);
-      const apparelItem = await addApparelService({
+      await addApparelService({
         ...apparelData,
         images: imgURL,
       });
-      console.log(apparelItem);
-      // setState(apparelItem) -> navigate to wardrobe
+      Swal.fire(swalBasicSettings("Added to Wardrobe!", "success"));
       resetApparelForm();
     } catch (err) {
       console.error(err);
@@ -78,120 +81,129 @@ function ApparelForm() {
   };
 
   return (
-    <div className="container bg-neutral-400 mx-auto max-w-md px-4">
-      <header className="text-white font-bold text-2xl text-center mt-4">
-        Add to your closet
-      </header>
+    <section className="flex justify-center items-center min-h-[80vh]">
       <form
-        className="p-8"
+        className="container bg-neutral-400 mx-auto max-w-lg px-4 pb-8"
         onSubmit={handleSubmit}
         autoComplete="off"
         encType="multipart/form-data"
       >
-        <div className="mb-6">
-          <label
-            htmlFor="mainCategory"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Main Category
-          </label>
-          <select
-            id="mainCategory"
-            name="mainCategory"
-            value={apparelData.mainCategory}
-            onChange={handleChange}
-            required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="" disabled>
-              Select a Main Category
-            </option>
-            {order.map((category, index) => (
-              <option key={index}>{category}</option>
-            ))}
-          </select>
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="subCategory"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Sub Category
-          </label>
-          <select
-            id="subCategory"
-            name="subCategory"
-            value={apparelData.subCategory}
-            onChange={handleChange}
-            disabled={!apparelData.mainCategory}
-            required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="" disabled>
-              Select a Sub Category
-            </option>
-            {checkMainCategory(apparelData.mainCategory).map(
-              (category, index) => (
+        <header className="text-black font-inter font-light text-2xl text-center my-4">
+          Start building your wardrobe!
+        </header>
+        <div className="flex mb-6">
+          <div className="w-1/2 pr-2 relative">
+            <label
+              htmlFor="mainCategory"
+              className="block mb-1 text-sm font-inter font-light text-neutral-600"
+            >
+              Main Category
+            </label>
+            <select
+              id="mainCategory"
+              name="mainCategory"
+              value={apparelData.mainCategory}
+              onChange={handleChange}
+              required
+              className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-pointer font-inter font-extralight"
+            >
+              <option value="" disabled>
+                Select a Main Category
+              </option>
+              {order.map((category, index) => (
                 <option key={index}>{category}</option>
-              )
-            )}
-          </select>
+              ))}
+            </select>
+            <FaCaretDown className="absolute right-3 top-7 text-gray-500 pointer-events-none z-50 text-3xl" />
+          </div>
+          <div className="w-1/2 pl-2 relative">
+            <label
+              htmlFor="subCategory"
+              className="block mb-1 text-sm font-inter font-light text-neutral-600"
+            >
+              Sub Category
+            </label>
+            <select
+              id="subCategory"
+              name="subCategory"
+              value={apparelData.subCategory}
+              onChange={handleChange}
+              disabled={!apparelData.mainCategory}
+              required
+              className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-pointer font-inter font-extralight disabled:cursor-default"
+            >
+              <option value="" disabled>
+                Select a Sub Category
+              </option>
+              {checkMainCategory(apparelData.mainCategory).map(
+                (category, index) => (
+                  <option key={index}>{category}</option>
+                )
+              )}
+            </select>
+            <FaCaretDown className="absolute right-1 top-7 text-gray-500 pointer-events-none z-50 text-3xl" />
+          </div>
         </div>
-        <div className="mb-6">
-          <label
-            htmlFor="fit"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Fit
-          </label>
-          <select
-            id="fit"
-            name="fit"
-            value={apparelData.fit}
-            onChange={handleChange}
-            required
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="" disabled>
-              Select a Fit
-            </option>
-            <option>Loose</option>
-            <option>Regular</option>
-            <option>Tight</option>
-          </select>
-        </div>
-        <div className="mb-6">
-          <label
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            htmlFor="image"
-          >
-            Upload Apparel Images
-            {/* <br />
-            <small className="text-gray-500">
-              (For multiple files, upload all at once)
-            </small> */}
-          </label>
-          <input
-            ref={inputImage}
-            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-            id="image"
-            type="file"
-            accept="image/*"
-            required
-            onChange={handleImgFileInput}
-            //! multiple
-          />
-        </div>
-        <div className="flex">
-          {apparelData.preview.length !== 0 &&
-            apparelData.preview.map((img, idx) => (
-              <img
-                key={idx}
-                src={img}
-                alt={`Preview Image ${idx + 1}`}
-                className="mx-auto mb-6 w-full h-[400px]"
+        <div className="flex mb-6">
+          <div className="w-1/2">
+            <div className="pr-2 mb-6 relative">
+              <label
+                htmlFor="fit"
+                className="block mb-1 text-sm font-inter font-light text-neutral-600"
+              >
+                Fit
+              </label>
+              <select
+                id="fit"
+                name="fit"
+                value={apparelData.fit}
+                onChange={handleChange}
+                required
+                className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-pointer font-inter font-extralight"
+              >
+                <option value="" disabled>
+                  Select a Fit
+                </option>
+                <option>Loose</option>
+                <option>Regular</option>
+                <option>Tight</option>
+              </select>
+              <FaCaretDown className="absolute right-3 top-7 text-gray-500 pointer-events-none z-50 text-3xl" />
+            </div>
+            <div className="pr-2 mb-6">
+              <label
+                className="block mb-1 text-sm font-inter font-light text-neutral-600"
+                htmlFor="image"
+              >
+                Image
+              </label>
+              <input
+                ref={inputImage}
+                className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
+                id="image"
+                type="file"
+                accept="image/*"
+                required
+                onChange={handleImgFileInput}
               />
-            ))}
+            </div>
+          </div>
+          <div className="w-1/2 pl-2">
+            {apparelData.preview.length !== 0 ? (
+              apparelData.preview.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Preview Image ${idx + 1}`}
+                  className="mx-auto rounded-lg w-[400px] h-[200px] mt-1"
+                />
+              ))
+            ) : (
+              <div className="w-full h-full flex justify-center items-center border-dashed border-2 border-neutral-300">
+                <GiClothes className="text-8xl fill-neutral-300" />
+              </div>
+            )}
+          </div>
         </div>
         {status === "loading" ? (
           <div className="flex items-center justify-center">
@@ -200,13 +212,13 @@ function ApparelForm() {
         ) : (
           <button
             type="submit"
-            className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
+            className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-inter font-normal text-lg px-3 py-2.5 text-center w-full"
           >
-            Submit
+            SUBMIT
           </button>
         )}
       </form>
-    </div>
+    </section>
   );
 }
 

@@ -3,3 +3,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swal2-popup {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+}

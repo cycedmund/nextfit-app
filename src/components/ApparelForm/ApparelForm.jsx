@@ -4,8 +4,10 @@ import {
   addApparelService,
   uploadToS3Service,
   checkMainCategory,
+  swalBasicSettings,
 } from "../../utilities/wardrobe-service";
 import { order } from "../../../data/apparel-categories";
+import Swal from "sweetalert2";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -62,12 +64,11 @@ function ApparelForm() {
     log("images appended to form", imgFormData);
     try {
       const imgURL = await uploadToS3Service(imgFormData);
-      const apparelItem = await addApparelService({
+      await addApparelService({
         ...apparelData,
         images: imgURL,
       });
-      console.log(apparelItem);
-      // setState(apparelItem) -> navigate to wardrobe
+      Swal.fire(swalBasicSettings("Added to Wardrobe!", "success"));
       resetApparelForm();
     } catch (err) {
       console.error(err);

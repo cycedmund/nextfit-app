@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { loginService } from "../../utilities/users-service";
 import { useNavigate, Link } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-function LoginForm({ setUser }) {
+function LoginForm({ setUser, handlePasswordVisibility, visibility }) {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -32,15 +33,15 @@ function LoginForm({ setUser }) {
   };
 
   return (
-    <div className="container bg-neutral-400 mx-auto max-w-md px-4">
-      <header className="text-white font-bold text-2xl text-start mt-4">
-        Sign In
-      </header>
-      <form className="p-8" onSubmit={handleSubmit}>
+    <div className="container bg-neutral-400 mx-auto max-w-md p-4">
+      <form className="p-2" onSubmit={handleSubmit}>
+        <header className="text-white font-inter font-light text-2xl mb-4">
+          Log In
+        </header>
         <div className="mb-6">
           <label
             htmlFor="username"
-            className="block mb-2 text-sm font-medium text-gray-600 dark:text-white"
+            className="block mb-2 text-sm font-inter font-normal text-gray-600"
           >
             Username
           </label>
@@ -48,39 +49,55 @@ function LoginForm({ setUser }) {
             type="username"
             id="username"
             name="username"
+            autoComplete="off"
             value={credentials.username}
             onChange={handleChange}
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  rounded-md"
+            className="bg-neutral-300 text-gray-900 text-sm focus:outline-none block w-full p-2.5 cursor-text font-inter font-extralight border-none"
             required
           />
         </div>
         <div className="mb-6">
           <label
             htmlFor="password"
-            className="block mb-2 text-sm font-medium text-gray-600 dark:text-white"
+            className="block mb-2 text-sm font-inter font-normal text-gray-600"
           >
             Password
           </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-            className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 rounded-md"
-            required
-          />
+          <div className="relative">
+            <input
+              type={visibility ? "text" : "password"}
+              id="password"
+              name="password"
+              autoComplete="off"
+              value={credentials.password}
+              onChange={handleChange}
+              className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-text font-inter font-extralight border-none"
+              required
+            />
+            <button
+              className="btn btn-sm btn-ghost text-neutral-500 font-inter font-extralight absolute inset-y-1 right-0 pr-3 flex items-center"
+              onClick={handlePasswordVisibility}
+            >
+              {visibility ? (
+                <AiOutlineEyeInvisible className="text-2xl" />
+              ) : (
+                <AiOutlineEye className="text-2xl" />
+              )}
+            </button>
+          </div>
         </div>
         <button
           type="submit"
-          className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-medium text-lg px-3 py-2.5 text-center w-full rounded-md"
+          className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-inter font-normal text-lg px-3 py-2.5 text-center w-full"
         >
-          Sign In
+          LOGIN
         </button>
-        <footer className="mt-10">
+        <footer className="mt-6">
           New to Nextfit?{" "}
-          <span className="text-black">
-            <Link to="/signup">Sign up now.</Link>
+          <span className="text-neutral-700">
+            <Link to="/signup">
+              <u>Sign up now.</u>
+            </Link>
           </span>
         </footer>
       </form>

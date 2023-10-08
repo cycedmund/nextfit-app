@@ -6,6 +6,7 @@ import {
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
 import { LuPlusSquare } from "react-icons/lu";
+import { PiPantsLight, PiTShirtLight } from "react-icons/pi";
 import debug from "debug";
 import { Link } from "react-router-dom";
 import ApparelRow from "../../components/ApparelRow/ApparelRow";
@@ -56,13 +57,12 @@ function WardrobePage() {
 
   return (
     <div className="mx-auto max-w-screen-xl p-4">
-      <header className="flex mx-4 mb-4 font-bebas text-3xl tracking-wider justify-end">
+      <header className="flex mx-4 mb-4 justify-end items-center">
+        <PiTShirtLight className="text-3xl" />
         <Link to="/wardrobe/new" className="flex items-center justify-center">
           <LuPlusSquare className="text-4xl" />
-          <span className="font-inter font-semibold tracking-normal text-xl">
-            Add Apparel
-          </span>
         </Link>
+        <PiPantsLight className="text-3xl" />
       </header>
       <main className="flex flex-col">
         {categories.map((category, index) => {

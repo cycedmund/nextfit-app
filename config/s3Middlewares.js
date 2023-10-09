@@ -46,7 +46,7 @@ module.exports = {
           const input = sharp(file.buffer);
           const removedBackground = await rembg.remove(input);
           const resizedImage = await removedBackground
-            .resize(300, 300, { fit: sharp.fit.fill })
+            .resize(250, 300, { fit: sharp.fit.fill })
             .flatten({ background: "#FBFBF9" })
             .toFormat("png")
             .png({ quality: 80 })

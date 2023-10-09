@@ -89,7 +89,7 @@ function ApparelEditForm() {
         encType="multipart/form-data"
       >
         <header className="text-black font-inter font-light text-2xl text-center my-4">
-          Start building your wardrobe!
+          Make your edits here!
         </header>
         <div className="flex mb-6">
           <div className="w-1/2 pr-2 relative">
@@ -170,23 +170,9 @@ function ApparelEditForm() {
               </select>
               <FaCaretDown className="absolute right-3 top-7 text-gray-500 pointer-events-none z-50 text-3xl" />
             </div>
-            <div className="pr-2 mb-6">
-              <label
-                className="block mb-1 text-sm font-inter font-light text-neutral-600"
-                htmlFor="image"
-              >
-                Image
-              </label>
-              <input
-                ref={inputImage}
-                className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
-                id="image"
-                type="file"
-                accept="image/*"
-                required
-                onChange={handleImgFileInput}
-              />
-            </div>
+            <br/>
+            <br/>
+            <br/>
           </div>
           <div className="w-1/2 pl-2">
             {apparelData.preview.length !== 0 ? (

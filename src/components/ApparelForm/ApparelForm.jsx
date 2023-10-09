@@ -195,12 +195,14 @@ function ApparelForm() {
                   key={idx}
                   src={img}
                   alt={`Preview Image ${idx + 1}`}
-                  className="mx-auto rounded-lg w-[400px] h-[200px] mt-1"
+                  className="mx-auto rounded-lg w-[250px] h-[300px] mt-1"
                 />
               ))
             ) : (
-              <div className="w-full h-full flex justify-center items-center border-dashed border-2 border-neutral-300">
-                <GiClothes className="text-8xl fill-neutral-300" />
+              <div className="w-1/2">
+                <span className="w-[230px] h-[300px] flex justify-center items-center border-dashed border-2 border-neutral-300">
+                  <GiClothes className="text-8xl fill-neutral-300" />
+                </span>
               </div>
             )}
           </div>
@@ -212,7 +214,7 @@ function ApparelForm() {
         ) : (
           <button
             type="submit"
-            className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-inter font-normal text-lg px-3 py-2.5 text-center w-full"
+            className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
           >
             SUBMIT
           </button>

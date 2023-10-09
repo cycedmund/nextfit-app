@@ -11,6 +11,9 @@ module.exports = {
         bebas: ["Bebas Neue", "sans-serif"],
         inter: ["Inter", "sans-serif"],
       },
+      fontSize: {
+        tiny: "13px",
+      },
     },
   },
   plugins: [require("flowbite/plugin"), require("daisyui")],

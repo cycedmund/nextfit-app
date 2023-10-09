@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { addOutfitService } from "../../utilities/outfits-service";
 import { getAllApparelService } from "../../utilities/wardrobe-service";
 import "./Weather.css"
 
@@ -9,6 +10,8 @@ export default function Weather() {
     const [apparel, setApparel] = useState([]);
     const [topApparelImages, setTopApparelImages] = useState([]);
     const [bottomApparelImages, setBottomApparelImages] = useState([]);
+    let filteredTopApparel = [];
+    let filteredBottomApparel = [];
 
 useEffect(() => {
     const fetchApparelData = async () => {
@@ -30,7 +33,7 @@ const fetchWeather = async () => {
 }; fetchWeather();
 }, []);
 
-useEffect(() => {
+const fetchImages = async () => {
     if (weatherData) {
         const weatherConditions = ["clouds", "clear", "sunny", "haze", "rain"];
         const lowercaseData = weatherData.toLowerCase();
@@ -46,8 +49,8 @@ useEffect(() => {
                 topCategories = ["Blouse", "T-shirt", "Polo Shirt", "Singlet", "Shirt"];
                 bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
             }
-            const filteredTopApparel = apparel.filter((item) => topCategories.includes(item.subCategory));
-            const filteredBottomApparel = apparel.filter((item) => bottomCategories.includes(item.subCategory));
+            filteredTopApparel = apparel.filter((item) => topCategories.includes(item.subCategory));
+            filteredBottomApparel = apparel.filter((item) => bottomCategories.includes(item.subCategory));
 
         if (filteredTopApparel.length > 0) {
         const shuffledTopApparel = shuffleArray(filteredTopApparel.map((item) => item.imageURL));
@@ -62,6 +65,10 @@ useEffect(() => {
             setBottomApparelImages([]);
         }
     }
+}
+
+useEffect(() => {
+    fetchImages()
 }, [weatherData, apparel]);
 
 const shuffleArray = (array) => {
@@ -72,37 +79,43 @@ const shuffleArray = (array) => {
     return array;
   };
 
+const handleAdd = async (topApparelId, bottomApparelId) => {
+    const apparel = {
+        top: topApparelId,
+        bottom: bottomApparelId
+    }
+   await addOutfitService(apparel);
+}
+
     return (
         <>
         <h1 className="ml-24 mt-20 text-2xl">Top 5 Outfits Today Based on Weather in Singapore</h1>
         <p className="ml-24 text-base mt-1">Current weather: <span className="current-weather capitalize text-yellow-300 font-bold">{weatherData}</span> | <span className="current-weather capitalize text-yellow-300 font-bold">{temperatureData}°C</span></p>
         <div className="weather-table -mt-10">
-            <div className="weather01">1
-            <span className="weather-outfit flex flex-col"><img className="w-28 h-28 object-cover" src={topApparelImages[0] || ""} />
-            <img className="w-28 h-30 object-cover" src={bottomApparelImages[0] || ""} />
+    {topApparelImages.map((topImage, index) => (
+        <div key={`weather-outfit-${index + 1}`} className={`weather${index + 1}`}>
+            {index + 1}
+            <span className="weather-outfit flex flex-col">
+                <img
+                    className="w-28 h-28 object-cover rounded-t"
+                    src={topImage || ""}
+                    alt={filteredTopApparel[index]?._id || " "}
+                />
+                <img
+                    className="w-28 h-32 object-cover rounded-b"
+                    src={bottomApparelImages[index] || ""}
+                    alt={filteredBottomApparel[index]?._id || ""}
+                />
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
+                    I worn this!
+                </button>
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
+                    Add to Favourites
+                </button>
             </span>
-            </div>
-            <div className="weather02">2
-            <span className="weather-outfit flex flex-col"><img className="w-28 h-28 object-cover" src={topApparelImages[1] || ""} />
-            <img className="w-28 h-30 object-cover" src={bottomApparelImages[1] || ""} />
-            </span>
-            </div>
-            <div className="weather03">3
-            <span className="weather-outfit flex flex-col"><img className="w-28 h-28 object-cover" src={topApparelImages[2] || ""} />
-            <img className="w-28 h-30 object-cover" src={bottomApparelImages[2] || ""} />
-            </span>
-            </div>
-            <div className="weather04">4
-            <span className="weather-outfit flex flex-col"><img className="w-28 h-28 object-cover" src={topApparelImages[3] || ""} />
-            <img className="w-28 h-30 object-cover" src={bottomApparelImages[3] || ""} />
-            </span>
-            </div>
-            <div className="weather05">5
-            <span className="weather-outfit flex flex-col"><img className="w-28 h-28 object-cover" src={topApparelImages[4] || ""} />
-            <img className="w-28 h-30 object-cover" src={bottomApparelImages[4] || ""} />
-            </span>
-            </div>
         </div>
+    ))}
+</div>
         </>
     )
 }

@@ -82,4 +82,34 @@ async function del(req, res) {
   }
 }
 
-module.exports = { uploadImg, create, getAll, del };
+async function updateOne(req, res) {
+  debug("see req.user: %o", req.user);
+  debug("id", req.params.apparelId)
+  try {
+    const updatedApparel = await Wardrobe.findByIdAndUpdate(
+      { _id: req.params.apparelId},
+      {
+        mainCategory: req.body.mainCategory,
+        subCategory: req.body.subCategory,
+        fit: req.body.fit
+      },
+      {new: true}
+    );
+    debug("found apparel by user: %o", updatedApparel);
+    res.status(200).json({
+      status: "success",
+      data: {
+        apparel: updatedApparel,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Error in editing particular apparel",
+      error: err,
+    });
+  }
+}
+
+module.exports = { uploadImg, create, getAll, del, updateOne };

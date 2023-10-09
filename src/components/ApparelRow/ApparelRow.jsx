@@ -2,16 +2,19 @@ import debug from "debug";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useRef, useState } from "react";
 import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 import ApparelCard from "./ApparelCard";
 
 const log = debug("nextfit:src:components:ApparelRow");
 
-function ApparelRow({ category, apparel, handleDelete }) {
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const sliderRef = useRef(null);
-
+function ApparelRow({
+  category,
+  apparel,
+  handleDelete,
+  setCurrentSlideIndex,
+  currentSlideIndex,
+  sliderRef,
+}) {
   const categorizedApparel = apparel.filter(
     (item) => item.mainCategory === category
   );
@@ -19,26 +22,31 @@ function ApparelRow({ category, apparel, handleDelete }) {
 
   const settings = {
     infinite: false,
+    draggable: false,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 5,
     arrows: false,
     afterChange: (index) => {
-      log("index of afterChange", index);
       setCurrentSlideIndex(index);
     },
   };
 
   const next = () => {
-    if (currentSlideIndex < categorizedApparel.length - 5) {
-      log("next + currentSlideIndex", currentSlideIndex);
+    log("next + currentSlideIndex", currentSlideIndex);
+    log("next, useRef sliderRef:", sliderRef.current);
+    if (
+      sliderRef.current !== null &&
+      currentSlideIndex < categorizedApparel.length - 5
+    ) {
       sliderRef.current.slickNext();
     }
   };
   const prev = () => {
-    if (currentSlideIndex > 0) {
-      log("prev + currentSlideIndex", currentSlideIndex);
+    log("prev, useRef sliderRef:", sliderRef.current);
+    if (sliderRef.current !== null && currentSlideIndex > 0) {
       sliderRef.current.slickPrev();
+      log("prev + currentSlideIndex", currentSlideIndex);
     }
   };
 
@@ -51,7 +59,9 @@ function ApparelRow({ category, apparel, handleDelete }) {
       <MdNavigateBefore
         onClick={prev}
         className={`absolute top-[50%] -translate-y-1/2 left-0 z-50 text-7xl cursor-pointer ${
-          currentSlideIndex === 0 ? "opacity-0" : "opacity-100"
+          currentSlideIndex === 0 || categorizedApparel.length <= 5
+            ? "opacity-0"
+            : "opacity-100"
         }`}
       />
       {categorizedApparel.length > 5 ? (

@@ -3,13 +3,12 @@ const debug = require("debug")("nextfit:controllers:outfitCtrl");
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
-  const { apparels } = req.body;
+  const { top, bottom } = req.body;
   try {
     const newOutfit = await Outfit.create({
-      apparels: apparels,
+      apparels: { top, bottom },
       user: req.user._id,
     });
-    // const newOutfit = await Outfit.create(apparel);
     res.status(201).json({
       status: "success",
       data: {
@@ -30,7 +29,11 @@ async function create(req, res) {
 async function getAll(req, res) {
   debug("see req.user: %o", req.user);
   try {
-    const outfits = await Outfit.find({ user: req.user._id });
+    const outfits = await Outfit.find({ user: req.user._id })
+    .populate({ path: "apparels.top", model: "Wardrobe" })
+    .populate({ path: "apparels.bottom", model: "Wardrobe" })
+    .populate({ path: "apparels.outerwear", model: "Wardrobe" })
+    .populate({ path: "apparels.overall", model: "Wardrobe" });
     debug("found outfits by user: %o", outfits);
     res.status(200).json({
       status: "success",
@@ -67,23 +70,4 @@ async function del(req, res) {
   }
 }
 
-async function showOne(req, res) {
-  debug("see req.params: %o", req.params);
-  try {
-    const outfit = await Outfit.findOne({
-      _id: req.params.outfitID,
-      user: req.user._id,
-    }).populate("apparels");
-    debug("show outfit by user: %o", outfit);
-    res.status(200).json({ status: "success" });
-  } catch (err) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error finding outfit",
-      error: err,
-    });
-  }
-}
-
-module.exports = { create, getAll, del, showOne };
+module.exports = { create, getAll, del };

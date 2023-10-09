@@ -1,9 +1,4 @@
-import {
-  addOutfitAPI,
-  getAllOutfitAPI,
-  deleteOutfitAPI
-} from "./outfits-api";
-
+import { addOutfitAPI, getAllOutfitAPI, deleteOutfitAPI } from "./outfits-api";
 
 export async function addOutfitService(outfitData) {
   const outfitItem = await addOutfitAPI(outfitData);

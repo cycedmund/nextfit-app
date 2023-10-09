@@ -40,4 +40,20 @@ wardrobeSchema.virtual("s3ObjectID").get(function () {
   return s3ObjectID;
 });
 
+wardrobeSchema.methods.updateWornFrequencyCount = async function () {
+  this.wornFrequency += 1;
+  await this.save();
+};
+
+wardrobeSchema.statics.updateWornFrequency = async function (
+  topApparelID,
+  bottomApparelID
+) {
+  const top = await this.findById(topApparelID);
+  const bottom = await this.findById(bottomApparelID);
+  await top.updateWornFrequencyCount();
+  await bottom.updateWornFrequencyCount();
+  return { top, bottom };
+};
+
 module.exports = model("Wardrobe", wardrobeSchema);

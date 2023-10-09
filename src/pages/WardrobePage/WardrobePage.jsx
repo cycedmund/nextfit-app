@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   deleteApparelService,
   getAllApparelService,
@@ -16,6 +16,8 @@ const log = debug("nextfit:src:pages:WardrobePage");
 
 function WardrobePage() {
   const [apparel, setApparel] = useState([]);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     const fetchApparelData = async () => {
@@ -43,8 +45,16 @@ function WardrobePage() {
           (item) => item._id !== apparelID
         );
         log("deleted apparel:", remainingApparel);
+        log("currentSlideIndex", currentSlideIndex);
         setApparel(remainingApparel);
+        if (sliderRef.current !== null) {
+          sliderRef.current.slickGoTo(0, true);
+        }
         Swal.fire(swalBasicSettings("Deleted!", "success"));
+        // // console.log(sliderRef.current.innerSlider.state.currentSlide);
+        // if (currentSlideIndex <= 5) {
+        //   sliderRef.current.slickGoTo(0);
+        // }
       } catch (err) {
         console.error(err);
         Swal.fire({
@@ -72,6 +82,9 @@ function WardrobePage() {
               category={category}
               apparel={apparel}
               handleDelete={handleDelete}
+              sliderRef={sliderRef}
+              currentSlideIndex={currentSlideIndex}
+              setCurrentSlideIndex={setCurrentSlideIndex}
             />
           );
         })}

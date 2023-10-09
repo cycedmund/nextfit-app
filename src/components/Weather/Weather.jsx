@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { getAllApparelService } from "../../utilities/wardrobe-service";
 import { addOutfitService } from "../../utilities/outfits-service";
+import { getAllApparelService } from "../../utilities/wardrobe-service";
 import "./Weather.css"
 
 export default function Weather() {
@@ -71,14 +71,6 @@ useEffect(() => {
     fetchImages()
 }, [weatherData, apparel]);
 
-const handleAdd = async (topApparelId, bottomApparelId) => {
-    const apparel = {
-        top: topApparelId,
-        bottom: bottomApparelId
-    }
-   await addOutfitService(apparel);
-}
-
 const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -86,6 +78,14 @@ const shuffleArray = (array) => {
     }
     return array;
   };
+
+const handleAdd = async (topApparelId, bottomApparelId) => {
+    const apparel = {
+        top: topApparelId,
+        bottom: bottomApparelId
+    }
+   await addOutfitService(apparel);
+}
 
     return (
         <>
@@ -106,11 +106,11 @@ const shuffleArray = (array) => {
                     src={bottomApparelImages[index] || ""}
                     alt={filteredBottomApparel[index]?._id || ""}
                 />
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
-                    Add to Favourites
-                </button>
                 <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
                     I worn this!
+                </button>
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
+                    Add to Favourites
                 </button>
             </span>
         </div>

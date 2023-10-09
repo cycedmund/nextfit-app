@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { addOutfitService } from "../../utilities/outfits-service";
 import { getAllApparelService } from "../../utilities/wardrobe-service";
-import "./Weather.css"
+import shuffleArray from "../../helpers/shuffleArray";
+import "./Weather.css";
 
 export default function Weather() {
     const [weatherData, setWeatherData] = useState(null);
@@ -52,14 +53,25 @@ const fetchImages = async () => {
             filteredTopApparel = apparel.filter((item) => topCategories.includes(item.subCategory));
             filteredBottomApparel = apparel.filter((item) => bottomCategories.includes(item.subCategory));
 
-        if (filteredTopApparel.length > 0) {
-        const shuffledTopApparel = shuffleArray(filteredTopApparel.map((item) => item.imageURL));
-            setTopApparelImages(shuffledTopApparel.slice(0, 5));
-        }
-        if (filteredBottomApparel.length > 0) {
-        const shuffledBottomApparel = shuffleArray(filteredBottomApparel.map((item) => item.imageURL));
-            setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
-        }
+            // ChatGPT - How to ensure there are 5 tops and bottoms listed even when the clothing items uploaded are less than 5
+            while (filteredTopApparel.length < 5) {
+                const randomIndex = Math.floor(Math.random() * filteredTopApparel.length);
+                const randomTop = filteredTopApparel[randomIndex]?.imageURL;
+                filteredTopApparel.push({ imageURL: randomTop });
+            }
+            while (filteredBottomApparel.length < 5) {
+                const randomIndex = Math.floor(Math.random() * filteredBottomApparel.length);
+                const randomBottom = filteredBottomApparel[randomIndex]?.imageURL;
+                filteredBottomApparel.push({ imageURL: randomBottom });
+            }
+            if (filteredTopApparel.length > 0) {
+                const shuffledTopApparel = shuffleArray(filteredTopApparel.map((item) => item.imageURL));
+                setTopApparelImages(shuffledTopApparel.slice(0, 5));
+            }
+            if (filteredBottomApparel.length > 0) {
+                const shuffledBottomApparel = shuffleArray(filteredBottomApparel.map((item) => item.imageURL));
+                setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
+            }
         } else {
             setTopApparelImages([]);
             setBottomApparelImages([]);
@@ -70,14 +82,6 @@ const fetchImages = async () => {
 useEffect(() => {
     fetchImages()
 }, [weatherData, apparel]);
-
-const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
 
 const handleAdd = async (topApparelId, bottomApparelId) => {
     const apparel = {
@@ -92,25 +96,23 @@ const handleAdd = async (topApparelId, bottomApparelId) => {
         <h1 className="ml-24 mt-20 text-2xl">Top 5 Outfits Today Based on Weather in Singapore</h1>
         <p className="ml-24 text-base mt-1">Current weather: <span className="current-weather capitalize text-yellow-300 font-bold">{weatherData}</span> | <span className="current-weather capitalize text-yellow-300 font-bold">{temperatureData}°C</span></p>
         <div className="weather-table -mt-10">
-    {topApparelImages.map((topImage, index) => (
+    {topApparelImages.map((_, index) => (
         <div key={`weather-outfit-${index + 1}`} className={`weather${index + 1}`}>
             {index + 1}
             <span className="weather-outfit flex flex-col">
                 <img
-                    className="w-28 h-28 object-cover rounded-t"
-                    src={topImage || ""}
-                    alt={filteredTopApparel[index]?._id || " "}
+                    className="w-28 h-32 object-cover rounded-t"
+                    src={topApparelImages[index] || ""}
                 />
                 <img
                     className="w-28 h-32 object-cover rounded-b"
                     src={bottomApparelImages[index] || ""}
-                    alt={filteredBottomApparel[index]?._id || ""}
                 />
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
-                    I worn this!
-                </button>
                 <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
                     Add to Favourites
+                </button>
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
+                    I worn this!
                 </button>
             </span>
         </div>

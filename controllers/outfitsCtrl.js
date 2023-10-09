@@ -3,10 +3,11 @@ const debug = require("debug")("nextfit:controllers:outfitCtrl");
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
-  const apparel = req.body;  //* save tops and bottoms from generated outfit
+  const { apparel } = req.body; //* save tops and bottoms from generated outfit
+  debug("apparel", apparel);
   try {
     const newOutfit = await Outfit.create({
-      apparel,
+      apparels: apparel,
       user: req.user._id,
     });
     res.status(201).json({
@@ -72,7 +73,7 @@ async function showOne(req, res) {
     const outfit = await Outfit.findOne({
       _id: req.params.outfitID,
       user: req.user._id,
-    }).populate('apparels');
+    }).populate("apparels");
     debug("show outfit by user: %o", outfit);
     res.status(200).json({ status: "success" });
   } catch (err) {

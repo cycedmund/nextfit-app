@@ -10,10 +10,14 @@ import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown } from "react-icons/fa6";
+import { useParams } from "react-router-dom";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelEditForm() {
+
+  const {apparelId} = useParams(); 
+
   const initialApparelData = {
     mainCategory: "",
     subCategory: "",
@@ -89,7 +93,7 @@ function ApparelEditForm() {
         encType="multipart/form-data"
       >
         <header className="text-black font-inter font-light text-2xl text-center my-4">
-          Make your edits here!
+          Make your edits here! 
         </header>
         <div className="flex mb-6">
           <div className="w-1/2 pr-2 relative">

@@ -13,6 +13,8 @@ export default function Weather() {
     const [bottomApparelImages, setBottomApparelImages] = useState([]);
     let filteredTopApparel = [];
     let filteredBottomApparel = [];
+    const [filteredTop, setFilteredTop] = useState([]);
+    const [filteredBottom, setFilteredBottom] = useState([]);
 
 useEffect(() => {
     const fetchApparelData = async () => {
@@ -72,6 +74,8 @@ const fetchImages = async () => {
                 const shuffledBottomApparel = shuffleArray(filteredBottomApparel.map((item) => item.imageURL));
                 setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
             }
+            setFilteredTop(filteredTopApparel);
+            setFilteredBottom(filteredBottomApparel);
         } else {
             setTopApparelImages([]);
             setBottomApparelImages([]);
@@ -88,9 +92,8 @@ const handleAdd = async (topApparelId, bottomApparelId) => {
         top: topApparelId,
         bottom: bottomApparelId
     }
-   await addOutfitService(apparel);
+    await addOutfitService(apparel);
 }
-
     return (
         <>
         <h1 className="ml-24 mt-20 text-2xl">Top 5 Outfits Today Based on Weather in Singapore</h1>
@@ -108,7 +111,7 @@ const handleAdd = async (topApparelId, bottomApparelId) => {
                     className="w-28 h-32 object-cover rounded-b"
                     src={bottomApparelImages[index] || ""}
                 />
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTop[index]?._id, filteredBottom[index]?._id)}>
                     Add to Favourites
                 </button>
                 <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">

@@ -12,11 +12,12 @@ function AuthPage({ setUser }) {
   };
 
   return (
-    <div className="bg-black h-screen text-white p-4">
-      <span className="self-center text-4xl font-bebas text-[#E50914] whitespace-nowrap">
+    <>
+      <span className="absolute top-4 left-4">
         <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
       </span>
-      <main className="container flex mx-auto h-[80vh] items-center justify-center">
+
+      <main className="text-white p-4 container flex mx-auto min-h-screen items-center justify-center">
         {location.pathname === "/signup" ? (
           <SignUpForm
             setUser={setUser}
@@ -31,7 +32,7 @@ function AuthPage({ setUser }) {
           />
         ) : null}
       </main>
-    </div>
+    </>
   );
 }
 

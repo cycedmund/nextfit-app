@@ -51,10 +51,6 @@ function WardrobePage() {
           sliderRef.current.slickGoTo(0, true);
         }
         Swal.fire(swalBasicSettings("Deleted!", "success"));
-        // // console.log(sliderRef.current.innerSlider.state.currentSlide);
-        // if (currentSlideIndex <= 5) {
-        //   sliderRef.current.slickGoTo(0);
-        // }
       } catch (err) {
         console.error(err);
         Swal.fire({
@@ -66,8 +62,8 @@ function WardrobePage() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-xl p-4">
-      <header className="flex mx-4 mb-4 justify-end items-center">
+    <div className="max-w-screen">
+      <header className="flex mx-4 justify-end items-center">
         <PiTShirtLight className="text-3xl" />
         <Link to="/wardrobe/new" className="flex items-center justify-center">
           <LuPlusSquare className="text-4xl" />

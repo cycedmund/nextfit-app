@@ -4,8 +4,8 @@ import { getAllApparelService } from "../../utilities/wardrobe-service";
 
 //* fetch from database
 const favOutfits = [
-  { _id: 17691, apparels: [ "6523617d4265a9ae81b70165", "652361a74265a9ae81b70169" ] },
-  { _id: 17698, apparels: [ "652367b5ff12811b33d0b3f3", "652366c0ff12811b33d0b3e0" ] },
+  { _id: 17691, top: "6523617d4265a9ae81b70165", bottom: "652361a74265a9ae81b70169" },
+  { _id: 17698, top: "652367b5ff12811b33d0b3f3", bottom: "652366c0ff12811b33d0b3e0" },
 ];
 
 function FavouritesPage() {

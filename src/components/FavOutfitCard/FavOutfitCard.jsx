@@ -5,7 +5,9 @@ const log = debug("nextfit:src:components:FavOutfitCard");
 function FavOutfitCard({ outfit, wardrobe }) {
   log(outfit);
 
-  const [ topID, bottomID ] = outfit.apparels;
+  console.log(outfit);
+  const topID = outfit.top;
+  const bottomID = outfit.bottom;
 
   //* filter wardrobe items with topID and bottomID
   const wardrobeFiltered =  wardrobe.filter(item => (item._id === topID || item._id === bottomID));
@@ -16,7 +18,7 @@ function FavOutfitCard({ outfit, wardrobe }) {
   //   wardrobeFiltered[0] = wardrobeFiltered[1];
   //   wardrobeFiltered[1] = temp;
   // }
-  console.log(wardrobeFiltered[0]);
+  // console.log(wardrobeFiltered[0]);
 
   return (
     <article className="border-white">

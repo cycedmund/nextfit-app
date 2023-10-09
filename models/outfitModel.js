@@ -3,15 +3,7 @@ const { Schema, model } = mongoose;
 
 const outfitSchema = new Schema(
   {
-    top: {
-      type: Schema.Types.ObjectId,
-      ref: "Wardrobe",
-    },
-    bottom: {
-      type: Schema.Types.ObjectId,
-      ref: "Wardrobe",
-    },
-    outerwear: {
+    apparels: {
       type: Schema.Types.ObjectId,
       ref: "Wardrobe",
     },

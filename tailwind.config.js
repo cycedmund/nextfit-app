@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         bebas: ["Bebas Neue", "sans-serif"],
         inter: ["Inter", "sans-serif"],
+        mont: ["Montserrat", "sans-serif"],
       },
       fontSize: {
         tiny: "13px",

@@ -21,9 +21,9 @@ function NavBar({ user, setUser }) {
 
   return (
     <nav>
-      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4 font-inter font-extralight">
+      <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen p-4 font-inter font-extralight">
         <div className="flex items-center">
-          <span className="self-center text-4xl font-bebas text-[#E50914] whitespace-nowrap mr-10">
+          <span className="mr-10">
             <Link to="/home">
               <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
             </Link>

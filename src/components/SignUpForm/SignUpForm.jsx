@@ -112,6 +112,7 @@ function SignUpForm({ setUser, visibility, handlePasswordVisibility }) {
             <button
               className="btn btn-sm btn-ghost text-neutral-500 font-inter font-extralight absolute inset-y-1 right-0 pr-3 flex items-center"
               onClick={handlePasswordVisibility}
+              type="button"
             >
               {visibility ? (
                 <AiOutlineEyeInvisible className="text-2xl" />
@@ -142,6 +143,7 @@ function SignUpForm({ setUser, visibility, handlePasswordVisibility }) {
             <button
               className="btn btn-sm btn-ghost text-neutral-500 font-inter font-extralight absolute inset-y-1 right-0 pr-3 flex items-center"
               onClick={handlePasswordVisibility}
+              type="button"
             >
               {visibility ? (
                 <AiOutlineEyeInvisible className="text-2xl" />

@@ -1,5 +1,5 @@
 import debug from "debug";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   addApparelService,
   uploadToS3Service,
@@ -9,7 +9,7 @@ import {
 import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
-import { FaCaretDown } from "react-icons/fa6";
+import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -18,16 +18,18 @@ function ApparelForm() {
     mainCategory: "",
     subCategory: "",
     fit: "",
-    images: [],
-    preview: [],
   };
   const [apparelData, setApparelData] = useState(initialApparelData);
+  const [imageFiles, setImageFiles] = useState({
+    images: [],
+    preview: [],
+    filenames: [],
+  });
   const [status, setStatus] = useState(null);
-  const inputImage = useRef(null);
 
   const resetApparelForm = () => {
     setApparelData(initialApparelData);
-    inputImage.current.value = "";
+    setImageFiles({ images: [], preview: [], filenames: [] });
     setStatus(null);
   };
 
@@ -41,26 +43,29 @@ function ApparelForm() {
   const handleImgFileInput = (e) => {
     const imgFiles = Array.from(e.target.files);
     const updatedPreview = [];
+    const updatedFilenames = [];
 
     imgFiles.forEach((img) => {
       const imgUrl = URL.createObjectURL(img);
       updatedPreview.push(imgUrl);
+      updatedFilenames.push(img.name);
     });
-    setApparelData({
-      ...apparelData,
-      images: [...apparelData.images, ...imgFiles],
-      preview: [...apparelData.preview, ...updatedPreview],
+    log("imges", imgFiles);
+    setImageFiles({
+      images: [...imageFiles.images, ...imgFiles],
+      preview: [...imageFiles.preview, ...updatedPreview],
+      filenames: [...imageFiles.filenames, ...updatedFilenames],
     });
     log("Image uploaded");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (apparelData.images.length === 0) return;
+    if (imageFiles.images.length === 0) return;
     setStatus("loading");
 
     const imgFormData = new FormData();
-    apparelData.images.forEach((img) => {
+    imageFiles.images.forEach((img) => {
       imgFormData.append("images", img);
     });
     log("images appended to form", imgFormData);
@@ -78,6 +83,14 @@ function ApparelForm() {
     } finally {
       setStatus("Apparel saved!");
     }
+  };
+
+  const handleRemoveImage = () => {
+    setImageFiles({
+      images: [],
+      preview: [],
+      filenames: [],
+    });
   };
 
   return (
@@ -177,20 +190,35 @@ function ApparelForm() {
               >
                 Image
               </label>
-              <input
-                ref={inputImage}
-                className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
-                id="image"
-                type="file"
-                accept="image/*"
-                required
-                onChange={handleImgFileInput}
-              />
+              {imageFiles.images.length !== 0 ? (
+                <span>
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="btn btn-neutral rounded-none bg-neutral-300 text-neutral-500 border-none mb-2"
+                  >
+                    Remove File
+                  </button>
+                  <h3 className="text-neutral-500 font-inter font-normal flex items-center justify-start">
+                    <FaRegFileImage className="text-xl" />
+                    {imageFiles.filenames}
+                  </h3>
+                </span>
+              ) : (
+                <input
+                  className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                  required
+                  onChange={handleImgFileInput}
+                />
+              )}
             </div>
           </div>
           <div className="w-1/2 pl-2">
-            {apparelData.preview.length !== 0 ? (
-              apparelData.preview.map((img, idx) => (
+            {imageFiles.preview.length !== 0 ? (
+              imageFiles.preview.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}

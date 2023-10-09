@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function LandingPage() {
   return (
     <>
-      <span className="absolute top-4 left-4 md:left-28">
+      <span className="absolute top-4 left-4">
         <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
       </span>
       <div
@@ -31,7 +31,7 @@ function LandingPage() {
         </div>
       </div>
       <Link to="/login">
-        <span className="text-white text-md btn btn-ghost btn-sm bg-[#E50A14] hover:bg-[#c11119] rounded-md absolute top-4 right-4 md:right-28 normal-case">
+        <span className="text-white text-md btn btn-ghost btn-sm bg-[#E50A14] hover:bg-[#c11119] rounded-md absolute top-4 right-4 normal-case">
           Sign In
         </span>
       </Link>

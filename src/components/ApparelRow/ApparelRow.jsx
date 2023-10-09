@@ -51,7 +51,7 @@ function ApparelRow({
   };
 
   return (
-    <div className="p-6 relative">
+    <div className="px-6 relative">
       <header className="mx-4 px-6 font-inter font-thin text-2xl">
         {category}
         {"s"}
@@ -60,7 +60,7 @@ function ApparelRow({
         onClick={prev}
         className={`absolute top-[50%] -translate-y-1/2 left-0 z-50 text-7xl cursor-pointer ${
           currentSlideIndex === 0 || categorizedApparel.length <= 5
-            ? "opacity-0"
+            ? "opacity-0 pointer-events-none"
             : "opacity-100"
         }`}
       />
@@ -85,12 +85,11 @@ function ApparelRow({
           ))}
         </div>
       )}
-
       <MdNavigateNext
         onClick={next}
         className={`absolute top-[50%] -translate-y-1/2 right-0 z-50 text-7xl cursor-pointer ${
           currentSlideIndex >= categorizedApparel.length - 5
-            ? "opacity-0"
+            ? "opacity-0 pointer-events-none"
             : "opacity-100"
         }`}
       />

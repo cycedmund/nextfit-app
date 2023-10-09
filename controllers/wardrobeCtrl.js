@@ -84,16 +84,16 @@ async function del(req, res) {
 
 async function updateOne(req, res) {
   debug("see req.user: %o", req.user);
-  debug("id", req.params.apparelId)
+  debug("id", req.params.apparelId);
   try {
     const updatedApparel = await Wardrobe.findByIdAndUpdate(
-      { _id: req.params.apparelId},
+      { _id: req.params.apparelId },
       {
         mainCategory: req.body.mainCategory,
         subCategory: req.body.subCategory,
-        fit: req.body.fit
+        fit: req.body.fit,
       },
-      {new: true}
+      { new: true }
     );
     debug("found apparel by user: %o", updatedApparel);
     res.status(200).json({
@@ -112,4 +112,25 @@ async function updateOne(req, res) {
   }
 }
 
-module.exports = { uploadImg, create, getAll, del, updateOne };
+async function updateWornFreq(req, res) {
+  const { topApparelID, bottomApparelID } = req.body;
+  try {
+    const { top, bottom } = await Wardrobe.updateWornFrequency(
+      topApparelID,
+      bottomApparelID
+    );
+    res.status(200).json({
+      status: "success",
+      data: { top, bottom },
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Error updating worn frequency",
+      error: err,
+    });
+  }
+}
+
+module.exports = { uploadImg, create, getAll, del, updateOne, updateWornFreq };

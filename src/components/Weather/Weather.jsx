@@ -5,18 +5,18 @@ import { getAllApparelService } from "../../utilities/wardrobe-service";
 import shuffleArray from "../../helpers/shuffleArray";
 import "./Weather.css";
 
-export default function Weather() {
-    const [weatherData, setWeatherData] = useState(null);
-    const [temperatureData, setTemperatureData] = useState(null);
-    const [apparel, setApparel] = useState([]);
-    const [topApparelImages, setTopApparelImages] = useState([]);
-    const [bottomApparelImages, setBottomApparelImages] = useState([]);
-    let filteredTopApparel = [];
-    let filteredBottomApparel = [];
-    const [filteredTop, setFilteredTop] = useState([]);
-    const [filteredBottom, setFilteredBottom] = useState([]);
+export default function Weather({ handleUpdateWornFreq }) {
+  const [weatherData, setWeatherData] = useState(null);
+  const [temperatureData, setTemperatureData] = useState(null);
+  const [apparel, setApparel] = useState([]);
+  const [topApparelImages, setTopApparelImages] = useState([]);
+  const [bottomApparelImages, setBottomApparelImages] = useState([]);
+  let filteredTopApparel = [];
+  let filteredBottomApparel = [];
+  const [filteredTop, setFilteredTop] = useState([]);
+  const [filteredBottom, setFilteredBottom] = useState([]);
 
-useEffect(() => {
+  useEffect(() => {
     const fetchApparelData = async () => {
       const allApparel = await getAllApparelService();
       setApparel(allApparel);
@@ -24,103 +24,153 @@ useEffect(() => {
     fetchApparelData();
   }, []);
 
-useEffect(() => {
-const fetchWeather = async () => {
-    try {
-        const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=singapore&appid=4f57d9637c4c70579c074808bb3a6254&units=metric`);
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=singapore&appid=4f57d9637c4c70579c074808bb3a6254&units=metric`
+        );
         setWeatherData(response.data.weather[0].description);
         setTemperatureData(Math.round(response.data.main.temp));
-    } catch (error) {
+      } catch (error) {
         console.log("Error");
-    }
-}; fetchWeather();
-}, []);
+      }
+    };
+    fetchWeather();
+  }, []);
 
-const fetchImages = async () => {
+  const fetchImages = async () => {
     if (weatherData) {
-        const weatherConditions = ["clouds", "clear", "sunny", "haze", "rain"];
-        const lowercaseData = weatherData.toLowerCase();
-        const fetchImage = weatherConditions.some((condition) => lowercaseData.includes(condition));
-    
-        if (fetchImage) {
-            let topCategories = [];
-            let bottomCategories = [];
-            if (lowercaseData.includes("rain")) {
-                topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
-                bottomCategories = ["Pants", "Jeans", "Sweatpants"];
-            } else {
-                topCategories = ["Blouse", "T-shirt", "Polo Shirt", "Singlet", "Shirt"];
-                bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
-            }
-            filteredTopApparel = apparel.filter((item) => topCategories.includes(item.subCategory));
-            filteredBottomApparel = apparel.filter((item) => bottomCategories.includes(item.subCategory));
+      const weatherConditions = ["clouds", "clear", "sunny", "haze", "rain"];
+      const lowercaseData = weatherData.toLowerCase();
+      const fetchImage = weatherConditions.some((condition) =>
+        lowercaseData.includes(condition)
+      );
 
-            // ChatGPT - How to ensure there are 5 tops and bottoms listed even when the clothing items uploaded are less than 5
-            while (filteredTopApparel.length < 5) {
-                const randomIndex = Math.floor(Math.random() * filteredTopApparel.length);
-                const randomTop = filteredTopApparel[randomIndex]?.imageURL;
-                filteredTopApparel.push({ imageURL: randomTop });
-            }
-            while (filteredBottomApparel.length < 5) {
-                const randomIndex = Math.floor(Math.random() * filteredBottomApparel.length);
-                const randomBottom = filteredBottomApparel[randomIndex]?.imageURL;
-                filteredBottomApparel.push({ imageURL: randomBottom });
-            }
-            if (filteredTopApparel.length > 0) {
-                const shuffledTopApparel = shuffleArray(filteredTopApparel.map((item) => item.imageURL));
-                setTopApparelImages(shuffledTopApparel.slice(0, 5));
-            }
-            if (filteredBottomApparel.length > 0) {
-                const shuffledBottomApparel = shuffleArray(filteredBottomApparel.map((item) => item.imageURL));
-                setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
-            }
-            setFilteredTop(filteredTopApparel);
-            setFilteredBottom(filteredBottomApparel);
+      if (fetchImage) {
+        let topCategories = [];
+        let bottomCategories = [];
+        if (lowercaseData.includes("rain")) {
+          topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
+          bottomCategories = ["Pants", "Jeans", "Sweatpants"];
         } else {
-            setTopApparelImages([]);
-            setBottomApparelImages([]);
+          topCategories = [
+            "Blouse",
+            "T-shirt",
+            "Polo Shirt",
+            "Singlet",
+            "Shirt",
+          ];
+          bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
         }
+        filteredTopApparel = apparel.filter((item) =>
+          topCategories.includes(item.subCategory)
+        );
+        filteredBottomApparel = apparel.filter((item) =>
+          bottomCategories.includes(item.subCategory)
+        );
+
+        // ChatGPT - How to ensure there are 5 tops and bottoms listed even when the clothing items uploaded are less than 5
+        while (filteredTopApparel.length < 5) {
+          const randomIndex = Math.floor(
+            Math.random() * filteredTopApparel.length
+          );
+          const randomTop = filteredTopApparel[randomIndex]?.imageURL;
+          filteredTopApparel.push({ imageURL: randomTop });
+        }
+        while (filteredBottomApparel.length < 5) {
+          const randomIndex = Math.floor(
+            Math.random() * filteredBottomApparel.length
+          );
+          const randomBottom = filteredBottomApparel[randomIndex]?.imageURL;
+          filteredBottomApparel.push({ imageURL: randomBottom });
+        }
+        if (filteredTopApparel.length > 0) {
+          const shuffledTopApparel = shuffleArray(
+            filteredTopApparel.map((item) => item.imageURL)
+          );
+          setTopApparelImages(shuffledTopApparel.slice(0, 5));
+        }
+        if (filteredBottomApparel.length > 0) {
+          const shuffledBottomApparel = shuffleArray(
+            filteredBottomApparel.map((item) => item.imageURL)
+          );
+          setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
+        }
+        setFilteredTop(filteredTopApparel);
+        setFilteredBottom(filteredBottomApparel);
+      } else {
+        setTopApparelImages([]);
+        setBottomApparelImages([]);
+      }
     }
-}
+  };
 
-useEffect(() => {
-    fetchImages()
-}, [weatherData, apparel]);
+  useEffect(() => {
+    fetchImages();
+  }, [weatherData, apparel]);
 
-const handleAdd = async (topApparelId, bottomApparelId) => {
+  const handleAdd = async (topApparelId, bottomApparelId) => {
     const apparel = {
-        top: topApparelId,
-        bottom: bottomApparelId
-    }
+      top: topApparelId,
+      bottom: bottomApparelId,
+    };
     await addOutfitService(apparel);
-}
-    return (
-        <>
-        <h1 className="ml-24 mt-20 text-2xl">Top 5 Outfits Today Based on Weather in Singapore</h1>
-        <p className="ml-24 text-base mt-1">Current weather: <span className="current-weather capitalize text-yellow-300 font-bold">{weatherData}</span> | <span className="current-weather capitalize text-yellow-300 font-bold">{temperatureData}°C</span></p>
-        <div className="weather-table -mt-10">
-    {topApparelImages.map((_, index) => (
-        <div key={`weather-outfit-${index + 1}`} className={`weather${index + 1}`}>
+  };
+  return (
+    <>
+      <h1 className="ml-24 mt-20 text-2xl">
+        Top 5 Outfits Today Based on Weather in Singapore
+      </h1>
+      <p className="ml-24 text-base mt-1">
+        Current weather:{" "}
+        <span className="current-weather capitalize text-yellow-300 font-bold">
+          {weatherData}
+        </span>{" "}
+        |{" "}
+        <span className="current-weather capitalize text-yellow-300 font-bold">
+          {temperatureData}°C
+        </span>
+      </p>
+      <div className="weather-table -mt-10">
+        {topApparelImages.map((_, index) => (
+          <div
+            key={`weather-outfit-${index + 1}`}
+            className={`weather${index + 1}`}
+          >
             {index + 1}
             <span className="weather-outfit flex flex-col">
-                <img
-                    className="w-28 h-32 object-cover rounded-t"
-                    src={topApparelImages[index] || ""}
-                />
-                <img
-                    className="w-28 h-32 object-cover rounded-b"
-                    src={bottomApparelImages[index] || ""}
-                />
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTop[index]?._id, filteredBottom[index]?._id)}>
-                    Add to Favourites
-                </button>
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
-                    I worn this!
-                </button>
+              <img
+                className="w-28 h-32 object-cover rounded-t"
+                src={topApparelImages[index] || ""}
+              />
+              <img
+                className="w-28 h-32 object-cover rounded-b"
+                src={bottomApparelImages[index] || ""}
+              />
+              <button
+                className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2"
+                onClick={() =>
+                  handleAdd(filteredTop[index]?._id, filteredBottom[index]?._id)
+                }
+              >
+                Add to Favourites
+              </button>
+              <button
+                className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2"
+                onClick={() =>
+                  handleUpdateWornFreq({
+                    topApparelID: filteredTop[index]?._id,
+                    bottomApparelID: filteredBottom[index]?._id,
+                  })
+                }
+              >
+                I worn this!
+              </button>
             </span>
-        </div>
-    ))}
-</div>
-        </>
-    )
+          </div>
+        ))}
+      </div>
+    </>
+  );
 }

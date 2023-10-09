@@ -9,6 +9,7 @@ import {
   addApparelAPI,
   getAllApparelAPI,
   deleteApparelAPI,
+  patchApparelFrequencyAPI,
 } from "./wardrobe-api";
 
 export async function uploadToS3Service(imgFormData) {
@@ -31,6 +32,10 @@ export async function getAllApparelService() {
 
 export async function deleteApparelService(apparelID) {
   await deleteApparelAPI(apparelID);
+}
+
+export async function patchApparelFrequencyService(outfitID) {
+  await patchApparelFrequencyAPI(outfitID);
 }
 
 export function getUniqueCategories(apparel) {

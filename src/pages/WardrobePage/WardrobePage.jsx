@@ -5,8 +5,6 @@ import {
   getUniqueCategories,
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
-import { LuPlusSquare } from "react-icons/lu";
-import { PiPantsLight, PiTShirtLight } from "react-icons/pi";
 import debug from "debug";
 import { Link } from "react-router-dom";
 import ApparelRow from "../../components/ApparelRow/ApparelRow";
@@ -51,10 +49,6 @@ function WardrobePage() {
           sliderRef.current.slickGoTo(0, true);
         }
         Swal.fire(swalBasicSettings("Deleted!", "success"));
-        // // console.log(sliderRef.current.innerSlider.state.currentSlide);
-        // if (currentSlideIndex <= 5) {
-        //   sliderRef.current.slickGoTo(0);
-        // }
       } catch (err) {
         console.error(err);
         Swal.fire({
@@ -66,28 +60,38 @@ function WardrobePage() {
   };
 
   return (
-    <div className="mx-auto max-w-screen-xl p-4">
-      <header className="flex mx-4 mb-4 justify-end items-center">
-        <PiTShirtLight className="text-3xl" />
-        <Link to="/wardrobe/new" className="flex items-center justify-center">
-          <LuPlusSquare className="text-4xl" />
-        </Link>
-        <PiPantsLight className="text-3xl" />
-      </header>
+    <div className="max-w-screen">
       <main className="flex flex-col">
-        {categories.map((category, index) => {
-          return (
-            <ApparelRow
-              key={index}
-              category={category}
-              apparel={apparel}
-              handleDelete={handleDelete}
-              sliderRef={sliderRef}
-              currentSlideIndex={currentSlideIndex}
-              setCurrentSlideIndex={setCurrentSlideIndex}
-            />
-          );
-        })}
+        {categories.length !== 0 ? (
+          categories.map((category, index) => {
+            return (
+              <ApparelRow
+                key={index}
+                category={category}
+                apparel={apparel}
+                handleDelete={handleDelete}
+                sliderRef={sliderRef}
+                currentSlideIndex={currentSlideIndex}
+                setCurrentSlideIndex={setCurrentSlideIndex}
+              />
+            );
+          })
+        ) : (
+          <div className="hero h-[80vh] bg-black">
+            <div className="hero-content text-center">
+              <div className="max-w-md">
+                <h1 className="text-5xl font-bold mb-8">
+                  Start by adding to your wardrobe!
+                </h1>
+                <Link to="/wardrobe/new">
+                  <button className="btn btn-ghost text-white text-2xl bg-[#E50A14] hover:bg-[#c11119] rounded-md normal-case">
+                    Start Your Journey
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

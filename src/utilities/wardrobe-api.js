@@ -17,3 +17,7 @@ export function getAllApparelAPI() {
 export function deleteApparelAPI(apparelID) {
   return sendRequest(`${BASE_URL}/${apparelID}`, "DELETE");
 }
+
+export function patchApparelFrequencyAPI(outfitID) {
+  return sendRequest(`${BASE_URL}/frequency`, "PATCH", outfitID);
+}

@@ -12,7 +12,7 @@ export async function addOutfitService(outfitData) {
 
 export async function getAllOutfitService() {
   const allOutfits = await getAllOutfitAPI();
-  return allOutfits.data.apparel;
+  return allOutfits.data.outfits;
 }
 
 export async function deleteOutfitService(outfitID) {

@@ -2,12 +2,16 @@ import { RxCross1 } from "react-icons/rx";
 import { PiPencil } from "react-icons/pi";
 import { Link } from "react-router-dom";
 
+
 function ApparelCard({ item, handleDelete }) {
+
+ 
+
   return (
     <article>
       <div className="bg-stone-400 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
         <span className="flex items-center justify-end">
-          <Link to='/wardrobe/:apparelId/edit'> 
+          <Link to={`/wardrobe/${item._id}/edit`}> 
             <PiPencil 
             className="text-md mb-2 text-black cursor-pointer"
             />

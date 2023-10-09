@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { addOutfitService } from "../../utilities/outfits-service";
 import { getAllApparelService } from "../../utilities/wardrobe-service";
 import "./Weather.css"
 
@@ -78,6 +79,14 @@ const shuffleArray = (array) => {
     return array;
   };
 
+const handleAdd = async (topApparelId, bottomApparelId) => {
+    const apparel = {
+        top: topApparelId,
+        bottom: bottomApparelId
+    }
+   await addOutfitService(apparel);
+}
+
     return (
         <>
         <h1 className="ml-24 mt-20 text-2xl">Top 5 Outfits Today Based on Weather in Singapore</h1>
@@ -97,11 +106,11 @@ const shuffleArray = (array) => {
                     src={bottomApparelImages[index] || ""}
                     alt={filteredBottomApparel[index]?._id || ""}
                 />
-                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2">
-                    Add to Favourites
-                </button>
                 <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2">
                     I worn this!
+                </button>
+                <button className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2" onClick={() => handleAdd(filteredTopApparel[index]?._id, filteredBottomApparel[index]?._id)}>
+                    Add to Favourites
                 </button>
             </span>
         </div>

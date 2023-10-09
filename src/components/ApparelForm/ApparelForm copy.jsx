@@ -1,5 +1,5 @@
 import debug from "debug";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   addApparelService,
   uploadToS3Service,
@@ -18,18 +18,16 @@ function ApparelForm() {
     mainCategory: "",
     subCategory: "",
     fit: "",
-  };
-  const [apparelData, setApparelData] = useState(initialApparelData);
-  const [imageFiles, setImageFiles] = useState({
     images: [],
     preview: [],
-    filenames: [],
-  });
+  };
+  const [apparelData, setApparelData] = useState(initialApparelData);
   const [status, setStatus] = useState(null);
+  const inputImage = useRef(null);
 
   const resetApparelForm = () => {
     setApparelData(initialApparelData);
-    setImageFiles({ images: [], preview: [], filenames: [] });
+    inputImage.current.value = "";
     setStatus(null);
   };
 
@@ -43,29 +41,26 @@ function ApparelForm() {
   const handleImgFileInput = (e) => {
     const imgFiles = Array.from(e.target.files);
     const updatedPreview = [];
-    const updatedFilenames = [];
 
     imgFiles.forEach((img) => {
       const imgUrl = URL.createObjectURL(img);
       updatedPreview.push(imgUrl);
-      updatedFilenames.push(img.name);
     });
-    log("imges", imgFiles);
-    setImageFiles({
-      images: [...imageFiles.images, ...imgFiles],
-      preview: [...imageFiles.preview, ...updatedPreview],
-      filenames: [...imageFiles.filenames, ...updatedFilenames],
+    setApparelData({
+      ...apparelData,
+      images: [...apparelData.images, ...imgFiles],
+      preview: [...apparelData.preview, ...updatedPreview],
     });
     log("Image uploaded");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (imageFiles.images.length === 0) return;
+    if (apparelData.images.length === 0) return;
     setStatus("loading");
 
     const imgFormData = new FormData();
-    imageFiles.images.forEach((img) => {
+    apparelData.images.forEach((img) => {
       imgFormData.append("images", img);
     });
     log("images appended to form", imgFormData);
@@ -86,10 +81,10 @@ function ApparelForm() {
   };
 
   const handleRemoveImage = () => {
-    setImageFiles({
+    setApparelData({
+      ...apparelData,
       images: [],
       preview: [],
-      filenames: [],
     });
   };
 
@@ -190,7 +185,7 @@ function ApparelForm() {
               >
                 Image
               </label>
-              {imageFiles.images.length !== 0 ? (
+              {apparelData.images.length !== 0 ? (
                 <span>
                   <button
                     type="button"
@@ -201,11 +196,12 @@ function ApparelForm() {
                   </button>
                   <h3 className="text-neutral-500 font-inter font-normal flex items-center justify-start">
                     <FaRegFileImage className="text-xl" />
-                    {imageFiles.filenames}
+                    {inputImage?.current?.files[0]?.name}
                   </h3>
                 </span>
               ) : (
                 <input
+                  ref={inputImage}
                   className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
                   id="image"
                   type="file"
@@ -217,8 +213,8 @@ function ApparelForm() {
             </div>
           </div>
           <div className="w-1/2 pl-2">
-            {imageFiles.preview.length !== 0 ? (
-              imageFiles.preview.map((img, idx) => (
+            {apparelData.preview.length !== 0 ? (
+              apparelData.preview.map((img, idx) => (
                 <img
                   key={idx}
                   src={img}

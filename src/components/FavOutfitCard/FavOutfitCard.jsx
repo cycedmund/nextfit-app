@@ -5,12 +5,16 @@ const log = debug("nextfit:src:components:FavOutfitCard");
 function FavOutfitCard({ outfit, wardrobe }) {
   log(outfit);
 
-  console.log(outfit);
-  const topID = outfit.top;
-  const bottomID = outfit.bottom;
+  // console.log(outfit);
+  const topID = outfit.apparels.top;
+  const bottomID = outfit.apparels.bottom;
 
   //* filter wardrobe items with topID and bottomID
   const wardrobeFiltered =  wardrobe.filter(item => (item._id === topID || item._id === bottomID));
+  // const wardrobeFiltered = [
+  //   wardrobe.filter(item => item._id === topID), 
+  //   wardrobe.filter(item => item._id === bottomID)
+  // ] 
 
   //* sort wardrobe to show top then bottom
   // if (wardrobeFiltered[0].mainCategory !== "Top") {

@@ -1,9 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logOutService } from "../../utilities/users-service";
 import { TbUserSquare } from "react-icons/tb";
 
 function NavBar({ user, setUser }) {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const pages = [
+    { link: "/home", title: "Home" },
+    { link: "/wardrobe", title: "My Wardrobe" },
+    { link: "/wardrobe/favourites", title: "My Favourites" },
+  ];
 
   const handleLogOut = (e) => {
     e.preventDefault();
@@ -21,21 +28,19 @@ function NavBar({ user, setUser }) {
               <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
             </Link>
           </span>
-          <Link to="/home" className="mr-6 text-md  text-white hover:underline">
-            Home
-          </Link>
-          <Link
-            to="/wardrobe"
-            className="text-md  text-white hover:underline mr-6"
-          >
-            My Wardrobe
-          </Link>
-          <Link
-            to="/wardrobe/favourites"
-            className="text-md  text-white hover:underline"
-          >
-            My Favourites
-          </Link>
+          {pages.map((page) => (
+            <Link
+              key={page.link}
+              to={page.link}
+              className={`mr-6 text-md hover:underline ${
+                location.pathname === page.link
+                  ? "text-white"
+                  : "text-neutral-500"
+              }`}
+            >
+              {page.title}
+            </Link>
+          ))}
         </div>
         <div className="flex items-center">
           <TbUserSquare className="text-4xl text-[#E50914] mr-2" />

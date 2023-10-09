@@ -3,8 +3,10 @@ const debug = require("debug")("nextfit:controllers:outfitCtrl");
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
+  const { apparels } = req.body;
   try {
     const newOutfit = await Outfit.create({
+      apparels: apparels,
       user: req.user._id,
     });
     // const newOutfit = await Outfit.create(apparel);

@@ -8,6 +8,6 @@ router.post("/new/upload", uploadToS3, wardrobeCtrl.uploadImg);
 router.post("/new", wardrobeCtrl.create);
 router.delete("/:apparelID", deleteFromS3, wardrobeCtrl.del);
 router.patch("/:apparelId/edit", wardrobeCtrl.updateOne);
-router.patch("/worn", wardrobeCtrl.updateWornFreq);
+router.patch("/frequency", wardrobeCtrl.updateWornFreq);
 
 module.exports = router;

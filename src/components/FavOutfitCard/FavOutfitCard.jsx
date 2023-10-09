@@ -11,7 +11,7 @@ function FavOutfitCard({ outfit, wardrobe }) {
   const wardrobeFiltered =  wardrobe.filter(item => (item._id === topID || item._id === bottomID));
 
   //* sort wardrobe to show top then bottom
-  if (wardrobeFiltered[0].mainCategory !== "top") {
+  if (wardrobeFiltered[0].mainCategory !== "Top") {
     const temp = wardrobeFiltered[0];
     wardrobeFiltered[0] = wardrobeFiltered[1];
     wardrobeFiltered[1] = temp;

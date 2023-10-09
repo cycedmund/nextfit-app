@@ -3,13 +3,12 @@ const debug = require("debug")("nextfit:controllers:outfitCtrl");
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
-  const { apparels } = req.body;
+  const { top, bottom } = req.body;
   try {
     const newOutfit = await Outfit.create({
-      apparels: apparels,
+      apparels: { top, bottom },
       user: req.user._id,
     });
-    // const newOutfit = await Outfit.create(apparel);
     res.status(201).json({
       status: "success",
       data: {

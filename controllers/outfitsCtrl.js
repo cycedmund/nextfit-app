@@ -3,16 +3,16 @@ const debug = require("debug")("nextfit:controllers:outfitCtrl");
 
 async function create(req, res) {
   debug("req.body: %o", req.body);
-  const outfitInfo = req.body;
+  const outfitItems = req.body;  //* save tops and bottoms from generated outfit
   try {
-    const newOutfitItem = await Outfit.create({
-      ...outfitInfo,
+    const newOutfit = await Outfit.create({
+      ...outfitItems,
       user: req.user._id,
     });
     res.status(201).json({
       status: "success",
       data: {
-        outfit: newOutfitItem,
+        outfit: newOutfit,
       },
     });
   } catch (err) {
@@ -29,12 +29,12 @@ async function create(req, res) {
 async function getAll(req, res) {
   debug("see req.user: %o", req.user);
   try {
-    const apparel = await Wardrobe.find({ user: req.user._id });
-    debug("found apparel by user: %o", apparel);
+    const outfits = await Outfit.find({ user: req.user._id });
+    debug("found outfits by user: %o", outfits);
     res.status(200).json({
       status: "success",
       data: {
-        apparel,
+        outfits,
       },
     });
   } catch (err) {
@@ -47,4 +47,42 @@ async function getAll(req, res) {
   }
 }
 
-module.exports = { create, getAll };
+async function del(req, res) {
+  debug("see req.params: %o", req.params);
+  try {
+    const outfit = await Outfit.findOneAndDelete({
+      _id: req.params.outfitID,
+      user: req.user._id,
+    });
+    debug("delete outfit by user: %o", outfit);
+    res.status(200).json({ status: "success" });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Error deleting outfit",
+      error: err,
+    });
+  }
+}
+
+async function showOne(req, res) {
+  debug("see req.params: %o", req.params);
+  try {
+    const outfit = await Outfit.findOne({
+      _id: req.params.outfitID,
+      user: req.user._id,
+    });
+    debug("show outfit by user: %o", outfit);
+    res.status(200).json({ status: "success" });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Error finding outfit",
+      error: err,
+    });
+  }
+}
+
+module.exports = { create, getAll, del, showOne };

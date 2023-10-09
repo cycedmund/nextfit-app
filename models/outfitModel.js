@@ -3,14 +3,17 @@ const { Schema, model } = mongoose;
 
 const outfitSchema = new Schema(
   {
-    apparels: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Wardrobe",
-      },
-    ],
-    weather: {
-      type: String,
+    top: {
+      type: Schema.Types.ObjectId,
+      ref: "Wardrobe",
+    },
+    bottom: {
+      type: Schema.Types.ObjectId,
+      ref: "Wardrobe",
+    },
+    outerwear: {
+      type: Schema.Types.ObjectId,
+      ref: "Wardrobe",
     },
     user: {
       type: Schema.Types.ObjectId,

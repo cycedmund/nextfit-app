@@ -26,6 +26,7 @@ function WardrobePage({ apparel, setApparel }) {
   const handleDelete = async (apparelID, mainCategory) => {
     const prompt = await Swal.fire({
       ...swalBasicSettings("Proceed to delete?", "warning"),
+      text: "Your favourite outfit containing this apparel will also be deleted.",
       showCancelButton: true,
       confirmButtonText: "DELETE",
       cancelButtonText: "CANCEL",
@@ -38,7 +39,6 @@ function WardrobePage({ apparel, setApparel }) {
           (item) => item._id !== apparelID
         );
         log("deleted apparel:", remainingApparel);
-        log("currentSlideIndex", currentSlideIndex);
         setApparel(remainingApparel);
         if (sliderRef.current !== null) {
           sliderRef.current.slickGoTo(0, true);

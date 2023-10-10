@@ -101,7 +101,7 @@ function ApparelRow({
           Worn Frequency:
         </label>
         <select
-          className="rounded-none text-black w-full max-w-[16%] text-sm mr-2"
+          className="rounded-none text-black w-full max-w-[19%] text-sm mr-2"
           onChange={handleFilterFreqOrder}
           value={freqOrder}
           id="worn-frequency"
@@ -115,8 +115,8 @@ function ApparelRow({
             ---Filter Options---
           </option>
           <option className="font-medium">Not Worn Yet</option>
-          <option className="font-medium">Worn Occasionally</option>
-          <option className="font-medium">Worn Frequently</option>
+          <option className="font-medium">{`Worn Occasionally (1-5)`}</option>
+          <option className="font-medium">{`Worn Frequently (>5)`}</option>
         </select>
       </div>
       <MdNavigateBefore

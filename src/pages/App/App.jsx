@@ -35,7 +35,10 @@ function App() {
           {/* {apparel.length !== 0} */}
           <NavBar user={user} setUser={setUser} />
           <Routes>
-            <Route path="/home" element={<HomePage apparel={apparel} />} />
+            <Route
+              path="/home"
+              element={<HomePage apparel={apparel} setApparel={setApparel} />}
+            />
             <Route
               path="/wardrobe/*"
               element={

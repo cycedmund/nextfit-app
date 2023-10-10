@@ -36,7 +36,8 @@ export async function deleteApparelService(apparelID, mainCategory) {
 }
 
 export async function patchApparelFrequencyService(outfitID) {
-  await patchApparelFrequencyAPI(outfitID);
+  const update = await patchApparelFrequencyAPI(outfitID);
+  return update.data;
 }
 
 export async function updateApparelService(apparelID, apparelData) {

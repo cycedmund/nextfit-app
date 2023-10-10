@@ -6,7 +6,7 @@ const { uploadToS3, deleteFromS3 } = require("../config/s3Middlewares");
 router.get("/", wardrobeCtrl.getAll);
 router.post("/new/upload", uploadToS3, wardrobeCtrl.uploadImg);
 router.post("/new", wardrobeCtrl.create);
-router.delete("/:apparelID", deleteFromS3, wardrobeCtrl.del);
+router.delete("/:apparelID/:main", deleteFromS3, wardrobeCtrl.del);
 router.patch("/:apparelID/edit", wardrobeCtrl.updateOne);
 router.patch("/frequency", wardrobeCtrl.updateWornFreq);
 

@@ -1,40 +1,51 @@
 import { RxCross1 } from "react-icons/rx";
 import { PiPencil } from "react-icons/pi";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { FaPersonPraying, FaThumbsUp, FaRegFaceKiss } from "react-icons/fa6";
 
-
-function ApparelCard({ item, handleDelete}) {
-
- 
-
+function ApparelCard({ item, handleDelete }) {
   return (
     <article>
-      <div className="bg-stone-400 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
+      <div className="bg-gray-200 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
         <span className="flex items-center justify-end">
-
-          <Link to={`/wardrobe/${item._id}/edit`}> 
-            <PiPencil 
-            className="text-md mb-2 text-black cursor-pointer"
-            />
-
+          <Link to={`/wardrobe/${item._id}/edit`}>
+            <PiPencil className="text-lg mb-2 mr-1 text-black cursor-pointer" />
           </Link>
           <RxCross1
-            onClick={() => handleDelete(item._id)}
-            className="text-md mb-2 text-black cursor-pointer"
+            onClick={() => handleDelete(item._id, item.mainCategory)}
+            className="text-lg mb-2 text-black cursor-pointer"
           />
         </span>
+
         <img
           className="h-auto max-w-full rounded-lg object-cover mx-auto"
           src={item.imageURL}
           alt={item.subCategory}
         />
         <div className="flex flex-col justify-between p-2 leading-normal">
-          <h5 className="text-lg mb-2 tracking-tight text-gray-900">
+          <h5 className="text-xl mb-2 tracking-tight text-gray-900">
             {item.subCategory}
           </h5>
-          <i className="text-sm text-zinc-500">{item.fit} fit</i>
-          <p className="text-sm text-zinc-500">
-            Worn {item.wornFrequency} times
+          <p className="text-md text-zinc-500">
+            <i className="text-zinc-600">{item.fit}</i> fit
+          </p>
+          <p
+            className={`text-md flex items-center ${
+              item.wornFrequency === 0 ? "text-red-500" : "text-zinc-500"
+            }`}
+          >
+            {item.wornFrequency === 0
+              ? "Not worn yet"
+              : item.wornFrequency === 1
+              ? "Worn once"
+              : `Worn ${item.wornFrequency} times`}
+            {item.wornFrequency === 0 ? (
+              <FaPersonPraying className="ml-1" />
+            ) : item.wornFrequency === 1 ? (
+              <FaThumbsUp className="ml-1" />
+            ) : (
+              <FaRegFaceKiss className="ml-1" />
+            )}
           </p>
         </div>
       </div>

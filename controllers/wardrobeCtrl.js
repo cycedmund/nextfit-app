@@ -1,4 +1,5 @@
 const Wardrobe = require("../models/wardrobeModel");
+const Outfit = require("../models/outfitModel");
 const debug = require("debug")("nextfit:controllers:apparelCtrl");
 
 const AWS_S3_OBJECT_URL = process.env.AWS_S3_OBJECT_URL;
@@ -66,6 +67,16 @@ async function getAll(req, res) {
 async function del(req, res) {
   debug("see req.params: %o", req.params);
   try {
+    // will return null if cannot findOne
+    const category = req.params.main;
+    if (category === "Top") {
+      await Outfit.findOneAndDelete({ "apparels.top": req.params.apparelID });
+    } else if (category === "Bottom") {
+      await Outfit.findOneAndDelete({
+        "apparels.bottom": req.params.apparelID,
+      });
+    }
+
     const apparel = await Wardrobe.findOneAndDelete({
       _id: req.params.apparelID,
       user: req.user._id,
@@ -84,7 +95,6 @@ async function del(req, res) {
 
 async function updateOne(req, res) {
   debug("see req.user: %o", req.user);
-  debug("HELLOOOOOOOOOOOO %o", req.body.params);
   try {
     const updatedApparel = await Wardrobe.findByIdAndUpdate(
       { _id: req.params.apparelID },

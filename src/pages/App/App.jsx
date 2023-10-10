@@ -11,7 +11,6 @@ import { getAllApparelService } from "../../utilities/wardrobe-service";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 
-
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
 
@@ -33,10 +32,19 @@ function App() {
     <main className="min-h-screen min-w-screen bg-black text-white">
       {user ? (
         <>
+          {/* {apparel.length !== 0} */}
           <NavBar user={user} setUser={setUser} />
           <Routes>
-            <Route path="/home" element={<HomePage apparel={apparel}/>} />
-            <Route path="/wardrobe/*" element={<WardrobeRoutes />} />
+            <Route
+              path="/home"
+              element={<HomePage apparel={apparel} setApparel={setApparel} />}
+            />
+            <Route
+              path="/wardrobe/*"
+              element={
+                <WardrobeRoutes apparel={apparel} setApparel={setApparel} />
+              }
+            />
           </Routes>
         </>
       ) : (

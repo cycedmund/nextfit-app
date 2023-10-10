@@ -23,7 +23,7 @@ export async function uploadToS3Service(imgFormData) {
 
 export async function addApparelService(apparelData) {
   const apparelItem = await addApparelAPI(apparelData);
-  return apparelItem;
+  return apparelItem.data.apparel;
 }
 
 export async function getAllApparelService() {
@@ -31,28 +31,33 @@ export async function getAllApparelService() {
   return allApparel.data.apparel;
 }
 
-export async function deleteApparelService(apparelID) {
-  await deleteApparelAPI(apparelID);
+export async function deleteApparelService(apparelID, mainCategory) {
+  await deleteApparelAPI(apparelID, mainCategory);
 }
 
 export async function patchApparelFrequencyService(outfitID) {
-  await patchApparelFrequencyAPI(outfitID);
+  const update = await patchApparelFrequencyAPI(outfitID);
+  return update.data;
 }
 
 export async function updateApparelService(apparelID, apparelData) {
   const result = await updateApparelAPI(apparelID, apparelData);
-  return result
+  return result;
 }
 
 export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {
     return [];
+  } else {
+    const mainCategoriesSet = [
+      ...new Set(apparel.map((item) => item.mainCategory)),
+    ];
+    // const subCategories = [...new Set(apparel.map((item) => item.subCategory))];
+    const mainCategories = mainCategoriesSet.sort(
+      (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
+    );
+    return mainCategories;
   }
-  const categories = [...new Set(apparel.map((item) => item.mainCategory))];
-  const sortCategories = categories.sort(
-    (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
-  );
-  return sortCategories;
 }
 
 function findIndexOfCategory(category) {
@@ -87,4 +92,38 @@ export function swalBasicSettings(title, icon) {
     cancelButtonColor: "#000000",
   };
   return settings;
+}
+
+export function filterByCategory(apparel, mainCategory, selectSubCategory) {
+  const result = apparel
+    .filter((item) => item.mainCategory === mainCategory)
+    .filter(
+      (item) => !selectSubCategory || item.subCategory === selectSubCategory
+    );
+
+  console.log("result", result);
+  return result;
+}
+
+export function sortByWornFreq(apparel, freqOrder) {
+  return apparel.sort((a, b) => {
+    if (freqOrder === "High-to-Low") {
+      return b.wornFrequency - a.wornFrequency;
+    }
+    return a.wornFrequency - b.wornFrequency;
+  });
+}
+
+export function filterByCategoryAndFreq(apparel, freqOrder) {
+  return apparel.filter((item) => {
+    if (freqOrder === "Not Worn Yet") {
+      return item.wornFrequency === 0;
+    } else if (freqOrder === "Worn Occasionally (1-5)") {
+      return item.wornFrequency >= 1 && item.wornFrequency <= 5;
+    } else if (freqOrder === "Worn Frequently (>5)") {
+      return item.wornFrequency > 5;
+    } else {
+      return true;
+    }
+  });
 }

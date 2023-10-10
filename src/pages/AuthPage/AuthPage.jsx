@@ -1,11 +1,8 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
-import LoginForm from "../../components/LoginForm/LoginForm";
-import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import { Outlet } from "react-router-dom";
 
 function AuthPage({ setUser }) {
   const [visibility, setVisibility] = useState(false);
-  const location = useLocation();
 
   const handlePasswordVisibility = () => {
     setVisibility((prev) => !prev);
@@ -18,19 +15,7 @@ function AuthPage({ setUser }) {
       </span>
 
       <main className="text-white p-4 container flex mx-auto min-h-screen items-center justify-center">
-        {location.pathname === "/signup" ? (
-          <SignUpForm
-            setUser={setUser}
-            visibility={visibility}
-            handlePasswordVisibility={handlePasswordVisibility}
-          />
-        ) : location.pathname === "/login" ? (
-          <LoginForm
-            setUser={setUser}
-            visibility={visibility}
-            handlePasswordVisibility={handlePasswordVisibility}
-          />
-        ) : null}
+        <Outlet context={[setUser, visibility, handlePasswordVisibility]} />
       </main>
     </>
   );

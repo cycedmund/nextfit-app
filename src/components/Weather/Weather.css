@@ -31,3 +31,6 @@
     margin-top: -230px;
     margin-left: 110px;
 }
+#favButton, .favButton {
+    z-index: 2;
+}

@@ -13,7 +13,7 @@ module.exports = {
         mont: ["Montserrat", "sans-serif"],
       },
       fontSize: {
-        tiny: "13px",
+        tiny: "12px",
       },
     },
   },

@@ -12,9 +12,6 @@ module.exports = {
         inter: ["Inter", "sans-serif"],
         mont: ["Montserrat", "sans-serif"],
       },
-      fontSize: {
-        tiny: "12px",
-      },
     },
   },
   plugins: [require("flowbite/plugin"), require("daisyui")],

@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { addOutfitService } from "../../utilities/outfits-service";
 import shuffleArray from "../../helpers/shuffleArray";
-import { HiOutlineStar, HiStar } from "react-icons/hi";
+import { HiOutlineStar } from "react-icons/hi";
+import { MdExposurePlus1 } from "react-icons/md";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 import "./Weather.css";
@@ -129,10 +130,10 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
 
   return (
     <>
-      <h1 className="ml-24 mt-20 text-2xl">
+      <h1 className="ml-24 mt-4 md:mt-20 text-xl md:text-2xl">
         Top 5 Outfits Today Based on Weather in Singapore
       </h1>
-      <p className="ml-24 text-base mt-1">
+      <p className="ml-24 text-base md:text-lg mt-1">
         Current weather:{" "}
         <span className="current-weather capitalize text-yellow-300 font-bold">
           {weatherData}
@@ -162,7 +163,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
               <div className="overlay w-32 bg-gray-600 opacity-0 absolute inset-0 rounded-t pointer-events-none group-hover:opacity-50"></div>
               </span>
               <button
-                className={`text-base text-tiny bg-white hover:bg-gray-400 hover:cursor-pointer font-bold py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                className={`font-normal bg-white hover:bg-gray-400 hover:cursor-pointer py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
                 data-tip="Add to Favourites"
                 onClick={() =>
                   handleAdd(
@@ -175,7 +176,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
                 <HiOutlineStar className="w-6 h-6" />
               </button>
               <button
-                className={`favButton text-base text-tiny bg-white hover:bg-gray-400 font-bold py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                className={`favButton font-normal bg-white hover:bg-gray-400 py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
                 data-tip="Add Worn Frequency"
                 onClick={() =>
                   handleUpdateWornFreq({
@@ -184,7 +185,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
                   })
                 }
               >
-                +1
+                <MdExposurePlus1 className="w-6 h-6" />
               </button>
             </span>
           </div>

@@ -15,13 +15,21 @@ function NavBar({ user, setUser }) {
           : "text-neutral-500"
       } hover:text-white hover:text-3xl text-2xl`}
     >
-      <PiTShirtThin />
+       <div className="tooltip tooltip-bottom" data-tip="Add Apparel">
+        <Link to="/wardrobe/new" className="flex items-center justify-center">
+         <PiTShirtThin />
+        </Link>
+      </div>
       <div className="tooltip tooltip-bottom" data-tip="Add Apparel">
         <Link to="/wardrobe/new" className="flex items-center justify-center">
           <PiPlusSquareFill />
         </Link>
       </div>
-      <PiPantsThin />
+      <div className="tooltip tooltip-bottom" data-tip="Add Apparel">
+        <Link to="/wardrobe/new" className="flex items-center justify-center">
+          <PiPantsThin />
+        </Link>
+      </div>
     </div>
   );
 

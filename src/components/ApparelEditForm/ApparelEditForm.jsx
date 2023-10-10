@@ -1,6 +1,8 @@
 import debug from "debug";
 import { useState, useRef } from "react";
 import {
+  updateApparelService,
+  getAllApparelService,
   addApparelService,
   uploadToS3Service,
   checkMainCategory,
@@ -10,22 +12,37 @@ import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown } from "react-icons/fa6";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelEditForm() {
+    const {apparelId} = useParams();
 
-  const {apparelId} = useParams(); 
+    console.log("id",apparelId)
 
-  const initialApparelData = {
-    mainCategory: "",
-    subCategory: "",
-    fit: "",
-    images: [],
-    preview: [],
-  };
-  const [apparelData, setApparelData] = useState(initialApparelData);
+    const [apparel, setApparel] = useState([]);
+
+    const initialApparelData = {
+        mainCategory: "",
+        subCategory: "",
+        fit: "",
+      };
+
+    const [apparelData, setApparelData] = useState(initialApparelData);
+     
+  
+useEffect(() => {
+    const fetchApparelData = async () => {
+        const allApparel = await getAllApparelService();
+        log("fetch all apparel:", allApparel);
+        setApparel(allApparel);
+    };
+    fetchApparelData();
+    }, []);
+
+  
   const [status, setStatus] = useState(null);
   const inputImage = useRef(null);
 
@@ -42,53 +59,44 @@ function ApparelEditForm() {
     });
   };
 
-  const handleImgFileInput = (e) => {
-    const imgFiles = Array.from(e.target.files);
-    const updatedPreview = [];
+  
 
-    imgFiles.forEach((img) => {
-      const imgUrl = URL.createObjectURL(img);
-      updatedPreview.push(imgUrl);
-    });
-    setApparelData({
-      ...apparelData,
-      images: [...apparelData.images, ...imgFiles],
-      preview: [...apparelData.preview, ...updatedPreview],
-    });
-    log("Image uploaded");
-  };
-
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e, apparelID, apparelData) => {
     e.preventDefault();
-    if (apparelData.images.length === 0) return;
-    setStatus("loading");
-
-    const imgFormData = new FormData();
-    apparelData.images.forEach((img) => {
-      imgFormData.append("images", img);
-    });
-    log("images appended to form", imgFormData);
     try {
-      const imgURL = await uploadToS3Service(imgFormData);
-      await addApparelService({
-        ...apparelData,
-        images: imgURL,
+      const result = await updateApparelService(apparelID, apparelData);
+      console.log(result)
+      const updatedIndex = apparel.findIndex(
+        (item) => item._id === apparelID
+      );
+      if (updatedIndex !== -1) {
+        const updatedApparel = [...apparel];
+
+        updatedApparel[updatedIndex] = {
+          ...updatedApparel[updatedIndex], ...apparelData
+        };
+
+        setApparel(updatedApparel);
+
+        Swal.fire(swalBasicSettings("Updated!", "success"));
+      } else {
+
+      Swal.fire({
+        ...swalBasicSettings("Error", "error"),
+        text: "Item not found for update",
       });
-      Swal.fire(swalBasicSettings("Successful Edit!", "success"));
-      resetApparelForm();
+      } 
+
     } catch (err) {
       console.error(err);
-      setStatus("Edit failed, please try again");
-    } finally {
-      setStatus("Edit saved!");
-    }
-  };
-
+    
+  }
+};
+  
   return (
     <section className="flex justify-center items-center min-h-[80vh]">
       <form
         className="container bg-neutral-400 mx-auto max-w-lg px-4 pb-8"
-        onSubmit={handleSubmit}
         autoComplete="off"
         encType="multipart/form-data"
       >
@@ -178,22 +186,7 @@ function ApparelEditForm() {
             <br/>
             <br/>
           </div>
-          <div className="w-1/2 pl-2">
-            {apparelData.preview.length !== 0 ? (
-              apparelData.preview.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Preview Image ${idx + 1}`}
-                  className="mx-auto rounded-lg w-[400px] h-[200px] mt-1"
-                />
-              ))
-            ) : (
-              <div className="w-full h-full flex justify-center items-center border-dashed border-2 border-neutral-300">
-                <GiClothes className="text-8xl fill-neutral-300" />
-              </div>
-            )}
-          </div>
+          
         </div>
         {status === "loading" ? (
           <div className="flex items-center justify-center">
@@ -203,6 +196,7 @@ function ApparelEditForm() {
           <button
             type="submit"
             className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-inter font-normal text-lg px-3 py-2.5 text-center w-full"
+            onClick={() => handleUpdate(apparelId, apparelData)}
           >
             SUBMIT
           </button>

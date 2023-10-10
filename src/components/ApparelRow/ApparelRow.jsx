@@ -11,6 +11,7 @@ function ApparelRow({
   category,
   apparel,
   handleDelete,
+  handleUpdate,
   setCurrentSlideIndex,
   currentSlideIndex,
   sliderRef,
@@ -70,6 +71,7 @@ function ApparelRow({
             <ApparelCard
               item={item}
               handleDelete={handleDelete}
+              handleUpdate={handleUpdate}
               key={item._id}
             />
           ))}

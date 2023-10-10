@@ -7,7 +7,7 @@ router.get("/", wardrobeCtrl.getAll);
 router.post("/new/upload", uploadToS3, wardrobeCtrl.uploadImg);
 router.post("/new", wardrobeCtrl.create);
 router.delete("/:apparelID", deleteFromS3, wardrobeCtrl.del);
-router.patch("/:apparelId/edit", wardrobeCtrl.updateOne);
+router.patch("/:apparelID/edit", wardrobeCtrl.updateOne);
 router.patch("/frequency", wardrobeCtrl.updateWornFreq);
 
 module.exports = router;

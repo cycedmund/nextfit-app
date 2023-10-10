@@ -1,9 +1,9 @@
 import { RxCross1 } from "react-icons/rx";
 import { PiPencil } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
-function ApparelCard({ item, handleDelete }) {
+function ApparelCard({ item, handleDelete}) {
 
  
 

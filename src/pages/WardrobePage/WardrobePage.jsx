@@ -28,7 +28,7 @@ function WardrobePage() {
 
   const categories = getUniqueCategories(apparel);
 
-  const handleDelete = async (apparelID) => {
+  const handleDelete = async (apparelID, mainCategory) => {
     const prompt = await Swal.fire({
       ...swalBasicSettings("Proceed to delete?", "warning"),
       showCancelButton: true,
@@ -38,7 +38,7 @@ function WardrobePage() {
 
     if (prompt.isConfirmed) {
       try {
-        await deleteApparelService(apparelID);
+        await deleteApparelService(apparelID, mainCategory);
         const remainingApparel = apparel.filter(
           (item) => item._id !== apparelID
         );

@@ -19,7 +19,7 @@ function ApparelCard({ item, handleDelete}) {
 
           </Link>
           <RxCross1
-            onClick={() => handleDelete(item._id)}
+            onClick={() => handleDelete(item._id, item.mainCategory)}
             className="text-md mb-2 text-black cursor-pointer"
           />
         </span>

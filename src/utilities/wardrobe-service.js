@@ -31,8 +31,8 @@ export async function getAllApparelService() {
   return allApparel.data.apparel;
 }
 
-export async function deleteApparelService(apparelID) {
-  await deleteApparelAPI(apparelID);
+export async function deleteApparelService(apparelID, mainCategory) {
+  await deleteApparelAPI(apparelID, mainCategory);
 }
 
 export async function patchApparelFrequencyService(outfitID) {

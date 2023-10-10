@@ -13,19 +13,20 @@ const log = debug("nextfit:src:pages:WardrobePage");
 
 function WardrobePage({ apparel, setApparel }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
   const sliderRef = useRef(null);
-  const categories = getUniqueCategories(apparel);
-  const [loadingPage, setLoadingPage] = useState(true);
+  const mainCategories = getUniqueCategories(apparel);
 
   useEffect(() => {
-    if (categories.length > 0) {
-      setLoadingPage(false);
+    if (mainCategories?.length > 0) {
+      setLoading(false);
     }
-  }, [categories]);
+  }, [mainCategories]);
 
   const handleDelete = async (apparelID, mainCategory) => {
     const prompt = await Swal.fire({
       ...swalBasicSettings("Proceed to delete?", "warning"),
+      text: "Your favourite outfit containing this apparel will also be deleted.",
       showCancelButton: true,
       confirmButtonText: "DELETE",
       cancelButtonText: "CANCEL",
@@ -38,7 +39,6 @@ function WardrobePage({ apparel, setApparel }) {
           (item) => item._id !== apparelID
         );
         log("deleted apparel:", remainingApparel);
-        log("currentSlideIndex", currentSlideIndex);
         setApparel(remainingApparel);
         if (sliderRef.current !== null) {
           sliderRef.current.slickGoTo(0, true);
@@ -57,18 +57,18 @@ function WardrobePage({ apparel, setApparel }) {
   return (
     <div className="max-w-screen">
       <main className="flex flex-col">
-        {loadingPage && (
+        {loading && (
           <div className="flex items-center justify-center h-[80vh]">
             <span className="loading loading-spinner w-16 text-[#E50A14]"></span>
           </div>
         )}
-        {!loadingPage && categories.length === 0 && <WardrobeHero />}
-        {!loadingPage &&
-          categories.length > 0 &&
-          categories.map((category, index) => (
+        {!loading && mainCategories.length === 0 && <WardrobeHero />}
+        {!loading &&
+          mainCategories.length > 0 &&
+          mainCategories.map((mainCategory, index) => (
             <ApparelRow
               key={index}
-              category={category}
+              mainCategory={mainCategory}
               apparel={apparel}
               handleDelete={handleDelete}
               sliderRef={sliderRef}

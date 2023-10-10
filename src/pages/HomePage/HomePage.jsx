@@ -5,10 +5,20 @@ import {
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
 
-function HomePage({ apparel }) {
+function HomePage({ apparel, setApparel }) {
   const handleUpdateWornFreq = async (outfitIDs) => {
     try {
-      await patchApparelFrequencyService(outfitIDs);
+      const { top, bottom } = await patchApparelFrequencyService(outfitIDs);
+      const freqUpdate = apparel.map((item) => {
+        if (top && top._id === item._id) {
+          item.wornFrequency = top.wornFrequency;
+        }
+        if (bottom && bottom._id === item._id) {
+          item.wornFrequency = bottom.wornFrequency;
+        }
+        return item;
+      });
+      setApparel(freqUpdate);
       Swal.fire({
         ...swalBasicSettings("Updated!", "success"),
         text: "Thank you for reusing your clothes!",

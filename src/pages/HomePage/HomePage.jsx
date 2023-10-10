@@ -5,7 +5,7 @@ import {
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
 
-function HomePage() {
+function HomePage({ apparel }) {
   const handleUpdateWornFreq = async (outfitIDs) => {
     try {
       await patchApparelFrequencyService(outfitIDs);
@@ -24,7 +24,7 @@ function HomePage() {
   return (
     <>
       <h1 className="ml-24 mt-6 text-2xl">My Wardrobe</h1>
-      <Weather handleUpdateWornFreq={handleUpdateWornFreq} />
+      <Weather apparel={apparel} handleUpdateWornFreq={handleUpdateWornFreq} />
     </>
   );
 }

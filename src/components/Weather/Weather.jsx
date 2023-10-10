@@ -1,26 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { addOutfitService } from "../../utilities/outfits-service";
-import { getAllApparelService } from "../../utilities/wardrobe-service";
 import shuffleArray from "../../helpers/shuffleArray";
 import "./Weather.css";
 
-export default function Weather({ handleUpdateWornFreq }) {
+export default function Weather({ apparel, handleUpdateWornFreq }) {
   const [weatherData, setWeatherData] = useState(null);
   const [temperatureData, setTemperatureData] = useState(null);
-  const [apparel, setApparel] = useState([]);
   const [topApparelImages, setTopApparelImages] = useState([]);
   const [bottomApparelImages, setBottomApparelImages] = useState([]);
   let filteredTopApparel = [];
   let filteredBottomApparel = [];
 
-  useEffect(() => {
-    const fetchApparelData = async () => {
-      const allApparel = await getAllApparelService();
-      setApparel(allApparel);
-    };
-    fetchApparelData();
-  }, []);
 
   useEffect(() => {
     const fetchWeather = async () => {

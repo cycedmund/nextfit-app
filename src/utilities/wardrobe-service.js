@@ -95,22 +95,22 @@ export function swalBasicSettings(title, icon) {
 }
 
 export function filterByCategory(apparel, mainCategory, selectSubCategory) {
-  return apparel
+  const result = apparel
     .filter((item) => item.mainCategory === mainCategory)
     .filter(
       (item) => !selectSubCategory || item.subCategory === selectSubCategory
     );
+
+  console.log("result", result);
+  return result;
 }
 
 export function sortByWornFreq(apparel, freqOrder) {
   return apparel.sort((a, b) => {
-    if (freqOrder === "Low-to-High") {
-      return a.wornFrequency - b.wornFrequency;
-    } else if (freqOrder === "High-to-Low") {
+    if (freqOrder === "High-to-Low") {
       return b.wornFrequency - a.wornFrequency;
-    } else {
-      return 0;
     }
+    return a.wornFrequency - b.wornFrequency;
   });
 }
 
@@ -118,9 +118,9 @@ export function filterByCategoryAndFreq(apparel, freqOrder) {
   return apparel.filter((item) => {
     if (freqOrder === "Not Worn Yet") {
       return item.wornFrequency === 0;
-    } else if (freqOrder === "Worn Occasionally") {
+    } else if (freqOrder === "Worn Occasionally (1-5)") {
       return item.wornFrequency >= 1 && item.wornFrequency <= 5;
-    } else if (freqOrder === "Worn Frequently") {
+    } else if (freqOrder === "Worn Frequently (>5)") {
       return item.wornFrequency > 5;
     } else {
       return true;

@@ -13,8 +13,6 @@ export default function Weather({ handleUpdateWornFreq }) {
   const [bottomApparelImages, setBottomApparelImages] = useState([]);
   let filteredTopApparel = [];
   let filteredBottomApparel = [];
-  const [filteredTop, setFilteredTop] = useState([]);
-  const [filteredBottom, setFilteredBottom] = useState([]);
 
   useEffect(() => {
     const fetchApparelData = async () => {
@@ -103,8 +101,6 @@ export default function Weather({ handleUpdateWornFreq }) {
           );
           setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
         }
-        setFilteredTop(filteredTopApparel);
-        setFilteredBottom(filteredBottomApparel);
       } else {
         setTopApparelImages([]);
         setBottomApparelImages([]);

@@ -6,6 +6,7 @@ import {
 } from "../../utilities/wardrobe-service";
 
 function HomePage({ apparel }) {
+  //need set state
   const handleUpdateWornFreq = async (outfitIDs) => {
     try {
       await patchApparelFrequencyService(outfitIDs);

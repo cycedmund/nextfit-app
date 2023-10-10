@@ -48,11 +48,14 @@ export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {
     return [];
   } else {
-    const categories = [...new Set(apparel.map((item) => item.mainCategory))];
-    const sortCategories = categories.sort(
+    const mainCategoriesSet = [
+      ...new Set(apparel.map((item) => item.mainCategory)),
+    ];
+    // const subCategories = [...new Set(apparel.map((item) => item.subCategory))];
+    const mainCategories = mainCategoriesSet.sort(
       (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
     );
-    return sortCategories;
+    return mainCategories;
   }
 }
 
@@ -88,4 +91,38 @@ export function swalBasicSettings(title, icon) {
     cancelButtonColor: "#000000",
   };
   return settings;
+}
+
+export function filterByCategory(apparel, mainCategory, selectSubCategory) {
+  return apparel
+    .filter((item) => item.mainCategory === mainCategory)
+    .filter(
+      (item) => !selectSubCategory || item.subCategory === selectSubCategory
+    );
+}
+
+export function sortByWornFreq(apparel, freqOrder) {
+  return apparel.sort((a, b) => {
+    if (freqOrder === "Low-to-High") {
+      return a.wornFrequency - b.wornFrequency;
+    } else if (freqOrder === "High-to-Low") {
+      return b.wornFrequency - a.wornFrequency;
+    } else {
+      return 0;
+    }
+  });
+}
+
+export function filterByCategoryAndFreq(apparel, freqOrder) {
+  return apparel.filter((item) => {
+    if (freqOrder === "Not Worn Yet") {
+      return item.wornFrequency === 0;
+    } else if (freqOrder === "Worn Occasionally") {
+      return item.wornFrequency >= 1 && item.wornFrequency <= 5;
+    } else if (freqOrder === "Worn Frequently") {
+      return item.wornFrequency > 5;
+    } else {
+      return true;
+    }
+  });
 }

@@ -15,7 +15,6 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
   const [bottomApparelImages, setBottomApparelImages] = useState([]);
   let filteredTopApparel = [];
   let filteredBottomApparel = [];
-  const [isButtonFaved, setIsButtonFaved] = useState(false);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -114,12 +113,10 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
       bottom: bottomApparelId,
     };
     await addOutfitService(apparel);
-    setIsButtonFaved(true);
     Swal.fire({
         ...swalBasicSettings("Added to Favourites!", "success"),
     });
     } catch (err) {
-        setIsButtonFaved(false);
         Swal.fire({
             ...swalBasicSettings("Error", "error"),
             text: "Something went wrong...",

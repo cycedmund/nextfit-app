@@ -108,9 +108,9 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
       top: topApparelId,
       bottom: bottomApparelId,
     };
-    // console.log(apparel);
     await addOutfitService(apparel);
   };
+
   return (
     <>
       <h1 className="ml-24 mt-20 text-2xl">
@@ -126,35 +126,39 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
           {temperatureData}°C
         </span>
       </p>
-      <div className="weather-table -mt-10">
+      <div className="weather-table -mt-10 relative">
         {topApparelImages.map((_, index) => (
           <div
             key={`weather-outfit-${index + 1}`}
-            className={`weather${index + 1}`}
+            className={`weather${index + 1} group`}
           >
             {index + 1}
             <span className="weather-outfit flex flex-col">
+                <span className="relative">
               <img
-                className="w-28 h-32 object-cover rounded-t"
+                className="w-32 h-36 object-cover rounded-t"
                 src={topApparelImages[index].imageURL || ""}
               />
               <img
-                className="w-28 h-32 object-cover rounded-b"
+                className="w-32 h-36 object-cover rounded-b"
                 src={bottomApparelImages[index].imageURL || ""}
               />
+              <div className="overlay w-32 bg-gray-600 opacity-0 absolute inset-0 rounded-t pointer-events-none group-hover:opacity-50"></div>
+              </span>
               <button
-                className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2"
+                className={`text-base text-tiny hover:bg-gray-400 hover:cursor-pointer font-bold py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100`}
                 onClick={() =>
                   handleAdd(
                     topApparelImages[index]?._id,
                     bottomApparelImages[index]?._id
                   )
                 }
+                id="favButton"
               >
-                Add to Favourites
+                S
               </button>
               <button
-                className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2"
+                className={`favButton text-base text-tiny bg-white hover:bg-gray-400 font-bold py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100`}
                 onClick={() =>
                   handleUpdateWornFreq({
                     topApparelID: topApparelImages[index]?._id,
@@ -162,7 +166,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
                   })
                 }
               >
-                I worn this!
+                +1
               </button>
             </span>
           </div>

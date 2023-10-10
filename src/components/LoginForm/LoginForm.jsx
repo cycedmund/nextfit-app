@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { loginService } from "../../utilities/users-service";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 
-function LoginForm({ setUser, handlePasswordVisibility, visibility }) {
+function LoginForm() {
+  const [setUser, visibility, handlePasswordVisibility] = useOutletContext();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",

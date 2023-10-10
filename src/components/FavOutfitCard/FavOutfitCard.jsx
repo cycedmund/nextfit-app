@@ -18,20 +18,27 @@ function FavOutfitCard({ outfit, updateDeleted }) {
   // console.log(apparels);
 
   const handleDelete = async (outfitID) => {
-    try {
-      await deleteOutfitService(outfitID);
-      updateDeleted(outfitID);
-  
-      Swal.fire({
-        ...swalBasicSettings("Deleted!", "success"),
-        text: "You no longer like this outfit :(",
-      });
-    } catch (err) {
-      console.error(err);
-      Swal.fire({
-        ...swalBasicSettings("Error", "error"),
-        text: "Something went wrong",
-      });
+
+    const prompt = await Swal.fire({
+      ...swalBasicSettings("Proceed to delete?", "warning"),
+      showCancelButton: true,
+      confirmButtonText: "DELETE",
+      cancelButtonText: "CANCEL",
+    });
+
+    if (prompt.isConfirmed) {
+      try {
+        await deleteOutfitService(outfitID);
+        updateDeleted(outfitID);
+        
+        Swal.fire(swalBasicSettings("Deleted!", "success"));
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: "Something went wrong",
+        });
+      }
     }
   };
 

@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   deleteApparelService,
-  getAllApparelService,
   getUniqueCategories,
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
@@ -12,19 +11,9 @@ import Swal from "sweetalert2";
 
 const log = debug("nextfit:src:pages:WardrobePage");
 
-function WardrobePage() {
-  const [apparel, setApparel] = useState([]);
+function WardrobePage({ apparel, setApparel }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef(null);
-
-  useEffect(() => {
-    const fetchApparelData = async () => {
-      const allApparel = await getAllApparelService();
-      log("fetch all apparel:", allApparel);
-      setApparel(allApparel);
-    };
-    fetchApparelData();
-  }, []);
 
   const categories = getUniqueCategories(apparel);
 
@@ -59,7 +48,6 @@ function WardrobePage() {
     }
   };
 
-  
   return (
     <div className="max-w-screen">
       <main className="flex flex-col">

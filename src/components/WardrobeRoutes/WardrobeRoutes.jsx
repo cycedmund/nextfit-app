@@ -4,13 +4,19 @@ import WardrobePage from "../../pages/WardrobePage/WardrobePage";
 import ApparelForm from "../ApparelForm/ApparelForm";
 import ApparelEditForm from "../ApparelEditForm/ApparelEditForm";
 
-function WardrobeRoutes() {
+function WardrobeRoutes({ apparel, setApparel }) {
   return (
     <Routes>
-      <Route index element={<WardrobePage />} />
+      <Route
+        index
+        element={<WardrobePage apparel={apparel} setApparel={setApparel} />}
+      />
       <Route path="/favourites" element={<FavouritesPage />} />
-      <Route path="/new" element={<ApparelForm />} />
-      <Route path="/:apparelId/edit" element={<ApparelEditForm />}/>
+      <Route
+        path="/new"
+        element={<ApparelForm apparel={apparel} setApparel={setApparel} />}
+      />
+      <Route path="/:apparelId/edit" element={<ApparelEditForm />} />
     </Routes>
   );
 }

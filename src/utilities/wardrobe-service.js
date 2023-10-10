@@ -23,7 +23,7 @@ export async function uploadToS3Service(imgFormData) {
 
 export async function addApparelService(apparelData) {
   const apparelItem = await addApparelAPI(apparelData);
-  return apparelItem;
+  return apparelItem.data.apparel;
 }
 
 export async function getAllApparelService() {
@@ -41,18 +41,19 @@ export async function patchApparelFrequencyService(outfitID) {
 
 export async function updateApparelService(apparelID, apparelData) {
   const result = await updateApparelAPI(apparelID, apparelData);
-  return result
+  return result;
 }
 
 export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {
     return [];
+  } else {
+    const categories = [...new Set(apparel.map((item) => item.mainCategory))];
+    const sortCategories = categories.sort(
+      (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
+    );
+    return sortCategories;
   }
-  const categories = [...new Set(apparel.map((item) => item.mainCategory))];
-  const sortCategories = categories.sort(
-    (a, b) => findIndexOfCategory(a) - findIndexOfCategory(b)
-  );
-  return sortCategories;
 }
 
 function findIndexOfCategory(category) {

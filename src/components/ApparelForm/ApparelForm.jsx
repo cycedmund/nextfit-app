@@ -13,7 +13,7 @@ import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
-function ApparelForm() {
+function ApparelForm({ apparel, setApparel }) {
   const initialApparelData = {
     mainCategory: "",
     subCategory: "",
@@ -71,11 +71,12 @@ function ApparelForm() {
     log("images appended to form", imgFormData);
     try {
       const imgURL = await uploadToS3Service(imgFormData);
-      await addApparelService({
+      const newApparel = await addApparelService({
         ...apparelData,
         images: imgURL,
       });
       Swal.fire(swalBasicSettings("Added to Wardrobe!", "success"));
+      setApparel([...apparel, newApparel]);
       resetApparelForm();
     } catch (err) {
       console.error(err);

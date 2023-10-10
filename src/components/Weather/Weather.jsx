@@ -76,7 +76,7 @@ export default function Weather({ handleUpdateWornFreq }) {
             Math.random() * filteredTopApparel.length
           );
           const randomTop = filteredTopApparel[randomIndex]?.imageURL;
-          const randomID =filteredTopApparel[randomIndex]?._id;
+          const randomID = filteredTopApparel[randomIndex]?._id;
           filteredTopApparel.push({ imageURL: randomTop, _id: randomID });
         }
         while (filteredBottomApparel.length < 5) {
@@ -90,7 +90,7 @@ export default function Weather({ handleUpdateWornFreq }) {
         if (filteredTopApparel.length > 0) {
           const shuffledTopApparel = shuffleArray(
             filteredTopApparel.map((item) => {
-              return { imageURL: item.imageURL, _id: item._id};
+              return { imageURL: item.imageURL, _id: item._id };
             })
           );
           setTopApparelImages(shuffledTopApparel.slice(0, 5));
@@ -98,7 +98,7 @@ export default function Weather({ handleUpdateWornFreq }) {
         if (filteredBottomApparel.length > 0) {
           const shuffledBottomApparel = shuffleArray(
             filteredBottomApparel.map((item) => {
-              return { imageURL: item.imageURL, _id: item._id};
+              return { imageURL: item.imageURL, _id: item._id };
             })
           );
           setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
@@ -158,7 +158,10 @@ export default function Weather({ handleUpdateWornFreq }) {
               <button
                 className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-2 w-2/3 -ml-2"
                 onClick={() =>
-                  handleAdd(topApparelImages[index]?._id, bottomApparelImages[index]?._id)
+                  handleAdd(
+                    topApparelImages[index]?._id,
+                    bottomApparelImages[index]?._id
+                  )
                 }
               >
                 Add to Favourites
@@ -167,8 +170,8 @@ export default function Weather({ handleUpdateWornFreq }) {
                 className="text-base text-tiny bg-gray-300 hover:bg-gray-400 font-bold py-1 px-1 rounded mt-1 w-2/3 -ml-2"
                 onClick={() =>
                   handleUpdateWornFreq({
-                    topApparelID: filteredTop[index]?._id,
-                    bottomApparelID: filteredBottom[index]?._id,
+                    topApparelID: topApparelImages[index]?._id,
+                    bottomApparelID: bottomApparelImages[index]?._id,
                   })
                 }
               >

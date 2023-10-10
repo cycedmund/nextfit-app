@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { signUpService } from "../../utilities/users-service";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-function SignUpForm({ setUser, visibility, handlePasswordVisibility }) {
+function SignUpForm() {
+  const [setUser, visibility, handlePasswordVisibility] = useOutletContext();
   const [userData, setUserData] = useState({
     email: "",
     username: "",

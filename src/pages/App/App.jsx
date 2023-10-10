@@ -7,6 +7,8 @@ import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
 import { getUser } from "../../utilities/users-service";
 import WardrobeRoutes from "../../components/WardrobeRoutes/WardrobeRoutes";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import SignUpForm from "../../components/SignUpForm/SignUpForm";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
@@ -29,8 +31,10 @@ function App() {
       ) : (
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<AuthPage setUser={setUser} />} />
-          <Route path="/login" element={<AuthPage setUser={setUser} />} />
+          <Route path="/" element={<AuthPage setUser={setUser} />}>
+            <Route path="signup" element={<SignUpForm />} />
+            <Route path="login" element={<LoginForm />} />
+          </Route>
         </Routes>
       )}
     </main>

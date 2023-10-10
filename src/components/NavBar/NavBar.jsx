@@ -61,28 +61,15 @@ function NavBar({ user, setUser }) {
             </Link>
           ))}
           {location.pathname === "/wardrobe" && renderAddApparelComponent()}
-          {/* {location.pathname === "/wardrobe" && (
-            <div className="flex items-center text-neutral-500">
-              <PiTShirtThin className="text-2xl" />
-              <Link
-                to="/wardrobe/new"
-                className="flex items-center justify-center"
-              >
-                <PiPlusSquareFill className="text-3xl" />
-              </Link>
-              <PiPantsThin className="text-2xl" />
-            </div>
-          )} */}
         </div>
         <details className="dropdown dropdown-end">
           <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
             <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
           </summary>
-          <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-28">
-            <li className="ml-4 mt-2 text-lg text-neutral-400 font-bebas tracking-wider">
-              {user.username}
-            </li>
-            <li className="text-lg font-bebas tracking-wider">
+          <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-48 font-bebas tracking-widest bg-opacity-50 text-lg">
+            <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
+            <li className="ml-4 mt-2  text-neutral-400">{user.email}</li>
+            <li className="border-t border-white">
               <Link to="/" onClick={handleLogOut} className="text-lg">
                 Logout
               </Link>

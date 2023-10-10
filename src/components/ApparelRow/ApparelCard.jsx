@@ -1,6 +1,7 @@
 import { RxCross1 } from "react-icons/rx";
 import { PiPencil } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { FaPersonPraying, FaThumbsUp, FaRegFaceKiss } from "react-icons/fa6";
 
 function ApparelCard({ item, handleDelete }) {
   return (
@@ -15,6 +16,7 @@ function ApparelCard({ item, handleDelete }) {
             className="text-lg mb-2 text-black cursor-pointer"
           />
         </span>
+
         <img
           className="h-auto max-w-full rounded-lg object-cover mx-auto"
           src={item.imageURL}
@@ -24,9 +26,26 @@ function ApparelCard({ item, handleDelete }) {
           <h5 className="text-xl mb-2 tracking-tight text-gray-900">
             {item.subCategory}
           </h5>
-          <i className="text-sm text-zinc-500">{item.fit} fit</i>
-          <p className="text-sm text-zinc-500">
-            Worn {item.wornFrequency} times
+          <p className="text-md text-zinc-500">
+            <i className="text-zinc-600">{item.fit}</i> fit
+          </p>
+          <p
+            className={`text-md flex items-center ${
+              item.wornFrequency === 0 ? "text-red-500" : "text-zinc-500"
+            }`}
+          >
+            {item.wornFrequency === 0
+              ? "Not worn yet"
+              : item.wornFrequency === 1
+              ? "Worn once"
+              : `Worn ${item.wornFrequency} times`}
+            {item.wornFrequency === 0 ? (
+              <FaPersonPraying className="ml-1" />
+            ) : item.wornFrequency === 1 ? (
+              <FaThumbsUp className="ml-1" />
+            ) : (
+              <FaRegFaceKiss className="ml-1" />
+            )}
           </p>
         </div>
       </div>

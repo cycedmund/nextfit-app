@@ -84,10 +84,10 @@ async function del(req, res) {
 
 async function updateOne(req, res) {
   debug("see req.user: %o", req.user);
-  debug("id", req.params.apparelId);
+  debug("HELLOOOOOOOOOOOO %o", req.body.params);
   try {
     const updatedApparel = await Wardrobe.findByIdAndUpdate(
-      { _id: req.params.apparelId },
+      { _id: req.params.apparelID },
       {
         mainCategory: req.body.mainCategory,
         subCategory: req.body.subCategory,

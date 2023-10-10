@@ -1,6 +1,8 @@
 import debug from "debug";
 import { useState, useRef } from "react";
 import {
+  updateApparelService,
+  getAllApparelService,
   addApparelService,
   uploadToS3Service,
   checkMainCategory,
@@ -10,30 +12,37 @@ import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown } from "react-icons/fa6";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelEditForm() {
+    const {apparelId} = useParams();
+    const navigate = useNavigate();
+    // console.log("id",apparelId)
 
-  const {apparelId} = useParams(); 
+    const [apparel, setApparel] = useState([]);
 
-  const initialApparelData = {
-    mainCategory: "",
-    subCategory: "",
-    fit: "",
-    images: [],
-    preview: [],
-  };
-  const [apparelData, setApparelData] = useState(initialApparelData);
-  const [status, setStatus] = useState(null);
-  const inputImage = useRef(null);
+    const initialApparelData = {
+        mainCategory: "",
+        subCategory: "",
+        fit: "",
+      };
 
-  const resetApparelForm = () => {
-    setApparelData(initialApparelData);
-    inputImage.current.value = "";
-    setStatus(null);
-  };
+    const [apparelData, setApparelData] = useState(initialApparelData);
+     
+  
+useEffect(() => {
+    const fetchApparelData = async () => {
+        const allApparel = await getAllApparelService();
+        log("fetch all apparel:", allApparel);
+        setApparel(allApparel);
+    };
+    fetchApparelData();
+    }, []);
+
 
   const handleChange = (e) => {
     setApparelData({
@@ -42,55 +51,27 @@ function ApparelEditForm() {
     });
   };
 
-  const handleImgFileInput = (e) => {
-    const imgFiles = Array.from(e.target.files);
-    const updatedPreview = [];
+  
 
-    imgFiles.forEach((img) => {
-      const imgUrl = URL.createObjectURL(img);
-      updatedPreview.push(imgUrl);
-    });
-    setApparelData({
-      ...apparelData,
-      images: [...apparelData.images, ...imgFiles],
-      preview: [...apparelData.preview, ...updatedPreview],
-    });
-    log("Image uploaded");
-  };
-
-  const handleSubmit = async (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    if (apparelData.images.length === 0) return;
-    setStatus("loading");
-
-    const imgFormData = new FormData();
-    apparelData.images.forEach((img) => {
-      imgFormData.append("images", img);
-    });
-    log("images appended to form", imgFormData);
     try {
-      const imgURL = await uploadToS3Service(imgFormData);
-      await addApparelService({
-        ...apparelData,
-        images: imgURL,
-      });
-      Swal.fire(swalBasicSettings("Successful Edit!", "success"));
-      resetApparelForm();
+      await updateApparelService(apparelId, apparelData);
+      navigate('/wardrobe');
+
     } catch (err) {
       console.error(err);
-      setStatus("Edit failed, please try again");
-    } finally {
-      setStatus("Edit saved!");
-    }
-  };
-
+    
+  }
+};
+  
   return (
     <section className="flex justify-center items-center min-h-[80vh]">
       <form
         className="container bg-neutral-400 mx-auto max-w-lg px-4 pb-8"
-        onSubmit={handleSubmit}
         autoComplete="off"
         encType="multipart/form-data"
+        onSubmit={handleUpdate}
       >
         <header className="text-black font-inter font-light text-2xl text-center my-4">
           Make your edits here! 
@@ -178,22 +159,7 @@ function ApparelEditForm() {
             <br/>
             <br/>
           </div>
-          <div className="w-1/2 pl-2">
-            {apparelData.preview.length !== 0 ? (
-              apparelData.preview.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Preview Image ${idx + 1}`}
-                  className="mx-auto rounded-lg w-[400px] h-[200px] mt-1"
-                />
-              ))
-            ) : (
-              <div className="w-full h-full flex justify-center items-center border-dashed border-2 border-neutral-300">
-                <GiClothes className="text-8xl fill-neutral-300" />
-              </div>
-            )}
-          </div>
+          
         </div>
         {status === "loading" ? (
           <div className="flex items-center justify-center">

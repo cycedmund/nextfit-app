@@ -59,6 +59,7 @@ function WardrobePage() {
     }
   };
 
+  
   return (
     <div className="max-w-screen">
       <main className="flex flex-col">

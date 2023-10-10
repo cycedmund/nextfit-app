@@ -162,7 +162,8 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
               <div className="overlay w-32 bg-gray-600 opacity-0 absolute inset-0 rounded-t pointer-events-none group-hover:opacity-50"></div>
               </span>
               <button
-                className={`text-base text-tiny bg-white hover:bg-gray-400 hover:cursor-pointer font-bold py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100`}
+                className={`text-base text-tiny bg-white hover:bg-gray-400 hover:cursor-pointer font-bold py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                data-tip="Add to Favourites"
                 onClick={() =>
                   handleAdd(
                     topApparelImages[index]?._id,
@@ -170,12 +171,12 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
                   )
                 }
                 id="favButton"
-                disabled={isButtonFaved[index]}
               >
                 <HiOutlineStar className="w-6 h-6" />
               </button>
               <button
-                className={`favButton text-base text-tiny bg-white hover:bg-gray-400 font-bold py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100`}
+                className={`favButton text-base text-tiny bg-white hover:bg-gray-400 font-bold py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                data-tip="Add Worn Frequency"
                 onClick={() =>
                   handleUpdateWornFreq({
                     topApparelID: topApparelImages[index]?._id,

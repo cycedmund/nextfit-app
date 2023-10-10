@@ -13,14 +13,15 @@ import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown } from "react-icons/fa6";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 const log = debug("nextfit:src:components:ApparelForm");
 
 function ApparelEditForm() {
     const {apparelId} = useParams();
-
-    console.log("id",apparelId)
+    const navigate = useNavigate();
+    // console.log("id",apparelId)
 
     const [apparel, setApparel] = useState([]);
 
@@ -42,15 +43,6 @@ useEffect(() => {
     fetchApparelData();
     }, []);
 
-  
-  const [status, setStatus] = useState(null);
-  const inputImage = useRef(null);
-
-  const resetApparelForm = () => {
-    setApparelData(initialApparelData);
-    inputImage.current.value = "";
-    setStatus(null);
-  };
 
   const handleChange = (e) => {
     setApparelData({
@@ -61,31 +53,11 @@ useEffect(() => {
 
   
 
-  const handleUpdate = async (e, apparelID, apparelData) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const result = await updateApparelService(apparelID, apparelData);
-      console.log(result)
-      const updatedIndex = apparel.findIndex(
-        (item) => item._id === apparelID
-      );
-      if (updatedIndex !== -1) {
-        const updatedApparel = [...apparel];
-
-        updatedApparel[updatedIndex] = {
-          ...updatedApparel[updatedIndex], ...apparelData
-        };
-
-        setApparel(updatedApparel);
-
-        Swal.fire(swalBasicSettings("Updated!", "success"));
-      } else {
-
-      Swal.fire({
-        ...swalBasicSettings("Error", "error"),
-        text: "Item not found for update",
-      });
-      } 
+      await updateApparelService(apparelId, apparelData);
+      navigate('/wardrobe');
 
     } catch (err) {
       console.error(err);
@@ -99,6 +71,7 @@ useEffect(() => {
         className="container bg-neutral-400 mx-auto max-w-lg px-4 pb-8"
         autoComplete="off"
         encType="multipart/form-data"
+        onSubmit={handleUpdate}
       >
         <header className="text-black font-inter font-light text-2xl text-center my-4">
           Make your edits here! 
@@ -196,7 +169,6 @@ useEffect(() => {
           <button
             type="submit"
             className="text-white bg-[#E50914] hover:bg-[#e50914be] focus:ring-2 focus:outline-none focus:ring-gray-400 font-inter font-normal text-lg px-3 py-2.5 text-center w-full"
-            onClick={() => handleUpdate(apparelId, apparelData)}
           >
             SUBMIT
           </button>

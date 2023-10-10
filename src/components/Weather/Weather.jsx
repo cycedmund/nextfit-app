@@ -17,7 +17,6 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
   let filteredBottomApparel = [];
   const [isButtonFaved, setIsButtonFaved] = useState(false);
 
-
   useEffect(() => {
     const fetchWeather = async () => {
       try {
@@ -143,14 +142,14 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
           {temperatureData}°C
         </span>
       </p>
-      <div className="weather-table -mt-10 relative">
+      <div className="text-shadow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5 grid-rows-1 gap-4 ml-20 mr-20 -mt-10 text-large text-black font-bold relative">
         {topApparelImages.map((_, index) => (
           <div
             key={`weather-outfit-${index + 1}`}
-            className={`weather${index + 1} group`}
+            className={`col-span-1 group`}
           >
             {index + 1}
-            <span className="weather-outfit flex flex-col">
+            <span className="-mt-56 ml-28 flex flex-col">
                 <span className="w-32 relative">
               <img
                 className="w-32 h-36 object-cover rounded-t"
@@ -163,7 +162,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
               <div className="overlay w-32 bg-gray-600 opacity-0 absolute inset-0 rounded-t pointer-events-none group-hover:opacity-50"></div>
               </span>
               <button
-                className={`font-normal bg-white hover:bg-gray-400 hover:cursor-pointer py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                className={`font-normal bg-white hover:bg-gray-400 hover:cursor-pointer py-1 px-1 rounded mt-28 ml-7 w-8 h-8 absolute opacity-0 group-hover:opacity-100 z-2 tooltip tooltip-bottom`}
                 data-tip="Add to Favourites"
                 onClick={() =>
                   handleAdd(
@@ -171,12 +170,11 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
                     bottomApparelImages[index]?._id
                   )
                 }
-                id="favButton"
               >
                 <HiOutlineStar className="w-6 h-6" />
               </button>
               <button
-                className={`favButton font-normal bg-white hover:bg-gray-400 py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100 tooltip tooltip-bottom`}
+                className={`font-normal bg-white hover:bg-gray-400 py-1 px-1 rounded mt-28 ml-16 w-8 h-8 absolute opacity-0 group-hover:opacity-100 z-2 tooltip tooltip-bottom`}
                 data-tip="Add Worn Frequency"
                 onClick={() =>
                   handleUpdateWornFreq({

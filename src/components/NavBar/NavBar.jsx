@@ -68,7 +68,9 @@ function NavBar({ user, setUser }) {
           </summary>
           <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-48 font-bebas tracking-widest bg-opacity-50 text-lg">
             <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
-            <li className="ml-4 mt-2  text-neutral-400">{user.email}</li>
+            <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
+              {user.email}
+            </li>
             <li className="border-t border-white">
               <Link to="/" onClick={handleLogOut} className="text-lg">
                 Logout

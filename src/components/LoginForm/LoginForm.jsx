@@ -38,6 +38,7 @@ function LoginForm() {
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
         text: err.message,
+        confirmButtonText: "Try Again",
       });
       setCredentials({
         username: "",

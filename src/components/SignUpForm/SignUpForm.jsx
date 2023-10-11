@@ -28,6 +28,7 @@ function SignUpForm() {
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
         text: "Password and Repeat Password do not match",
+        confirmButtonText: "Try Again",
       });
       return;
     }
@@ -47,6 +48,7 @@ function SignUpForm() {
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
         text: err.message,
+        confirmButtonText: "Try Again",
       });
     }
   };

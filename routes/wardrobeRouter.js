@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const wardrobeCtrl = require("../controllers/wardrobeCtrl");
-const { uploadToS3, deleteFromS3 } = require("../config/s3Middlewares");
+const { uploadToS3, deleteFromS3, updateS3 } = require("../config/s3Middlewares");
 
 router.get("/", wardrobeCtrl.getAll);
 router.post("/new/upload", uploadToS3, wardrobeCtrl.uploadImg);

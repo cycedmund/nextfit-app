@@ -77,7 +77,7 @@ function ApparelRow({
 
   return (
     <div className="px-6 relative">
-      <header className="mx-4 px-6 font-inter font-thin text-2xl">
+      <header className="mx-4 px-6 font-inter font-thin text-2xl" id={`${mainCategory}`}>
         {mainCategory}
         {"s"}
       </header>

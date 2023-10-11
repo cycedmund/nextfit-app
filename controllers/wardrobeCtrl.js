@@ -71,9 +71,9 @@ async function del(req, res) {
     // will return null if cannot findOne
     const category = req.params.main;
     if (category === "Top") {
-      await Outfit.findOneAndDelete({ "apparels.top": req.params.apparelID });
+      await Outfit.deleteMany({ "apparels.top": req.params.apparelID });
     } else if (category === "Bottom") {
-      await Outfit.findOneAndDelete({
+      await Outfit.deleteMany({
         "apparels.bottom": req.params.apparelID,
       });
     }

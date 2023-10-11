@@ -7,9 +7,14 @@ import AuthPage from "../AuthPage/AuthPage";
 import HomePage from "../HomePage/HomePage";
 import { getUser } from "../../utilities/users-service";
 import WardrobeRoutes from "../../components/WardrobeRoutes/WardrobeRoutes";
-import { getAllApparelService } from "../../utilities/wardrobe-service";
+import {
+  getAllApparelService,
+  patchApparelFrequencyService,
+} from "../../utilities/wardrobe-service";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import Swal from "sweetalert2";
+import { swalBasicSettings } from "../../utilities/wardrobe-service";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
@@ -21,12 +26,48 @@ function App() {
   const [apparel, setApparel] = useState([]);
 
   useEffect(() => {
-    const fetchApparelData = async () => {
-      const allApparel = await getAllApparelService();
-      setApparel(allApparel);
-    };
-    fetchApparelData();
-  }, []);
+    if (user) {
+      const fetchApparelData = async () => {
+        const allApparel = await getAllApparelService();
+        setApparel(allApparel);
+      };
+      fetchApparelData();
+    }
+  }, [user]);
+
+  const handleUpdateWornFreq = async (apparelIDs) => {
+    console.log("IDs", apparelIDs);
+    try {
+      const { top, bottom, outerwear, overall } =
+        await patchApparelFrequencyService(apparelIDs);
+      const freqUpdate = apparel.map((item) => {
+        if (top && top._id === item._id) {
+          item.wornFrequency = top.wornFrequency;
+        }
+        if (bottom && bottom._id === item._id) {
+          item.wornFrequency = bottom.wornFrequency;
+        }
+        if (outerwear && outerwear._id === item._id) {
+          item.wornFrequency = outerwear.wornFrequency;
+        }
+        if (overall && overall._id === item._id) {
+          item.wornFrequency = overall.wornFrequency;
+        }
+        return item;
+      });
+      setApparel(freqUpdate);
+      Swal.fire({
+        ...swalBasicSettings("Updated!", "success"),
+        text: "Thank you for reusing your clothes!",
+      });
+    } catch (err) {
+      console.error(err);
+      Swal.fire({
+        ...swalBasicSettings("Error", "error"),
+        text: "Something went wrong",
+      });
+    }
+  };
 
   return (
     <main className="min-h-screen min-w-screen bg-black text-white">
@@ -37,12 +78,21 @@ function App() {
           <Routes>
             <Route
               path="/home"
-              element={<HomePage apparel={apparel} setApparel={setApparel} />}
+              element={
+                <HomePage
+                  apparel={apparel}
+                  handleUpdateWornFreq={handleUpdateWornFreq}
+                />
+              }
             />
             <Route
               path="/wardrobe/*"
               element={
-                <WardrobeRoutes apparel={apparel} setApparel={setApparel} />
+                <WardrobeRoutes
+                  apparel={apparel}
+                  setApparel={setApparel}
+                  handleUpdateWornFreq={handleUpdateWornFreq}
+                />
               }
             />
           </Routes>

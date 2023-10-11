@@ -123,15 +123,12 @@ async function updateOne(req, res) {
 }
 
 async function updateWornFreq(req, res) {
-  const { topApparelID, bottomApparelID } = req.body;
+  const { apparelIDs } = req.body;
   try {
-    const { top, bottom } = await Wardrobe.updateWornFrequency(
-      topApparelID,
-      bottomApparelID
-    );
+    const apparelWithIDs = await Wardrobe.updateWornFrequency(apparelIDs);
     res.status(200).json({
       status: "success",
-      data: { top, bottom },
+      data: apparelWithIDs,
     });
   } catch (err) {
     res.status(500).json({

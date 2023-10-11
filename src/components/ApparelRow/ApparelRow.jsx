@@ -22,6 +22,7 @@ function ApparelRow({
   setCurrentSlideIndex,
   currentSlideIndex,
   sliderRef,
+  handleUpdateWornFreq,
 }) {
   const [selectSubCategory, setSelectSubCategory] = useState("");
   const [freqOrder, setFreqOrder] = useState("Low-to-High");
@@ -142,10 +143,11 @@ function ApparelRow({
         <div className="grid grid-cols-5 px-6 py-4">
           {mainCategorizedApparel.map((item) => (
             <ApparelCard
+              key={item._id}
               item={item}
               handleDelete={handleDelete}
               handleUpdate={handleUpdate}
-              key={item._id}
+              handleUpdateWornFreq={handleUpdateWornFreq}
             />
           ))}
         </div>

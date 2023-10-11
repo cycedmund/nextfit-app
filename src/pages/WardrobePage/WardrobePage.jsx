@@ -11,14 +11,14 @@ import WardrobeHero from "./WardrobeHero";
 
 const log = debug("nextfit:src:pages:WardrobePage");
 
-function WardrobePage({ apparel, setApparel }) {
+function WardrobePage({ apparel, setApparel, handleUpdateWornFreq }) {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const sliderRef = useRef(null);
   const mainCategories = getUniqueCategories(apparel);
 
   useEffect(() => {
-    if (mainCategories?.length > 0) {
+    if (mainCategories?.length > 0 || mainCategories?.length === 0) {
       setLoading(false);
     }
   }, [mainCategories]);
@@ -74,6 +74,7 @@ function WardrobePage({ apparel, setApparel }) {
               sliderRef={sliderRef}
               currentSlideIndex={currentSlideIndex}
               setCurrentSlideIndex={setCurrentSlideIndex}
+              handleUpdateWornFreq={handleUpdateWornFreq}
             />
           ))}
       </main>

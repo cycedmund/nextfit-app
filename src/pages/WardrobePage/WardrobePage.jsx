@@ -62,9 +62,9 @@ function WardrobePage({ apparel, setApparel, handleUpdateWornFreq }) {
             <span className="loading loading-spinner w-16 text-[#E50A14]"></span>
           </div>
         )}
-        {!loading && mainCategories.length === 0 && <WardrobeHero />}
+        {!loading && mainCategories.length < 2 && <WardrobeHero />}
         {!loading &&
-          mainCategories.length > 0 &&
+          mainCategories.length >= 2 &&
           mainCategories.map((mainCategory, index) => (
             <ApparelRow
               key={index}

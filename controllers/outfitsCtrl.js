@@ -5,6 +5,13 @@ async function create(req, res) {
   debug("req.body: %o", req.body);
   const { top, bottom } = req.body;
   try {
+    //* check if outfit combo already exist inside db
+    const outfit = await Outfit.findOne({
+      "apparels.top": top,
+      "apparels.bottom": bottom
+    });
+    if (outfit) throw new Error();
+
     const newOutfit = await Outfit.create({
       apparels: { top, bottom },
       user: req.user._id,

@@ -18,7 +18,7 @@ function WardrobePage({ apparel, setApparel, handleUpdateWornFreq }) {
   const mainCategories = getUniqueCategories(apparel);
 
   useEffect(() => {
-    if (mainCategories?.length > 0) {
+    if (mainCategories?.length > 0 || mainCategories?.length === 0) {
       setLoading(false);
     }
   }, [mainCategories]);

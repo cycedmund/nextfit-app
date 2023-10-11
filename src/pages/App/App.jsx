@@ -26,12 +26,14 @@ function App() {
   const [apparel, setApparel] = useState([]);
 
   useEffect(() => {
-    const fetchApparelData = async () => {
-      const allApparel = await getAllApparelService();
-      setApparel(allApparel);
-    };
-    fetchApparelData();
-  }, []);
+    if (user) {
+      const fetchApparelData = async () => {
+        const allApparel = await getAllApparelService();
+        setApparel(allApparel);
+      };
+      fetchApparelData();
+    }
+  }, [user]);
 
   const handleUpdateWornFreq = async (apparelIDs) => {
     console.log("IDs", apparelIDs);

@@ -11,20 +11,19 @@ import {
 import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
-import { FaCaretDown } from "react-icons/fa6";
+import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
 import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 
 const log = debug("nextfit:src:components:ApparelForm");
 
-function ApparelEditForm() {
+function ApparelEditForm({apparel, setApparel}) {
     const {apparelId} = useParams();
     const navigate = useNavigate();
     // console.log("id",apparelId)
 
-    const [apparel, setApparel] = useState([]);
-
+    
     const initialApparelData = {
         mainCategory: "",
         subCategory: "",
@@ -32,16 +31,14 @@ function ApparelEditForm() {
       };
 
     const [apparelData, setApparelData] = useState(initialApparelData);
-     
+    const [imageFiles, setImageFiles] = useState({
+        images: [],
+        preview: [],
+        filenames: [],
+      });
+    
+    const [status, setStatus] = useState(null);
   
-useEffect(() => {
-    const fetchApparelData = async () => {
-        const allApparel = await getAllApparelService();
-        log("fetch all apparel:", allApparel);
-        setApparel(allApparel);
-    };
-    fetchApparelData();
-    }, []);
 
 
   const handleChange = (e) => {
@@ -52,18 +49,63 @@ useEffect(() => {
   };
 
   
+  const handleImgFileInput = (e) => {
+    const imgFiles = Array.from(e.target.files);
+    const updatedPreview = [];
+    const updatedFilenames = [];
+    console.log(imgFiles);
+
+    imgFiles.forEach((img) => {
+      const imgUrl = URL.createObjectURL(img);
+      updatedPreview.push(imgUrl);
+      updatedFilenames.push(img.name);
+    });
+    log("imges", imgFiles);
+    setImageFiles({
+      images: [...imageFiles.images, ...imgFiles],
+      preview: [...imageFiles.preview, ...updatedPreview],
+      filenames: [...imageFiles.filenames, ...updatedFilenames],
+    });
+    log("Image uploaded");
+  };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    // if (imageFiles.images.length === 0) return;
+    // setStatus("loading");
+
+    const imgFormData = new FormData();
+    imageFiles.images.forEach((img) => {
+      imgFormData.append("images", img);
+      console.log(imgFormData);
+    });
+    log("images appended to form", imgFormData);
     try {
-      await updateApparelService(apparelId, apparelData);
+    const imgURL = await uploadToS3Service(imgFormData);
+      await updateApparelService(apparelId, {
+        ...apparelData,
+        images: imgURL,
+      });
+      log("image URL", imgURL);
+      const updatedApparel = [...apparel, {...apparelData, images: imgURL,}]; 
+
+  
       navigate('/wardrobe');
+    //   setApparel(updatedApparel);
 
     } catch (err) {
       console.error(err);
     
   }
 };
+
+const handleRemoveImage = () => {
+    setImageFiles({
+      images: [],
+      preview: [],
+      filenames: [],
+    });
+  };
   
   return (
     <section className="flex justify-center items-center min-h-[80vh]">
@@ -155,12 +197,60 @@ useEffect(() => {
               </select>
               <FaCaretDown className="absolute right-3 top-7 text-gray-500 pointer-events-none z-50 text-3xl" />
             </div>
-            <br/>
-            <br/>
-            <br/>
+            <div className="pr-2 mb-6">
+              <label
+                className="block mb-1 text-sm font-inter font-light text-neutral-600"
+                htmlFor="image"
+              >
+                Image
+              </label>
+              {imageFiles.images.length !== 0 ? (
+                <span>
+                  <button
+                    type="button"
+                    onClick={handleRemoveImage}
+                    className="btn btn-neutral rounded-none bg-neutral-300 text-neutral-500 border-none mb-2"
+                  >
+                    Remove File
+                  </button>
+                  <h3 className="text-neutral-500 font-inter font-normal flex items-center justify-start">
+                    <FaRegFileImage className="text-xl" />
+                    {imageFiles.filenames}
+                  </h3>
+                </span>
+              ) : (
+                <input
+                  className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full cursor-pointer font-inter font-extralight"
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                //   required
+                  onChange={handleImgFileInput}
+                />
+              )}
+            </div>
           </div>
-          
-        </div>
+          <div className="w-1/2 pl-2">
+            {imageFiles.preview.length !== 0 ? (
+              imageFiles.preview.map((img, idx) => (
+                <img
+                  key={idx}
+                  src={img}
+                  alt={`Preview Image ${idx + 1}`}
+                  className="mx-auto rounded-lg w-[250px] h-[300px] mt-1"
+                />
+              ))
+            ) : (
+              <div className="w-1/2">
+                <span className="w-[230px] h-[300px] flex justify-center items-center border-dashed border-2 border-neutral-300">
+                  <GiClothes className="text-8xl fill-neutral-300" />
+                </span>
+              </div>
+            )}
+          </div>
+          </div>
+        
+        
         {status === "loading" ? (
           <div className="flex items-center justify-center">
             <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>

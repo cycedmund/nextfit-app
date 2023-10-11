@@ -22,7 +22,9 @@ function WardrobeRoutes({ apparel, setApparel, handleUpdateWornFreq }) {
         path="/new"
         element={<ApparelForm apparel={apparel} setApparel={setApparel} />}
       />
-      <Route path="/:apparelId/edit" element={<ApparelEditForm />} />
+      <Route path="/:apparelId/edit" element={<ApparelEditForm 
+       apparel={apparel}
+       setApparel={setApparel}/>} />
     </Routes>
   );
 }

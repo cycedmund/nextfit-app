@@ -45,6 +45,7 @@ export async function updateApparelService(apparelID, apparelData) {
   return result;
 }
 
+
 export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {
     return [];

@@ -102,6 +102,8 @@ async function updateOne(req, res) {
         mainCategory: req.body.mainCategory,
         subCategory: req.body.subCategory,
         fit: req.body.fit,
+        imageURL: req.body.images,
+        user: req.user._id,
       },
       { new: true }
     );

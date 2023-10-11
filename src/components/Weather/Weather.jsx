@@ -119,7 +119,7 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
     } catch (err) {
         Swal.fire({
             ...swalBasicSettings("Error", "error"),
-            text: "Something went wrong...",
+            text: "Outfit is already in your favourites",
         });
     }
   };

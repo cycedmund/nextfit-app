@@ -33,15 +33,17 @@ function LoginForm() {
           setUser(user);
           navigate("/home");
         }
-      } else {
-        Swal.fire({
-          ...swalBasicSettings("Sorry!", "error"),
-          text: "Please try again.",
-        });
-        navigate("/login");
       }
     } catch (err) {
-      console.error(err);
+      Swal.fire({
+        ...swalBasicSettings("Error", "error"),
+        text: err.message,
+        confirmButtonText: "Try Again",
+      });
+      setCredentials({
+        username: "",
+        password: "",
+      });
     }
   };
 

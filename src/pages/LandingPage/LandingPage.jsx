@@ -9,8 +9,7 @@ function LandingPage() {
       <div
         className="hero min-h-screen"
         style={{
-          backgroundImage:
-            "url('../../../public/assets/nextfit-background.jpeg')",
+          backgroundImage: "url('/assets/nextfit-background.jpeg')",
         }}
       >
         <div className="hero-overlay bg-opacity-60"></div>

@@ -18,8 +18,8 @@ export function deleteApparelAPI(apparelID, mainCatgeory) {
   return sendRequest(`${BASE_URL}/${apparelID}/${mainCatgeory}`, "DELETE");
 }
 
-export function patchApparelFrequencyAPI(outfitID) {
-  return sendRequest(`${BASE_URL}/frequency`, "PATCH", outfitID);
+export function patchApparelFrequencyAPI(apparelIDs) {
+  return sendRequest(`${BASE_URL}/frequency`, "PATCH", { apparelIDs });
 }
 
 export function updateApparelAPI(apparelID, apparelData) {

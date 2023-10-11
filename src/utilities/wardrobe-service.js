@@ -35,8 +35,8 @@ export async function deleteApparelService(apparelID, mainCategory) {
   await deleteApparelAPI(apparelID, mainCategory);
 }
 
-export async function patchApparelFrequencyService(outfitID) {
-  const update = await patchApparelFrequencyAPI(outfitID);
+export async function patchApparelFrequencyService(apparelIDs) {
+  const update = await patchApparelFrequencyAPI(apparelIDs);
   return update.data;
 }
 

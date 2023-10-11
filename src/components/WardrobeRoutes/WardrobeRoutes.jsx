@@ -4,12 +4,18 @@ import WardrobePage from "../../pages/WardrobePage/WardrobePage";
 import ApparelForm from "../ApparelForm/ApparelForm";
 import ApparelEditForm from "../ApparelEditForm/ApparelEditForm";
 
-function WardrobeRoutes({ apparel, setApparel }) {
+function WardrobeRoutes({ apparel, setApparel, handleUpdateWornFreq }) {
   return (
     <Routes>
       <Route
         index
-        element={<WardrobePage apparel={apparel} setApparel={setApparel} />}
+        element={
+          <WardrobePage
+            apparel={apparel}
+            setApparel={setApparel}
+            handleUpdateWornFreq={handleUpdateWornFreq}
+          />
+        }
       />
       <Route path="/favourites" element={<FavouritesPage />} />
       <Route

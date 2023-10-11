@@ -68,15 +68,26 @@ wardrobeSchema.methods.updateWornFrequencyCount = async function () {
   await this.save();
 };
 
-wardrobeSchema.statics.updateWornFrequency = async function (
-  topApparelID,
-  bottomApparelID
-) {
-  const top = await this.findById(topApparelID);
-  const bottom = await this.findById(bottomApparelID);
-  await top.updateWornFrequencyCount();
-  await bottom.updateWornFrequencyCount();
-  return { top, bottom };
+wardrobeSchema.statics.updateWornFrequency = async function (apparelIDs) {
+  const apparelWithIDs = {};
+
+  for (const apparelID of apparelIDs) {
+    const apparel = await this.findById(apparelID);
+    if (apparel) {
+      await apparel.updateWornFrequencyCount();
+
+      if (apparel.mainCategory === "Top") {
+        apparelWithIDs.top = apparel;
+      } else if (apparel.mainCategory === "Bottom") {
+        apparelWithIDs.bottom = apparel;
+      } else if (apparel.mainCategory === "Outerwear") {
+        apparelWithIDs.outerwear = apparel;
+      } else if (apparel.mainCategory === "Overall") {
+        apparelWithIDs.overall = apparel;
+      }
+    }
+  }
+  return apparelWithIDs;
 };
 
 module.exports = model("Wardrobe", wardrobeSchema);

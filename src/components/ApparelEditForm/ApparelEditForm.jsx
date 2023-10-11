@@ -1,9 +1,7 @@
 import debug from "debug";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   updateApparelService,
-  getAllApparelService,
-  addApparelService,
   uploadToS3Service,
   checkMainCategory,
   swalBasicSettings,
@@ -12,34 +10,29 @@ import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
-import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
 
 const log = debug("nextfit:src:components:ApparelForm");
 
-function ApparelEditForm({apparel, setApparel}) {
-    const {apparelId} = useParams();
-    const navigate = useNavigate();
-    // console.log("id",apparelId)
+function ApparelEditForm({ apparel, setApparel }) {
+  const { apparelId } = useParams();
+  const navigate = useNavigate();
+  // console.log("id",apparelId)
 
-    
-    const initialApparelData = {
-        mainCategory: "",
-        subCategory: "",
-        fit: "",
-      };
+  const initialApparelData = {
+    mainCategory: "",
+    subCategory: "",
+    fit: "",
+  };
 
-    const [apparelData, setApparelData] = useState(initialApparelData);
-    const [imageFiles, setImageFiles] = useState({
-        images: [],
-        preview: [],
-        filenames: [],
-      });
-    
-    const [status, setStatus] = useState(null);
-  
+  const [apparelData, setApparelData] = useState(initialApparelData);
+  const [imageFiles, setImageFiles] = useState({
+    images: [],
+    preview: [],
+    filenames: [],
+  });
 
+  const [status, setStatus] = useState(null);
 
   const handleChange = (e) => {
     setApparelData({
@@ -48,7 +41,6 @@ function ApparelEditForm({apparel, setApparel}) {
     });
   };
 
-  
   const handleImgFileInput = (e) => {
     const imgFiles = Array.from(e.target.files);
     const updatedPreview = [];
@@ -71,8 +63,8 @@ function ApparelEditForm({apparel, setApparel}) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    // if (imageFiles.images.length === 0) return;
-    // setStatus("loading");
+    if (imageFiles.images.length === 0) return;
+    setStatus("loading");
 
     const imgFormData = new FormData();
     imageFiles.images.forEach((img) => {
@@ -81,32 +73,28 @@ function ApparelEditForm({apparel, setApparel}) {
     });
     log("images appended to form", imgFormData);
     try {
-    const imgURL = await uploadToS3Service(imgFormData);
+      const imgURL = await uploadToS3Service(imgFormData);
       await updateApparelService(apparelId, {
         ...apparelData,
         images: imgURL,
       });
       log("image URL", imgURL);
-      const updatedApparel = [...apparel, {...apparelData, images: imgURL,}]; 
-
-  
-      navigate('/wardrobe');
-    //   setApparel(updatedApparel);
-
+      const updatedApparel = [...apparel, { ...apparelData, images: imgURL }];
+      navigate("/wardrobe");
+      //   setApparel(updatedApparel);
     } catch (err) {
       console.error(err);
-    
-  }
-};
+    }
+  };
 
-const handleRemoveImage = () => {
+  const handleRemoveImage = () => {
     setImageFiles({
       images: [],
       preview: [],
       filenames: [],
     });
   };
-  
+
   return (
     <section className="flex justify-center items-center min-h-[80vh]">
       <form
@@ -116,7 +104,7 @@ const handleRemoveImage = () => {
         onSubmit={handleUpdate}
       >
         <header className="text-black font-inter font-light text-2xl text-center my-4">
-          Make your edits here! 
+          Make your edits here!
         </header>
         <div className="flex mb-6">
           <div className="w-1/2 pr-2 relative">
@@ -224,7 +212,7 @@ const handleRemoveImage = () => {
                   id="image"
                   type="file"
                   accept="image/*"
-                //   required
+                  //   required
                   onChange={handleImgFileInput}
                 />
               )}
@@ -248,9 +236,8 @@ const handleRemoveImage = () => {
               </div>
             )}
           </div>
-          </div>
-        
-        
+        </div>
+
         {status === "loading" ? (
           <div className="flex items-center justify-center">
             <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>

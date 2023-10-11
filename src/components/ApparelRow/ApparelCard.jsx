@@ -7,17 +7,23 @@ function ApparelCard({ item, handleDelete, handleUpdateWornFreq }) {
     <article>
       <div className="bg-gray-200 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
         <span className="flex items-center justify-end">
-          <Link to={`/wardrobe/${item._id}/edit`}>
-            <PiPencil className="text-xl mb-2 mr-[2px] text-black cursor-pointer" />
-          </Link>
-          <PiPlusDuotone
-            onClick={() => handleUpdateWornFreq([item._id])}
-            className="text-xl mb-2 mr-[2px] text-black cursor-pointer"
-          />
-          <PiTrashDuotone
-            onClick={() => handleDelete(item._id, item.mainCategory)}
-            className="text-xl mb-2 text-black cursor-pointer"
-          />
+          <span className="tooltip tooltip-bottom" data-tip="Edit Apparel">
+            <Link to={`/wardrobe/${item._id}/edit`}>
+              <PiPencil className="text-xl mb-2 mr-[2px] text-black cursor-pointer" />
+            </Link>
+          </span>
+          <span className="tooltip tooltip-bottom" data-tip="Add Frequency">
+            <PiPlusDuotone
+              onClick={() => handleUpdateWornFreq([item._id])}
+              className="text-xl mb-2 mr-[2px] text-black cursor-pointer"
+            />
+          </span>
+          <span className="tooltip tooltip-bottom" data-tip="Delete Apparel">
+            <PiTrashDuotone
+              onClick={() => handleDelete(item._id, item.mainCategory)}
+              className="text-xl mb-2 text-black cursor-pointer"
+            />
+          </span>
         </span>
 
         <img

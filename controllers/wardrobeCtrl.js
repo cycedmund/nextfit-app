@@ -1,6 +1,7 @@
 const Wardrobe = require("../models/wardrobeModel");
 const Outfit = require("../models/outfitModel");
 const debug = require("debug")("nextfit:controllers:apparelCtrl");
+const sendResponse = require("../config/sendResponseHelper");
 
 const AWS_S3_OBJECT_URL = process.env.AWS_S3_OBJECT_URL;
 
@@ -26,20 +27,20 @@ async function create(req, res) {
       imageURL: req.body.images,
       user: req.user._id,
     });
-    res.status(201).json({
-      status: "success",
-      data: {
-        apparel: newApparelItem,
-      },
+    sendResponse(res, 201, {
+      apparel: newApparelItem,
     });
   } catch (err) {
     debug("Error saving: %o", err);
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error saving apparel",
-      error: err,
-    });
+    if (err.name === "ValidationError") {
+      const errors = {};
+      debug("Error saving errors:", err.errors);
+      for (const field in err.errors) {
+        errors[field] = err.errors[field].message;
+      }
+      return sendResponse(res, 400, null, errors);
+    }
+    sendResponse(res, 500, null, "Error saving apparel");
   }
 }
 
@@ -70,9 +71,9 @@ async function del(req, res) {
     // will return null if cannot findOne
     const category = req.params.main;
     if (category === "Top") {
-      await Outfit.findOneAndDelete({ "apparels.top": req.params.apparelID });
+      await Outfit.deleteMany({ "apparels.top": req.params.apparelID });
     } else if (category === "Bottom") {
-      await Outfit.findOneAndDelete({
+      await Outfit.deleteMany({
         "apparels.bottom": req.params.apparelID,
       });
     }

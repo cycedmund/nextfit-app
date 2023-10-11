@@ -16,11 +16,14 @@ function NavBar({ user, setUser }) {
       } hover:text-white hover:text-3xl text-2xl`}
     >
       <Link to="/wardrobe/new" className="flex items-center justify-center">
-        <PiTShirtThin />
-        <div className="tooltip tooltip-bottom" data-tip="Add Apparel">
+        <div
+          className="tooltip tooltip-bottom flex items-center justify-center"
+          data-tip="Add Apparel"
+        >
+          <PiTShirtThin />
           <PiPlusSquareFill />
+          <PiPantsThin />
         </div>
-        <PiPantsThin />
       </Link>
     </div>
   );
@@ -60,24 +63,28 @@ function NavBar({ user, setUser }) {
               {page.title}
             </Link>
           ))}
-          {location.pathname === "/wardrobe" && renderAddApparelComponent()}
         </div>
-        <details className="dropdown dropdown-end">
-          <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
-            <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
-          </summary>
-          <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-48 font-bebas tracking-widest bg-opacity-50 text-lg">
-            <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
-            <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
-              {user.email}
-            </li>
-            <li className="border-t border-white">
-              <Link to="/" onClick={handleLogOut} className="text-lg">
-                Logout
-              </Link>
-            </li>
-          </ul>
-        </details>
+        <div className="flex justify-center items-center">
+          <Link to="/wardrobe/new" className="mr-2">
+            {renderAddApparelComponent()}
+          </Link>
+          <details className="dropdown dropdown-end">
+            <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
+              <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
+            </summary>
+            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-48 font-bebas tracking-widest bg-opacity-50 text-lg">
+              <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
+              <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
+                {user.email}
+              </li>
+              <li className="border-t border-white">
+                <Link to="/" onClick={handleLogOut} className="text-lg">
+                  Logout
+                </Link>
+              </li>
+            </ul>
+          </details>
+        </div>
       </div>
     </nav>
   );

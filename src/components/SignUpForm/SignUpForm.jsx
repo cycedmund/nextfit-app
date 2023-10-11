@@ -24,6 +24,14 @@ function SignUpForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (userData.password !== userData.repeat) {
+      Swal.fire({
+        ...swalBasicSettings("Error", "error"),
+        text: "Password and Repeat Password do not match",
+        confirmButtonText: "Try Again",
+      });
+      return;
+    }
     try {
       const user = await signUpService(userData);
       if (user !== null && user !== undefined) {
@@ -35,15 +43,13 @@ function SignUpForm() {
           setUser(user);
           navigate("/home");
         }
-      } else {
-        Swal.fire({
-          ...swalBasicSettings("Sorry!", "error"),
-          text: "Please try again.",
-        });
-        navigate("/signup");
       }
     } catch (err) {
-      console.error(err);
+      Swal.fire({
+        ...swalBasicSettings("Error", "error"),
+        text: err.message,
+        confirmButtonText: "Try Again",
+      });
     }
   };
 

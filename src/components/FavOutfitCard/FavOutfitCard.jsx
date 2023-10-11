@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import {
   swalBasicSettings,
 } from "../../utilities/wardrobe-service";
+import { FaPersonPraying, FaRegFaceKiss, FaThumbsUp } from "react-icons/fa6";
 
 const log = debug("nextfit:src:components:FavOutfitCard");
 
@@ -44,34 +45,40 @@ function FavOutfitCard({ outfit, updateDeleted }) {
 
   return (
     <article>
-      <div className="bg-stone-400 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
-        <span className="flex items-center justify-end">
+      <div className="bg-gray-200 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
+        <span className="flex apparels-center justify-end">
           <RxCross1
             onClick={() => handleDelete(outfit._id)}
-            className="text-md mb-2 text-black cursor-pointer"
+            className="text-lg mb-2 text-black cursor-pointer"
           />
         </span>
-        {
-          apparels?.map( apparel => <img key={apparel._id}
-          className="h-auto max-w-full rounded-lg object-cover"
-          src={apparel.imageURL}
-          alt={apparel._id}
-          />)
-        }
-        <div className="flex flex-col justify-between p-2 leading-normal">
+        <div className="flex">
           {
             apparels?.map( apparel => {
               return (
-              <>
-                <h5 className="text-sm tracking-tight text-zinc-500">
-                {apparel.mainCategory}
-                </h5>
-                <span><i className="text-sm text-gray-900">{apparel.fit}</i><span key={apparel._id} className="text-sm text-gray-900"> {apparel.subCategory}</span></span>
-              </>
+                <div key={apparel._id} className="m-3">
+                  <img className="h-auto max-w-full rounded-lg object-cover mx-auto" src={apparel.imageURL} alt={apparel.subCategory}/>
+                  <div className="flex flex-col justify-between p-2 leading-normal">
+                    <h5 className="text-xl mb-2 tracking-tight text-gray-900">
+                      {apparel.subCategory}
+                    </h5>
+                    <p className="text-md text-zinc-500">
+                    <i className="text-zinc-600">{apparel.fit}</i> fit
+                    </p>
+                    <p className={`text-md flex apparels-center ${
+                      apparel.wornFrequency === 0 ? "text-red-500" : "text-zinc-500"
+                    }`}
+                    >
+                    {apparel.wornFrequency === 0 ? "Not worn yet" : apparel.wornFrequency === 1 ? "Worn once" : `Worn ${apparel.wornFrequency} times`} {apparel.wornFrequency === 0 ? (
+                    <FaPersonPraying className="ml-1" /> ) : apparel.wornFrequency === 1 ? ( <FaThumbsUp className="ml-1" /> ) : (
+                    <FaRegFaceKiss className="ml-1" /> )}
+                    </p>
+                  </div>
+                </div>
               );
             })
           }
-        </div>
+        </div>     
       </div>
     </article>
   );

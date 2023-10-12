@@ -17,7 +17,6 @@ const log = debug("nextfit:src:components:ApparelForm");
 function ApparelEditForm({ apparel, setApparel }) {
   const { apparelId } = useParams();
   const navigate = useNavigate();
-  // console.log("id",apparelId)
 
   const initialApparelData = {
     mainCategory: "",
@@ -45,7 +44,6 @@ function ApparelEditForm({ apparel, setApparel }) {
     const imgFiles = Array.from(e.target.files);
     const updatedPreview = [];
     const updatedFilenames = [];
-    console.log(imgFiles);
 
     imgFiles.forEach((img) => {
       const imgUrl = URL.createObjectURL(img);
@@ -69,7 +67,6 @@ function ApparelEditForm({ apparel, setApparel }) {
     const imgFormData = new FormData();
     imageFiles.images.forEach((img) => {
       imgFormData.append("images", img);
-      console.log(imgFormData);
     });
     log("images appended to form", imgFormData);
     try {
@@ -87,7 +84,18 @@ function ApparelEditForm({ apparel, setApparel }) {
         navigate("/wardrobe");
       }
     } catch (err) {
-      console.error(err);
+      if (err.message === "Unexpected end of JSON input") {
+        Swal.fire({
+          ...swalBasicSettings("Internal Server Error", "error"),
+          text: "Please try again later.",
+        });
+      } else {
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: err.message,
+          confirmButtonText: "Try Again",
+        });
+      }
       setStatus("error");
     } finally {
       setStatus("success");

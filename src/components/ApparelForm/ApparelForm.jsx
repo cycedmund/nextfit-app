@@ -80,7 +80,18 @@ function ApparelForm({ apparel, setApparel }) {
       setApparel([...apparel, newApparel]);
       resetApparelForm();
     } catch (err) {
-      console.error(err);
+      if (err.message === "Unexpected end of JSON input") {
+        Swal.fire({
+          ...swalBasicSettings("Internal Server Error", "error"),
+          text: "Please try again later.",
+        });
+      } else {
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: err.message,
+          confirmButtonText: "Try Again",
+        });
+      }
       setStatus("error");
     } finally {
       setStatus("success");

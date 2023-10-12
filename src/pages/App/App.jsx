@@ -77,7 +77,7 @@ function App() {
       console.error(err);
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
-        text: "Something went wrong",
+        text: "Update failed! Please try again",
       });
     }
   };

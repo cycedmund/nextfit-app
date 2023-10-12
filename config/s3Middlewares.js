@@ -36,7 +36,6 @@ module.exports = {
 
     upload(req, res, async function (err) {
       if (err) {
-        console.log(err);
         return res.status(500).json({ err, message: "Unable to upload" });
       }
 

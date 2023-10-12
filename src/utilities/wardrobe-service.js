@@ -101,7 +101,6 @@ export function filterByCategory(apparel, mainCategory, selectSubCategory) {
       (item) => !selectSubCategory || item.subCategory === selectSubCategory
     );
 
-  console.log("result", result);
   return result;
 }
 

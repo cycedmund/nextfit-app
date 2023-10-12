@@ -125,7 +125,7 @@ function ApparelRow({
       </div>
       <MdNavigateBefore
         onClick={prev}
-        className={`absolute top-[50%] -translate-y-1/2 left-0 z-50 text-7xl cursor-pointer ${
+        className={`absolute top-[55%] -translate-y-1/2 left-0 z-50 text-7xl cursor-pointer ${
           currentSlideIndex === 0 || mainCategorizedApparel.length <= 5
             ? "opacity-0 pointer-events-none"
             : "opacity-100"
@@ -158,7 +158,7 @@ function ApparelRow({
       )}
       <MdNavigateNext
         onClick={next}
-        className={`absolute top-[50%] -translate-y-1/2 right-0 z-50 text-7xl cursor-pointer ${
+        className={`absolute top-[55%] -translate-y-1/2 right-0 z-50 text-7xl cursor-pointer ${
           currentSlideIndex >= mainCategorizedApparel.length - 5
             ? "opacity-0 pointer-events-none"
             : "opacity-100"

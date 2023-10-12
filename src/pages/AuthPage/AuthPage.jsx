@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
 function AuthPage({ setUser }) {
@@ -11,7 +12,9 @@ function AuthPage({ setUser }) {
   return (
     <>
       <span className="absolute top-4 left-4">
-        <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
+        <Link to="/">
+          <img className="w-28 h-10" src="/assets/nextfitlogobig.png" />
+        </Link>
       </span>
 
       <main className="text-white p-4 container flex mx-auto min-h-screen items-center justify-center">

@@ -38,6 +38,7 @@ async function login(req, res) {
   debug("login user body: %o", req.body);
   try {
     const user = await User.findOne({ username: req.body.username });
+    debug("user", user);
     if (user === null) throw new Error("User does not exist.");
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) throw new Error("Incorrect password!");

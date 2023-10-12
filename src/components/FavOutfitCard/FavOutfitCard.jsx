@@ -52,9 +52,9 @@ function FavOutfitCard({ outfit, updateDeleted }) {
         <div className="flex">
           {apparels?.map((apparel) => {
             return (
-              <div key={apparel._id} className="m-3">
+              <div key={apparel._id} className="m-3 h-[80%] w-[80%]">
                 <img
-                  className="h-auto max-w-full rounded-lg object-cover mx-auto"
+                  className="h-auto max-w-full rounded-lg mx-auto"
                   src={apparel.imageURL}
                   alt={apparel.subCategory}
                 />

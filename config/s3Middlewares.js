@@ -1,7 +1,7 @@
 const AWS = require("aws-sdk");
 const multer = require("multer");
-const sharp = require("sharp");
-const { Rembg } = require("rembg-node");
+// const sharp = require("sharp");
+// const { Rembg } = require("rembg-node");
 const debug = require("debug")("nextfit:config:uploadToS3");
 const { v4: uuidv4 } = require("uuid");
 const Wardrobe = require("../models/wardrobeModel");
@@ -11,9 +11,9 @@ const AWS_REGION = process.env.AWS_REGION;
 const AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
-const rembg = new Rembg({
-  logging: true,
-});
+// const rembg = new Rembg({
+//   logging: true,
+// });
 
 const s3 = new AWS.S3({
   credentials: {
@@ -60,37 +60,6 @@ module.exports = {
         }
 
         return next();
-        // try {
-        //   for (const file of req.files) {
-        //     const input = sharp(file.buffer);
-        //     const removedBackground = await rembg.remove(input);
-        //     const resizedImage = await removedBackground
-        //       .resize(250, 300, { fit: sharp.fit.fill })
-        //       .flatten({ background: "#FBFBF9" })
-        //       .toFormat("png")
-        //       .png({ quality: 80 })
-        //       .toBuffer();
-
-        //     debug("processed image: %o", resizedImage);
-        //     debug("imagefile", file);
-
-        //     const params = {
-        //       Bucket: AWS_BUCKET_NAME,
-        //       Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
-        //       Body: removedBackground,
-        //       ContentType: "image/png",
-        //     };
-
-        //     const processed = await s3.upload(params).promise();
-        //     debug("uploaded process image: %o", processed);
-
-        //     file.processedImage = {
-        //       key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
-        //     };
-        //     debug("file.processedimage", file.processedImage);
-        //   }
-
-        //   return next();
       } catch (error) {
         console.error(error);
         return res
@@ -127,3 +96,37 @@ module.exports = {
 // https://medium.com/@mohandabdiche/how-to-upload-and-resize-an-image-in-a-vue-js-848a92b87076
 
 // https://stackoverflow.com/questions/65465145/uploading-multiple-images-with-multer-to-aws-s3
+
+//* with sharp and rembg
+
+// try {
+//   for (const file of req.files) {
+//     const input = sharp(file.buffer);
+//     const removedBackground = await rembg.remove(input);
+//     const resizedImage = await removedBackground
+//       .resize(250, 300, { fit: sharp.fit.fill })
+//       .flatten({ background: "#FBFBF9" })
+//       .toFormat("png")
+//       .png({ quality: 80 })
+//       .toBuffer();
+
+//     debug("processed image: %o", resizedImage);
+//     debug("imagefile", file);
+
+//     const params = {
+//       Bucket: AWS_BUCKET_NAME,
+//       Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+//       Body: removedBackground,
+//       ContentType: "image/png",
+//     };
+
+//     const processed = await s3.upload(params).promise();
+//     debug("uploaded process image: %o", processed);
+
+//     file.processedImage = {
+//       key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+//     };
+//     debug("file.processedimage", file.processedImage);
+//   }
+
+//   return next();

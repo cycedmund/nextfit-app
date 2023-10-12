@@ -5,15 +5,13 @@
 - [Introduction](#introduction)
 - [Features](#features)
 - [Deployment](#deployment)
-- [Git Workflow](#git-workflow)
 - [Technologies Used](#technologies-used)
-- [Design And Development](#design-and-development)
+- [Getting Started](#getting-started)
 - [Project Brief](#project-brief)
 - [Roles](#roles)
 - [Challenges](#challenges)
 - [Key Learnings](#key-learnings)
 - [Future Developments](#future-developments)
-- [Summary](#summary)
 - [Acknowledgments](#acknowledgments)
 
 ## Introduction
@@ -35,141 +33,6 @@ Nextfit App is a cutting-edge solution designed to transform the way you manage 
 
 Nextfit App is deployed on [Render](https://render.com/). You can access it [here](https://nextfit-app.onrender.com/).
 
-## Git Workflow
-
-Follow this Git workflow to ensure smooth collaboration.
-
-- Step 1 - 3 is only required in the beginning.
-
-- Subsequently, begin from Step 4 onwards.
-
-- If possible, let's try to work on different folders or files.
-  - Can drop a message on Slack to inform others which file we working on.
-  - If able, the rest of the members can try avoiding touching that file.
-
-Here are the steps to follow (please check if unsure):
-
-### Step 1: Cloning the Repository
-
-- Downloads a copy of the repository to your local machine, allowing you to work on the project.
-- You only need to clone once!
-
-```bash
-git clone https://github.com/cycedmund/nextfit-app
-```
-
-### Step 2: Updating the Main Branch
-
-- Ensures that you have the latest version of the project before creating your own branch. **IMPORTANT**
-- Prevents unnecessary conflicts later.
-
-```bash
-git checkout main
-git pull origin main
-```
-
-### Step 3: Creating and Working on your Branch
-
-- Replace <name> with your branch name (e.g. edmund).
-- Do rmb to run npm install **on your branch**, and checking if all the dependecies are installed before working.
-- Create a .env file after installation. Follow the .env.example format and indicate your secrets.
-
-```bash
-git checkout -b <name>
-npm install
-touch .env
-```
-
-### Step 4: Making Commits
-
-- Stages and commits your changes.
-- Commit should be performed after updating/creating a specific feature or a fix. Rule of thumb: anywhere between 10-20 lines of codes and/or work in different files (e.g. I created a route, linked to controller and model -> commit after).
-
-```bash
-git add -A
-git commit -m "feat: your commit message"
-```
-
-### Step 5: Fetch and Merge from the Main Branch once again
-
-- Ensures that changes made by other team members are incorporated into your local copy of the main branch.
-- Integrates your changes from your branch with the latest version of the main branch.
-
-In your <name> branch,
-
-```bash
-git pull origin main
-```
-
-- If prompted with suggestions to rebase, follow these:
-
-```bash
-git config pull.rebase false
-git pull origin main
-```
-
-- If there are conflicts, Git will prompt you to resolve them (See Below).
-
-### Step 6: Resolving Conflicts (if any)
-
-- After resolving conflicts, run the following commands:
-  - If unable to resolve conflicts or unsure, please ask in Slack.
-
-```bash
-git add -A
-git commit
-```
-
-- Note: It is not necessary to input another commit message.
-  - You will be prompted with the commit message editor, type 'Esc' followed by ':wq' to save and exit OR try typing control+c on Mac.
-
-### Step 7: Pushing Your Changes
-
-- Uploads your local branch to the repo.
-
-```bash
-git push origin <name>
-```
-
-### Step 8: Submit Pull Request on Github
-
-- You can submit the Pull Request after completing a feature.
-
-  - It is possible to make multiple commits, BEFORE pushing to origin main for submission of Pull Request.
-  - Alternatively, you can choose to push each time you commit. Submit pull request only when ready.
-
-- Title should be similar to the commit message, if possible.
-- Short description of the feature, if possible.
-
-### Step 9: Wait for Pull Request to be merged
-
-- Inform in slack so I can go and merge the pull request.
-
-### Step 10: Fetch and Merge Latest Changes with our branch
-
-```bash
-git checkout main
-git pull origin main
-git checkout <name>
-git pull origin main
-```
-
-### Git Commit Guidelines
-
-- Make small commits for each feature or fix.
-- Do not push codes that doesn't work. Kindly ask in Slack if needed. **IMPORTANT**
-- If installing any node libraries or external libraries, please inform in slack -> everyone to install -> before pushing codes.
-  - This is to prevent errors in the event that one of us failed to install the library and encounter an error while pulling from main.
-
-Use the following commit message format:
-
-```bash
-"feat: description of the feature"
-"chore: description of the task"
-"fix: description of the fix"
-"style: description of css feature or style change"
-```
-
 ## Technologies Used
 - React
 - Express 
@@ -178,7 +41,7 @@ Use the following commit message format:
 - AWS S3
 - Tailwind CSS
 
-## Design And Development
+## Getting Started
 
 ### Wireframes
 For our wireframe, we utilized Figma to design the prototype pages and components for our app. You can access the wireframe [here](https://www.figma.com/file/Qkiylh7e1DekvwvoxJp8gu/NextFit?type=design&node-id=0-1&mode=design&t=hd8P5ZsuyJFlq9M3-0).
@@ -192,35 +55,33 @@ For our wireframe, we utilized Figma to design the prototype pages and component
 
 You can access our Trello board [here](https://trello.com/b/rpCIwS72/nextfit).
 
+### Pitch Deck
+Nextfit's advantage is that it's free!
+
+You can access our Pitch Deck [here](https://tome.app/nextfit/nextfit-cln7kjw2m05i3ny7aw77m3s1a).
+
 ### App Flow
 
 - **Login Page**
 - **Dashboard**
-  - Weather for today and forecast.
+  - Weather for today.
   - **Navbar Options:**
     1. Input Clothes
     2. View Wardrobe
     3. Outfit Suggestions
 
 #### Input Clothes
-
 - Form to create and store clothing information in the database (e.g. name, wardrobe, type).
 
 #### View Wardrobe
-
 - Table to read, delete, and update clothing information from the database.
 
 #### Outfit Suggestions
-
-- Form with options to select criteria for outfit suggestions:
-  - Category options: Weather, Event-Guidelines, One Piece of Clothing.
+- Generate outfits based on weather
 
 ### Database Relationships
-
 - **One-to-Many (1-M):**
-
   - One clothing item (itemID) can belong to multiple users (userID).
-
 - **Many-to-Many (M-M):**
   - Many items of clothing (itemID) can be associated with many outfits (outfitID).
 
@@ -256,8 +117,7 @@ A README.md file with these sections (here's a basic template)
 - Getting Started: That Includes:
 
   - A link to the deployed app
-  - A link to the Trello board used for the project's planning that  
-  includes  user stories, wireframes & an ERD.
+  - A link to the Trello board used for the project's planning that includes user stories, wireframes & an ERD.
 
 ## Roles
 
@@ -290,12 +150,11 @@ A README.md file with these sections (here's a basic template)
 - Handles relationships such as one-to-many (1-M) and many-to-many (M-M) modeling.
 - Potentially implements external APIs related to the database.
 
-
 ## Challenges
 
 Creating Nextfit App presented several challenges during development. Some of the key challenges included:
 
-- **Algorithm Complexity:** Designing an algorithm that can generate aesthetically pleasing and well-coordinated outfits from a user's wardrobe items, considering various factors like style, colors, and weather, required intricate coding and optimization.
+- **Algorithm Complexity:** Designing an algorithm that can generate aesthetically pleasing and well-coordinated outfits from a user's wardrobe items, considering various factors like weather, required intricate coding and optimization.
 
 - **Integration with Weather Data:** Incorporating real-time weather data to provide weather-appropriate outfit suggestions involved interfacing with external APIs and handling data synchronization challenges.
 
@@ -312,6 +171,10 @@ During the development of Nextfit App, our team gained valuable insights and les
 ## Future Developments
 
 The Nextfit App is an evolving project with room for further enhancements and expansions. Some potential areas for future development include:
+
+- **Generate Outfits By Color And Style:** Optimize algorithms to generate outfits based on colors and styles.
+
+- **Weather-Based Outfit Generation:** Enhance existing outfit generator algorithm to include future weather forecasts. 
 
 - **Personalized Styling Recommendations:** Implement machine learning models to provide personalized outfit suggestions based on users' fashion history, preferences, and body shape.
 

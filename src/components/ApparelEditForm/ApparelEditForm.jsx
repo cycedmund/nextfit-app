@@ -9,8 +9,8 @@ import {
 import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
-import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
-import { useParams, useNavigate } from "react-router-dom";
+import { FaCaretDown, FaRegFileImage, FaArrowRightFromBracket } from "react-icons/fa6";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -110,6 +110,12 @@ function ApparelEditForm({ apparel, setApparel }) {
         encType="multipart/form-data"
         onSubmit={handleUpdate}
       >
+        <span className="text-black font-inter font-light text-2xl text-center my-4">
+           <Link to={`/wardrobe`}>
+            <FaArrowRightFromBracket className="float-right mt-4" />
+           </Link>
+        </span>
+        
         <header className="text-black font-inter font-light text-2xl text-center my-4">
           Make your edits here!
         </header>

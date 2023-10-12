@@ -42,9 +42,8 @@ export async function patchApparelFrequencyService(apparelIDs) {
 
 export async function updateApparelService(apparelID, apparelData) {
   const result = await updateApparelAPI(apparelID, apparelData);
-  return result;
+  return result.data.apparel;
 }
-
 
 export function getUniqueCategories(apparel) {
   if (apparel.length === 0) {

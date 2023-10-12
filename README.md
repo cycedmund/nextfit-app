@@ -1,5 +1,62 @@
 # Nextfit - Guidelines
 
+## Project Brief
+### Technical Requirements
+- Be a full-stack MERN application.
+
+- Connect to and perform data operations on a Mongodb database
+
+- Have at least one data entity (Model) in addition to the built-in User model (if using API). If not consuming an API, have at least two data entities (Models) in addition to the built-in User model. Have at least one one-to-many (1:M) and/or one many-to-many (M:M) relationship between entities/models.
+
+- Have full-CRUD data operations across any combination of the app's models (excluding the User model).
+
+- Have suitable validations for the models, React (client) and Express (server)
+
+- Authenticate users using JWT.
+
+- Implement authorization by restricting access to the Creation, Updating & Deletion of data resources
+
+- Be styled such that the app looks and feels similar to apps we use on a daily basis - in other words, it should have a consistent and polished user interface.
+
+- Be deployed online. Presentations must use the deployed application.
+
+## Other Deliverables
+A README.md file with these sections (here's a basic template)
+- App Title: Contains a description of what the app does and optional background info.
+
+- Screenshot(s): A screenshot of your app's landing page and any other screenshots of interest.
+
+- Technologies Used: List of the technologies used.
+
+- Getting Started: That Includes:
+
+  - A link to the deployed app
+  - A link to the Trello board used for the project's planning that  
+  includes  user stories, wireframes & an ERD.
+
+
+
+## Description
+A wardrobe organiser app that provides assistance in making informed outfit choices, tracks the frequency of clothing item usage within a user's wardrobe, and prompts them to consider donating less-worn pieces, thereby promoting sustainable practices and enabling users to declutter their collection.
+
+### Technical Used
+- React
+- Express 
+- MongoDB
+- Node.js
+- AWS S3
+- Tailwind CSS (slay queen)
+
+### Wireframes
+For our wireframe, we used Figma to create the prototype pages and components for our app.
+
+### User Stories 
+- As a fashion-conscious individual looking to minimize clothing expenses, I require an app that helps me manage and maximize my existing wardrobe by generating diverse outfit combinations from my current clothing pieces and accessories
+
+- As a fashion enthusiast committed to reducing the environmental impact of fast fashion, I seek an app that tracks the frequency of clothing item usage and reminds me to donate rarely worn pieces
+
+- As a fashion-conscious individual with limited closet space, I need an app to efficiently organise my clothes and accessories, making them easily accessible and well-structured
+
 ## Table of Contents
 
 1. [Roles](#roles)

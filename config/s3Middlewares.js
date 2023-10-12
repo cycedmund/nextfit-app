@@ -43,37 +43,54 @@ module.exports = {
       debug("received files in multer: %o", req.files);
       try {
         for (const file of req.files) {
-          const input = sharp(file.buffer);
-          const removedBackground = await rembg.remove(input);
-          const resizedImage = await removedBackground
-            // .resize(250, 300, { fit: sharp.fit.fill })
-            // .flatten({ background: "#FBFBF9" })
-            .toFormat("png")
-            // .png({ quality: 80 })
-            .toBuffer();
-
-          debug("processed image: %o", resizedImage);
-          debug("imagefile", file);
-
           const params = {
             Bucket: AWS_BUCKET_NAME,
-            Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
-            // Key: `${uniqueID}-${file.originalname}`,
-            Body: removedBackground,
-            ContentType: "image/png",
+            Key: `${uniqueID}-${file.originalname}`,
+            Body: file.buffer,
+            ContentType: file.mimetype,
           };
 
-          const processed = await s3.upload(params).promise();
-          debug("uploaded process image: %o", processed);
+          const uploaded = await s3.upload(params).promise();
+          debug("uploaded: %o", uploaded);
 
           file.processedImage = {
-            key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
-            // key: `${uniqueID}-${file.originalname}`,
+            key: `${uniqueID}-${file.originalname}`,
           };
           debug("file.processedimage", file.processedImage);
         }
 
         return next();
+        // try {
+        //   for (const file of req.files) {
+        //     const input = sharp(file.buffer);
+        //     const removedBackground = await rembg.remove(input);
+        //     const resizedImage = await removedBackground
+        //       .resize(250, 300, { fit: sharp.fit.fill })
+        //       .flatten({ background: "#FBFBF9" })
+        //       .toFormat("png")
+        //       .png({ quality: 80 })
+        //       .toBuffer();
+
+        //     debug("processed image: %o", resizedImage);
+        //     debug("imagefile", file);
+
+        //     const params = {
+        //       Bucket: AWS_BUCKET_NAME,
+        //       Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+        //       Body: removedBackground,
+        //       ContentType: "image/png",
+        //     };
+
+        //     const processed = await s3.upload(params).promise();
+        //     debug("uploaded process image: %o", processed);
+
+        //     file.processedImage = {
+        //       key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+        //     };
+        //     debug("file.processedimage", file.processedImage);
+        //   }
+
+        //   return next();
       } catch (error) {
         console.error(error);
         return res

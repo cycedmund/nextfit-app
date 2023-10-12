@@ -45,7 +45,7 @@ A wardrobe organiser app that provides assistance in making informed outfit choi
 - MongoDB
 - Node.js
 - AWS S3
-- Tailwind CSS (slay queen)
+- Tailwind CSS
 
 ### Wireframes
 For our wireframe, we used Figma to create the prototype pages and components for our app.

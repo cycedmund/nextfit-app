@@ -86,12 +86,17 @@ function ApparelEditForm({apparel, setApparel}) {
         ...apparelData,
         images: imgURL,
       });
-      log("image URL", imgURL);
-      const updatedApparel = [...apparel, {...apparelData, images: imgURL,}]; 
 
-  
+      log("image URL", imgURL);
+      const fetchApparelData = async () => {
+        const allApparel = await getAllApparelService();
+        setApparel(allApparel);
+      };
+      
+      await fetchApparelData();
       navigate('/wardrobe');
-    //   setApparel(updatedApparel);
+      
+
 
     } catch (err) {
       console.error(err);

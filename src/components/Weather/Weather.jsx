@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import debug from "debug";
+import { useState, useEffect } from "react";
 import { addOutfitService } from "../../utilities/outfits-service";
 import shuffleArray from "../../helpers/shuffleArray";
 import { HiOutlineStar } from "react-icons/hi";
@@ -8,13 +9,13 @@ import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 import "./Weather.css";
 
+const log = debug("nextfit:src:components:Weather");
+
 export default function Weather({ apparel, handleUpdateWornFreq }) {
   const [weatherData, setWeatherData] = useState(null);
   const [temperatureData, setTemperatureData] = useState(null);
   const [topApparelImages, setTopApparelImages] = useState([]);
   const [bottomApparelImages, setBottomApparelImages] = useState([]);
-  let filteredTopApparel = [];
-  let filteredBottomApparel = [];
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -24,8 +25,9 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
         );
         setWeatherData(response.data.weather[0].description);
         setTemperatureData(Math.round(response.data.main.temp));
+        log("Fetched today's weather")
       } catch (error) {
-        console.log("Error");
+        log("Error fetching today's weather data");
       }
     };
     fetchWeather();
@@ -36,75 +38,75 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
       const weatherConditions = ["clouds", "clear", "sunny", "haze", "rain"];
       const lowercaseData = weatherData.toLowerCase();
       const fetchImage = weatherConditions.some((condition) =>
-        lowercaseData.includes(condition)
+      lowercaseData.includes(condition)
       );
+      log("Fetched images based on weather data");
 
-      if (fetchImage) {
-        let topCategories = [];
-        let bottomCategories = [];
-        if (lowercaseData.includes("rain")) {
-          topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
-          bottomCategories = ["Pants", "Jeans", "Sweatpants"];
-        } else {
-          topCategories = [
-            "Blouse",
-            "T-shirt",
-            "Polo Shirt",
-            "Singlet",
-            "Shirt",
-          ];
-          bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
-        }
-        filteredTopApparel = apparel.filter((item) =>
-          topCategories.includes(item.subCategory)
-        );
-        filteredBottomApparel = apparel.filter((item) =>
-          bottomCategories.includes(item.subCategory)
-        );
-
-        // ChatGPT - How to ensure there are 5 tops and bottoms listed even when the clothing items uploaded are less than 5
-        while (filteredTopApparel.length < 5) {
-          const randomIndex = Math.floor(
-            Math.random() * filteredTopApparel.length
-          );
-          const randomTop = filteredTopApparel[randomIndex]?.imageURL;
-          const randomID = filteredTopApparel[randomIndex]?._id;
-          filteredTopApparel.push({ imageURL: randomTop, _id: randomID });
-        }
-        while (filteredBottomApparel.length < 5) {
-          const randomIndex = Math.floor(
-            Math.random() * filteredBottomApparel.length
-          );
-          const randomBottom = filteredBottomApparel[randomIndex]?.imageURL;
-          const randomID = filteredBottomApparel[randomIndex]?._id;
-          filteredBottomApparel.push({ imageURL: randomBottom, _id: randomID });
-        }
-        if (filteredTopApparel.length > 0) {
-          const shuffledTopApparel = shuffleArray(
-            filteredTopApparel.map((item) => {
-              return { imageURL: item.imageURL, _id: item._id };
-            })
-          );
-          setTopApparelImages(shuffledTopApparel.slice(0, 5));
-        }
-        if (filteredBottomApparel.length > 0) {
-          const shuffledBottomApparel = shuffleArray(
-            filteredBottomApparel.map((item) => {
-              return { imageURL: item.imageURL, _id: item._id };
-            })
-          );
-          setBottomApparelImages(shuffledBottomApparel.slice(0, 5));
-        }
+    try {
+    if (fetchImage) {
+      let topCategories = [];
+      let bottomCategories = [];
+      if (lowercaseData.includes("rain")) {
+        topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
+        bottomCategories = ["Pants", "Jeans", "Sweatpants"];
       } else {
-        setTopApparelImages([]);
-        setBottomApparelImages([]);
+        topCategories = [
+          "Blouse",
+          "T-shirt",
+          "Polo Shirt",
+          "Singlet",
+          "Shirt",
+        ];
+        bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
       }
-    }
-  };
+      log("Fetched images based on weather conditions");
 
-  useEffect(() => {
-    fetchImages();
-  }, [weatherData, apparel]);
+      const filteredTopApparel = filterApparelByCategories(apparel, topCategories);
+      const filteredBottomApparel = filterApparelByCategories(apparel, bottomCategories);
+
+      ensureMinimum(filteredTopApparel, 5);
+      ensureMinimum(filteredBottomApparel, 5);
+
+      if (filteredTopApparel.length > 0) {
+        setTopApparelImages(shuffleApparels(filteredTopApparel, 5));
+      }
+      if (filteredBottomApparel.length > 0) {
+        setBottomApparelImages(shuffleApparels(filteredBottomApparel, 5));
+      }
+    } else {
+      log("No matching weather conditions to fetch images")
+      setTopApparelImages([]);
+      setBottomApparelImages([]);
+    }
+  } catch (err) {
+    log("Error fetching images based on weather conditions", err);
+  }
+}
+};
+
+const filterApparelByCategories = (apparel, categories) => {
+  return apparel.filter((item) => categories.includes(item.subCategory));
+};
+
+const ensureMinimum = (array, minimumCount) => {
+  while (array.length < minimumCount) {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomItem = array[randomIndex];
+    if (randomItem) {
+      array.push({ imageURL: randomItem.imageURL, _id: randomItem._id });
+    }
+  }
+};
+
+const shuffleApparels = (array, count) => {
+  const shuffledArray = shuffleArray(array.map((item) => ({ imageURL: item.imageURL, _id: item._id })));
+  return shuffledArray.slice(0, count);
+};
+
+useEffect(() => {
+  fetchImages();
+}, [weatherData, apparel]);
+
 
   const handleAdd = async (topApparelId, bottomApparelId) => {
     try {
@@ -112,11 +114,14 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
         top: topApparelId,
         bottom: bottomApparelId,
       };
+      log("Adding outfit to favourites");
       await addOutfitService(apparel);
       Swal.fire({
         ...swalBasicSettings("Added to Favourites!", "success"),
       });
+      log("Outfit successfully added to favourites");
     } catch (err) {
+      log("Error adding outfit to favourites", err);
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
         text: "Outfit is already in your favourites",

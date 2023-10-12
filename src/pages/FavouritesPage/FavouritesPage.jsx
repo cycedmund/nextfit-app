@@ -24,7 +24,7 @@ function FavouritesPage() {
         <header className="mx-4 font-inter font-thin text-2xl">
           Favourite Outfits
         </header>
-        <div className="grid grid-cols-3 gap-2 border-2 p-6 m-4">
+        <div className="grid grid-cols-3 border-2 p-6 m-2">
           {outfits?.map((outfit) => (
             <FavOutfitCard
               key={outfit._id}

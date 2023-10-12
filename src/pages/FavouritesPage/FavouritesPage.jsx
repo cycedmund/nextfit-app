@@ -19,13 +19,13 @@ function FavouritesPage() {
   };
 
   return (
-    <div>
-      <div>
-        <header className="mx-4 font-inter font-thin text-2xl">
+    <div className="max-w-screen">
+      <div className="px-6 relative">
+        <header className="mx-6 px-6 font-inter font-thin text-2xl">
           Favourite Outfits
         </header>
-        <div className="grid grid-cols-3 border-2 p-6 m-2">
-          { outfits.length===0 ? "No outfits saved yet" : 
+        <div className="grid grid-cols-3 p-6 m-2">
+          { outfits.length===0 ? <p className="mx-4 font-inter font-thin">No outfits saved yet</p> : 
             outfits?.map((outfit) => (
             <FavOutfitCard
               key={outfit._id}

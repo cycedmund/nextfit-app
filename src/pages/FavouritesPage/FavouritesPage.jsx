@@ -25,15 +25,17 @@ function FavouritesPage() {
           Favourite Outfits
         </header>
         <div className="grid grid-cols-3 p-6 m-2">
-          { outfits.length===0 ? <p className="mx-4 font-inter font-thin">No outfits saved yet</p> : 
+          {outfits.length === 0 ? (
+            <p className="mx-4 font-inter font-thin">No outfits saved yet</p>
+          ) : (
             outfits?.map((outfit) => (
-            <FavOutfitCard
-              key={outfit._id}
-              outfit={outfit}
-              updateDeleted={updateDeleted}
-            />
+              <FavOutfitCard
+                key={outfit._id}
+                outfit={outfit}
+                updateDeleted={updateDeleted}
+              />
             ))
-          }
+          )}
         </div>
       </div>
     </div>

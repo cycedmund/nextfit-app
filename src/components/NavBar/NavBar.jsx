@@ -3,7 +3,7 @@ import {
   logOutService,
   deleteUserService,
 } from "../../utilities/users-service";
-import { TbUserSquare } from "react-icons/tb";
+import { AiOutlineCaretDown } from "react-icons/ai";
 import { PiPantsThin, PiTShirtThin, PiPlusSquareFill } from "react-icons/pi";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
@@ -18,7 +18,7 @@ function NavBar({ user, setUser }) {
         location.pathname === "/wardrobe/new"
           ? "text-white"
           : "text-neutral-500"
-      } hover:text-white hover:text-3xl text-2xl mr-4`}
+      } hover:text-white hover:text-3xl text-2xl mr-3`}
     >
       <Link to="/wardrobe/new" className="flex items-center justify-center">
         <div
@@ -116,9 +116,16 @@ function NavBar({ user, setUser }) {
           {renderAddApparelComponent()}
           <details className="dropdown dropdown-end">
             <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
-              <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
+              <img
+                src={"/assets/nextfit-profile.jpg"}
+                alt="profile-pic"
+                width={35}
+                height={35}
+                className="rounded-md"
+              />
+              <AiOutlineCaretDown className="hover:transform hover:rotate-90 hover:transition-transform" />
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52 font-bebas tracking-widest bg-opacity-70 text-lg">
+            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52 font-bebas tracking-widest bg-opacity-80 text-lg">
               <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
               <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
                 {user.email}

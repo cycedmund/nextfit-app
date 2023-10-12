@@ -131,7 +131,7 @@ function LoginForm() {
           <span className="text-neutral-700">
             <Link to="/signup">
               <span className="text-white text-md btn btn-ghost btn-sm bg-[#E50A14] hover:bg-[#c11119] rounded-md normal-case">
-                Sign up
+                Sign up now!
               </span>
             </Link>
           </span>

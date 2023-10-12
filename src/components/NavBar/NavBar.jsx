@@ -102,7 +102,7 @@ function NavBar({ user, setUser }) {
             <Link
               key={index}
               to={page.link}
-              className={`mr-6 text-lg hover:text-2xl ${
+              className={`mr-6 text-lg hover:text-xl ${
                 location.pathname === page.link
                   ? "text-white hover:text-lg"
                   : "text-neutral-500 hover:text-white"

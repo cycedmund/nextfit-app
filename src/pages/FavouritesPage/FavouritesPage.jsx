@@ -5,7 +5,7 @@ import { getAllOutfitService } from "../../utilities/outfits-service";
 function FavouritesPage() {
   const [outfits, setOutfits] = useState([]);
 
-  //* fetch outfite from database
+  //* fetch outfit from database
   useEffect(() => {
     const fetchOutfits = async () => {
       const data = await getAllOutfitService();
@@ -26,7 +26,9 @@ function FavouritesPage() {
         </header>
         <div className="grid grid-cols-3 p-6 m-2">
           {outfits.length === 0 ? (
-            <p className="mx-4 font-inter font-thin">No outfits saved yet</p>
+            <p className="mx-4 font-inter font-thin text-xl">
+              No outfits saved yet
+            </p>
           ) : (
             outfits?.map((outfit) => (
               <FavOutfitCard

@@ -130,7 +130,9 @@ function LoginForm() {
           New to Nextfit?{" "}
           <span className="text-neutral-700">
             <Link to="/signup">
-              <u>Sign up now.</u>
+              <span className="text-white text-md btn btn-ghost btn-sm bg-[#E50A14] hover:bg-[#c11119] rounded-md normal-case">
+                Sign up
+              </span>
             </Link>
           </span>
         </footer>

@@ -6,7 +6,8 @@ import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 
 function LoginForm() {
-  const [setUser, visibility, handlePasswordVisibility] = useOutletContext();
+  const [setUser, visibility, handlePasswordVisibility, status, setStatus] =
+    useOutletContext();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -22,6 +23,7 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus("loading");
     try {
       const user = await loginService(credentials);
       if (user !== null && user !== undefined) {
@@ -51,6 +53,9 @@ function LoginForm() {
           password: "",
         });
       }
+      setStatus("error");
+    } finally {
+      setStatus(null);
     }
   };
 
@@ -109,12 +114,18 @@ function LoginForm() {
             </button>
           </div>
         </div>
-        <button
-          type="submit"
-          className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
-        >
-          LOGIN
-        </button>
+        {status === "loading" ? (
+          <div className="flex items-center justify-center">
+            <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>
+          </div>
+        ) : (
+          <button
+            type="submit"
+            className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
+          >
+            LOGIN
+          </button>
+        )}
         <footer className="mt-6">
           New to Nextfit?{" "}
           <span className="text-neutral-700">

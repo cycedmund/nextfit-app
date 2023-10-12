@@ -10,6 +10,7 @@ import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
 import { GiClothes } from "react-icons/gi";
 import { FaCaretDown, FaRegFileImage } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 const log = debug("nextfit:src:components:ApparelForm");
 
@@ -241,12 +242,20 @@ function ApparelForm({ apparel, setApparel }) {
             <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>
           </div>
         ) : (
-          <button
-            type="submit"
-            className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
-          >
-            SUBMIT
-          </button>
+          <div className="flex gap-10">
+            <button
+              type="submit"
+              className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
+            >
+              SUBMIT
+            </button>
+            <Link
+              to="/wardrobe"
+              className="text-white bg-black hover:bg-slate-900 focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
+            >
+              CANCEL
+            </Link>
+          </div>
         )}
       </form>
     </section>

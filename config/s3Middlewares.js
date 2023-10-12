@@ -5,6 +5,8 @@ const { Rembg } = require("rembg-node");
 const debug = require("debug")("nextfit:config:uploadToS3");
 const { v4: uuidv4 } = require("uuid");
 const Wardrobe = require("../models/wardrobeModel");
+const fs = require("fs");
+const path = require("path");
 
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const AWS_REGION = process.env.AWS_REGION;
@@ -43,6 +45,11 @@ module.exports = {
       debug("received files in multer: %o", req.files);
       try {
         for (const file of req.files) {
+          // const imagePath = path.join(
+          //   __dirname,
+          //   `../uploads/${file.originalname}`
+          // );
+          // fs.writeFileSync(imagePath, file.buffer);
           const input = sharp(file.buffer);
           const removedBackground = await rembg.remove(input);
           const resizedImage = await removedBackground
@@ -66,6 +73,9 @@ module.exports = {
 
           const processed = await s3.upload(params).promise();
           debug("uploaded process image: %o", processed);
+
+          // fs.unlinkSync(imagePath);
+
           file.processedImage = {
             key: `${uniqueID}-${file.originalname.replace(
               /\.[^.]+$/,

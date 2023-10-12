@@ -45,12 +45,12 @@ module.exports = {
       debug("received files in multer: %o", req.files);
       try {
         for (const file of req.files) {
-          const imagePath = path.join(
-            __dirname,
-            `../uploads/${file.originalname}`
-          );
-          fs.writeFileSync(imagePath, file.buffer);
-          const input = sharp(imagePath);
+          // const imagePath = path.join(
+          //   __dirname,
+          //   `../uploads/${file.originalname}`
+          // );
+          // fs.writeFileSync(imagePath, file.buffer);
+          const input = sharp(file.buffer);
           const removedBackground = await rembg.remove(input);
           const resizedImage = await removedBackground
             .resize(250, 300, { fit: sharp.fit.fill })
@@ -74,7 +74,7 @@ module.exports = {
           const processed = await s3.upload(params).promise();
           debug("uploaded process image: %o", processed);
 
-          fs.unlinkSync(imagePath);
+          // fs.unlinkSync(imagePath);
 
           file.processedImage = {
             key: `${uniqueID}-${file.originalname.replace(

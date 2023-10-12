@@ -5,6 +5,7 @@ import {
   uploadToS3Service,
   checkMainCategory,
   swalBasicSettings,
+  getAllApparelService,
 } from "../../utilities/wardrobe-service";
 import { order } from "../../../data/apparel-categories";
 import Swal from "sweetalert2";
@@ -84,12 +85,9 @@ function ApparelEditForm({ apparel, setApparel }) {
         const allApparel = await getAllApparelService();
         setApparel(allApparel);
       };
-      
+
       await fetchApparelData();
-      navigate('/wardrobe');
-      
-
-
+      navigate("/wardrobe");
     } catch (err) {
       console.error(err);
     }

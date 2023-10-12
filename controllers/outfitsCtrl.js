@@ -18,21 +18,9 @@ async function create(req, res) {
       user: req.user._id,
     });
     sendResponse(res, 201, { outfit: newOutfit });
-    // res.status(201).json({
-    //   status: "success",
-    //   data: {
-    //     outfit: newOutfit,
-    //   },
-    // });
   } catch (err) {
     debug("Error saving: %o", err);
     sendResponse(res, 500, null, "Error saving outfit.");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error saving outfit",
-    //   error: err,
-    // });
   }
 }
 
@@ -46,20 +34,8 @@ async function getAll(req, res) {
       .populate({ path: "apparels.overall", model: "Wardrobe" });
     debug("found outfits by user: %o", outfits);
     sendResponse(res, 200, { outfits });
-    // res.status(200).json({
-    //   status: "success",
-    //   data: {
-    //     outfits,
-    //   },
-    // });
   } catch (err) {
     sendResponse(res, 500, null, "Error getting all outfits.");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error getting all apparel",
-    //   error: err,
-    // });
   }
 }
 
@@ -72,15 +48,8 @@ async function del(req, res) {
     });
     debug("delete outfit by user: %o", outfit);
     sendResponse(res, 200);
-    // res.status(200).json({ status: "success" });
   } catch (err) {
     sendResponse(res, 500, null, "Error deleting outfit.");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error deleting outfit",
-    //   error: err,
-    // });
   }
 }
 

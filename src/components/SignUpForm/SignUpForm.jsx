@@ -45,17 +45,24 @@ function SignUpForm() {
         }
       }
     } catch (err) {
-      Swal.fire({
-        ...swalBasicSettings("Error", "error"),
-        text: err.message,
-        confirmButtonText: "Try Again",
-      });
+      if (err.message === "Unexpected end of JSON input") {
+        Swal.fire({
+          ...swalBasicSettings("Internal Server Error", "error"),
+          text: "Please try again later.",
+        });
+      } else {
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: err.message,
+          confirmButtonText: "Try Again",
+        });
+      }
     }
   };
 
   return (
     <div className="container bg-neutral-400 mx-auto max-w-md p-4">
-      <form className="p-2" onSubmit={handleSubmit}>
+      <form className="p-2" onSubmit={handleSubmit} autoComplete="off">
         <header className="text-white font-inter font-light text-2xl mb-4">
           Register with{" "}
           <span className="text-[#E50914] text-3xl font-bold">NEXTFIT</span>
@@ -112,6 +119,7 @@ function SignUpForm() {
               name="password"
               value={userData.password}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Repeat Password"
               className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-text font-inter font-extralight border-none"
               required
@@ -143,6 +151,7 @@ function SignUpForm() {
               name="repeat"
               value={userData.repeat}
               onChange={handleChange}
+              autoComplete="off"
               placeholder="Repeat Password"
               className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block focus:outline-none w-full p-2.5 cursor-text font-inter font-extralight border-none"
               required

@@ -50,20 +50,8 @@ async function getAll(req, res) {
     const apparel = await Wardrobe.find({ user: req.user._id });
     debug("found apparel by user: %o", apparel);
     sendResponse(res, 200, { apparel });
-    // res.status(200).json({
-    //   status: "success",
-    //   data: {
-    //     apparel,
-    //   },
-    // });
   } catch (err) {
     sendResponse(res, 500, null, "Error getting all apparel");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error getting all apparel",
-    //   error: err,
-    // });
   }
 }
 
@@ -86,15 +74,8 @@ async function del(req, res) {
     });
     debug("delete apparel by user: %o", apparel);
     sendResponse(res, 200);
-    // res.status(200).json({ status: "success" });
   } catch (err) {
     sendResponse(res, 500, null, "Error deleting apparel");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error deleting apparel",
-    //   error: err,
-    // });
   }
 }
 
@@ -114,20 +95,8 @@ async function updateOne(req, res) {
     );
     debug("found apparel by user: %o", updatedApparel);
     sendResponse(res, 200, { apparel: updatedApparel });
-    // res.status(200).json({
-    //   status: "success",
-    //   data: {
-    //     apparel: updatedApparel,
-    //   },
-    // });
   } catch (err) {
     sendResponse(res, 500, null, "Error editing apparel");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error in editing particular apparel",
-    //   error: err,
-    // });
   }
 }
 
@@ -136,18 +105,8 @@ async function updateWornFreq(req, res) {
   try {
     const apparelWithIDs = await Wardrobe.updateWornFrequency(apparelIDs);
     sendResponse(res, 200, apparelWithIDs);
-    // res.status(200).json({
-    //   status: "success",
-    //   data: apparelWithIDs,
-    // });
   } catch (err) {
     sendResponse(res, 500, null, "Error updating worn frequency");
-    // res.status(500).json({
-    //   status: "error",
-    //   code: 500,
-    //   message: "Error updating worn frequency",
-    //   error: err,
-    // });
   }
 }
 

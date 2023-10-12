@@ -38,75 +38,79 @@ export default function Weather({ apparel, handleUpdateWornFreq }) {
       const weatherConditions = ["clouds", "clear", "sunny", "haze", "rain"];
       const lowercaseData = weatherData.toLowerCase();
       const fetchImage = weatherConditions.some((condition) =>
-      lowercaseData.includes(condition)
+        lowercaseData.includes(condition)
       );
       log("Fetched images based on weather data");
 
-    try {
-    if (fetchImage) {
-      let topCategories = [];
-      let bottomCategories = [];
-      if (lowercaseData.includes("rain")) {
-        topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
-        bottomCategories = ["Pants", "Jeans", "Sweatpants"];
+      if (fetchImage) {
+        let topCategories = [];
+          let bottomCategories = [];
+
+          if (lowercaseData.includes("rain")) {
+            for (let i = 0; i < 5; i++) {
+              const randomChoice = Math.random() < 0.5;
+              if (randomChoice) {
+                topCategories = ["Dress", "Jumpsuit", "Romper"];
+                bottomCategories = ["Jacket"];
+              } else {
+                topCategories = ["Sweater", "Long Sleeve Shirt", "Hoodie"];
+                bottomCategories = ["Pants", "Jeans", "Sweatpants"];
+              }
+            }
+          } else {
+              topCategories = ["Blouse", "T-shirt", "Polo Shirt", "Singlet", "Shirt"];
+              bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
+          }
+          log("Fetched images based on weather conditions");
+
+        const filteredTopApparel = filterApparelByCategories(apparel, topCategories);
+        const filteredBottomApparel = filterApparelByCategories(apparel, bottomCategories);
+
+        ensureMinimum(filteredTopApparel, 5);
+        ensureMinimum(filteredBottomApparel, 5);
+
+        if (filteredTopApparel.length > 0) {
+          setTopApparelImages(shuffleApparels(filteredTopApparel, 5));
+        }
+        if (filteredBottomApparel.length > 0) {
+          setBottomApparelImages(shuffleApparels(filteredBottomApparel, 5));
+        }
       } else {
-        topCategories = [
-          "Blouse",
-          "T-shirt",
-          "Polo Shirt",
-          "Singlet",
-          "Shirt",
-        ];
-        bottomCategories = ["Shorts", "Skirt", "Pants", "Jeans"];
+        log("No matching weather conditions to fetch images");
+        setTopApparelImages([]);
+        setBottomApparelImages([]);
       }
-      log("Fetched images based on weather conditions");
-
-      const filteredTopApparel = filterApparelByCategories(apparel, topCategories);
-      const filteredBottomApparel = filterApparelByCategories(apparel, bottomCategories);
-
-      ensureMinimum(filteredTopApparel, 5);
-      ensureMinimum(filteredBottomApparel, 5);
-
-      if (filteredTopApparel.length > 0) {
-        setTopApparelImages(shuffleApparels(filteredTopApparel, 5));
-      }
-      if (filteredBottomApparel.length > 0) {
-        setBottomApparelImages(shuffleApparels(filteredBottomApparel, 5));
-      }
-    } else {
-      log("No matching weather conditions to fetch images")
-      setTopApparelImages([]);
-      setBottomApparelImages([]);
     }
-  } catch (err) {
-    log("Error fetching images based on weather conditions", err);
-  }
-}
-};
+  };
 
-const filterApparelByCategories = (apparel, categories) => {
-  return apparel.filter((item) => categories.includes(item.subCategory));
-};
+  const filterApparelByCategories = (apparel, categories) => {
+    return apparel.filter((item) => categories.includes(item.subCategory));
+  };
 
-const ensureMinimum = (array, minimumCount) => {
-  while (array.length < minimumCount) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    const randomItem = array[randomIndex];
-    if (randomItem) {
-      array.push({ imageURL: randomItem.imageURL, _id: randomItem._id });
+  const ensureMinimum = (array, minimumCount) => {
+    while (array.length < minimumCount) {
+      const randomIndex = Math.floor(Math.random() * array.length);
+      const randomItem = array[randomIndex];
+      if (randomItem) {
+        array.push({ imageURL: randomItem.imageURL, _id: randomItem._id });
+      }
     }
+  };
+
+  const shuffleApparels = (array, count) => {
+    const shuffledArray = shuffleArray(
+      array.map((item) => ({ imageURL: item.imageURL, _id: item._id }))
+    );
+    return shuffledArray.slice(0, count);
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, [weatherData, apparel]);
+
+  const handleGenerate = () => {
+    fetchImages();
   }
-};
-
-const shuffleApparels = (array, count) => {
-  const shuffledArray = shuffleArray(array.map((item) => ({ imageURL: item.imageURL, _id: item._id })));
-  return shuffledArray.slice(0, count);
-};
-
-useEffect(() => {
-  fetchImages();
-}, [weatherData, apparel]);
-
 
   const handleAdd = async (topApparelId, bottomApparelId) => {
     try {
@@ -131,9 +135,13 @@ useEffect(() => {
 
   return (
     <>
-      <h1 className="ml-24 mt-4 md:mt-20 text-xl md:text-2xl">
-        Top 5 Outfits Today Based on Weather in Singapore
-      </h1>
+      <div className="flex items-bottom">
+        <h1 className="ml-24 mt-4 md:mt-20 text-xl md:text-2xl">
+          Top 5 Outfits Today Based on Weather in Singapore
+        </h1>
+        <button className="ml-6 mt-20 border border-[#E50A14] bg-[#E50A14] hover:bg-[#C11119]rounded py-1 px-4 font-bebas text-xl"
+        onClick={handleGenerate}>GENERATE</button>
+      </div>
       <p className="ml-24 text-base md:text-lg mt-1">
         Current weather:{" "}
         <span className="current-weather capitalize text-yellow-300 font-bold">

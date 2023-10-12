@@ -5,22 +5,18 @@ export default function HomeWardrobe({ apparel }) {
     {
       category: 'Top',
       image: '/assets/tops-category.jpg',
-      tailwindClasses: 'w-68 h-44 rounded object-cover',
     },
     {
       category: 'Bottom',
       image: '/assets/bottoms-category.jpg',
-      tailwindClasses: 'w-72 h-44 rounded object-cover',
     },
     {
       category: 'Outerwear',
       image: '/assets/outerwear-category.png',
-      tailwindClasses: 'w-72 h-44 rounded object-cover',
     },
     {
       category: 'Overall',
       image: '/assets/overalls-category.png',
-      tailwindClasses: 'w-72 h-44 rounded object-cover',
     },
   ];
 
@@ -33,7 +29,7 @@ export default function HomeWardrobe({ apparel }) {
     <>
       <h1 className="ml-24 mt-4 text-2xl">My Wardrobe</h1>
       <div className="ml-24 mt-6 flex -mb-10">
-        {categoryImages.map(({ category, image, tailwindClasses }, index) => (
+        {categoryImages.map(({ category, image }, index) => (
           <div key={category} className="mr-4 text-center group relative">
             {categoryExists(category) ? (
               <Link to={`/wardrobe/#${category}`}>
@@ -41,7 +37,7 @@ export default function HomeWardrobe({ apparel }) {
                   <img
                     src={image}
                     alt={category}
-                    className={`inline cursor-pointer ${tailwindClasses}`}
+                    className="inline cursor-pointer w-72 h-44 rounded object-cover"
                   />
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <div className="border border-black px-4 py-2 bg-black text-white text-base">

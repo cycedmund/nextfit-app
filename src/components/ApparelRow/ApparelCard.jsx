@@ -5,7 +5,7 @@ import { FaPersonPraying, FaThumbsUp, FaRegFaceKiss } from "react-icons/fa6";
 function ApparelCard({ item, handleDelete, handleUpdateWornFreq }) {
   return (
     <article>
-      <div className="bg-gray-200 p-3 m-1 rounded-lg shadow md:flex-row md:max-w-xl">
+      <div className="bg-gray-200 p-3 m-1 h-[100%] rounded-lg shadow md:flex-row md:max-w-xl">
         <span className="flex items-center justify-end">
           <span className="tooltip tooltip-bottom" data-tip="Edit Apparel">
             <Link to={`/wardrobe/${item._id}/edit`}>

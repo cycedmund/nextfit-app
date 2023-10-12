@@ -28,15 +28,21 @@ export default async function sendRequest(
     options.headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch(url, options);
-  // res.ok will be false if the status code set to 4xx in the controller action
-  if (res.ok) {
-    return res.json();
-  } else {
-    const errorRes = await res.json();
-    console.log(errorRes);
-    throw new Error(errorRes.message);
+  try {
+    const res = await fetch(url, options);
+    // res.ok will be false if the status code set to 4xx in the controller action
+    if (res.ok) {
+      return res.json();
+    } else {
+      const errorRes = await res.json();
+      console.log(errorRes);
+      throw new Error(errorRes.message);
+    }
+  } catch (err) {
+    //when the server crash -> display this instead of unexpected end of JSON Input
+    throw new Error("Internal Server Error");
   }
+
   // console.log(res);
   // throw new Error(res.statusText);
 }

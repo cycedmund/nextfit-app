@@ -24,15 +24,23 @@ log("Start React");
 function App() {
   const [user, setUser] = useState(getUser());
   const [apparel, setApparel] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const fetchApparelData = async () => {
+    try {
+      const allApparel = await getAllApparelService();
+      setApparel(allApparel);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (user) {
-      const fetchApparelData = async () => {
-        const allApparel = await getAllApparelService();
-        setApparel(allApparel);
-      };
       fetchApparelData();
       if (location.pathname === "/") {
         navigate("/home");
@@ -41,7 +49,6 @@ function App() {
   }, [user, navigate, location]);
 
   const handleUpdateWornFreq = async (apparelIDs) => {
-    console.log("IDs", apparelIDs);
     try {
       const { top, bottom, outerwear, overall } =
         await patchApparelFrequencyService(apparelIDs);
@@ -79,27 +86,34 @@ function App() {
       {user ? (
         <>
           <NavBar user={user} setUser={setUser} />
-          <Routes>
-            <Route
-              path="/home"
-              element={
-                <HomePage
-                  apparel={apparel}
-                  handleUpdateWornFreq={handleUpdateWornFreq}
-                />
-              }
-            />
-            <Route
-              path="/wardrobe/*"
-              element={
-                <WardrobeRoutes
-                  apparel={apparel}
-                  setApparel={setApparel}
-                  handleUpdateWornFreq={handleUpdateWornFreq}
-                />
-              }
-            />
-          </Routes>
+          {loading && (
+            <div className="flex items-center justify-center h-[80vh]">
+              <span className="loading loading-spinner w-16 text-[#E50A14]"></span>
+            </div>
+          )}
+          {!loading && (
+            <Routes>
+              <Route
+                path="/home"
+                element={
+                  <HomePage
+                    apparel={apparel}
+                    handleUpdateWornFreq={handleUpdateWornFreq}
+                  />
+                }
+              />
+              <Route
+                path="/wardrobe/*"
+                element={
+                  <WardrobeRoutes
+                    apparel={apparel}
+                    setApparel={setApparel}
+                    handleUpdateWornFreq={handleUpdateWornFreq}
+                  />
+                }
+              />
+            </Routes>
+          )}
         </>
       ) : (
         <Routes>

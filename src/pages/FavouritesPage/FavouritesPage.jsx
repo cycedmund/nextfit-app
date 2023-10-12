@@ -9,27 +9,33 @@ function FavouritesPage() {
   useEffect(() => {
     const fetchOutfits = async () => {
       const data = await getAllOutfitService();
-      // console.log(data);
       setOutfits(data);
     };
     fetchOutfits();
   }, []);
 
   const updateDeleted = (deletedOutfitID) => {
-    setOutfits( outfits.filter(outfit => outfit._id !== deletedOutfitID ) );
+    setOutfits(outfits.filter((outfit) => outfit._id !== deletedOutfitID));
   };
 
-  return <div>
+  return (
     <div>
-      <header className="mx-4 font-inter font-thin text-2xl">Favourite Outfits</header>
-      <div className="grid grid-cols-5 gap-2 border-2 p-6 m-4">
-      {
-        outfits?.map(outfit => <FavOutfitCard key={outfit._id} outfit={outfit} updateDeleted={updateDeleted} />)
-      }
+      <div>
+        <header className="mx-4 font-inter font-thin text-2xl">
+          Favourite Outfits
+        </header>
+        <div className="grid grid-cols-3 gap-2 border-2 p-6 m-4">
+          {outfits?.map((outfit) => (
+            <FavOutfitCard
+              key={outfit._id}
+              outfit={outfit}
+              updateDeleted={updateDeleted}
+            />
+          ))}
+        </div>
       </div>
     </div>
-    
-  </div>;
+  );
 }
 
 export default FavouritesPage;

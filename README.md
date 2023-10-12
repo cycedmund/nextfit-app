@@ -34,8 +34,9 @@ Nextfit App is a cutting-edge solution designed to transform the way you manage 
 Nextfit App is deployed on [Render](https://render.com/). You can access it [here](https://nextfit-app.onrender.com/).
 
 ## Technologies Used
+
 - React
-- Express 
+- Express
 - MongoDB
 - Node.js
 - AWS S3
@@ -44,9 +45,11 @@ Nextfit App is deployed on [Render](https://render.com/). You can access it [her
 ## Getting Started
 
 ### Wireframes
+
 For our wireframe, we utilized Figma to design the prototype pages and components for our app. You can access the wireframe [here](https://www.figma.com/file/Qkiylh7e1DekvwvoxJp8gu/NextFit?type=design&node-id=0-1&mode=design&t=hd8P5ZsuyJFlq9M3-0).
 
-### User Stories 
+### User Stories
+
 - As a fashion-conscious individual looking to minimize clothing expenses, I require an app that helps me manage and maximize my existing wardrobe by generating diverse outfit combinations from my current clothing pieces and accessories
 
 - As a fashion enthusiast committed to reducing the environmental impact of fast fashion, I seek an app that tracks the frequency of clothing item usage and reminds me to donate rarely worn pieces
@@ -56,6 +59,7 @@ For our wireframe, we utilized Figma to design the prototype pages and component
 You can access our Trello board [here](https://trello.com/b/rpCIwS72/nextfit).
 
 ### Pitch Deck
+
 Nextfit's advantage is that it's free!
 
 You can access our Pitch Deck [here](https://tome.app/nextfit/nextfit-cln7kjw2m05i3ny7aw77m3s1a).
@@ -71,23 +75,29 @@ You can access our Pitch Deck [here](https://tome.app/nextfit/nextfit-cln7kjw2m0
     3. Outfit Suggestions
 
 #### Input Clothes
+
 - Form to create and store clothing information in the database (e.g. name, wardrobe, type).
 
 #### View Wardrobe
+
 - Table to read, delete, and update clothing information from the database.
 
 #### Outfit Suggestions
+
 - Generate outfits based on weather
 
 ### Database Relationships
+
 - **One-to-Many (1-M):**
-  - One clothing item (itemID) can belong to multiple users (userID).
+  - One user (userID) can have multiple clothing items (itemID).
+  - One user (userID) can have multiple favourited outfits (outfitID)
 - **Many-to-Many (M-M):**
   - Many items of clothing (itemID) can be associated with many outfits (outfitID).
 
 ## Project Brief
 
 ### Technical Requirements
+
 - Be a full-stack MERN application.
 
 - Connect to and perform data operations on a Mongodb database
@@ -107,7 +117,9 @@ You can access our Pitch Deck [here](https://tome.app/nextfit/nextfit-cln7kjw2m0
 - Be deployed online. Presentations must use the deployed application.
 
 ### Other Deliverables
+
 A README.md file with these sections (here's a basic template)
+
 - App Title: Contains a description of what the app does and optional background info.
 
 - Screenshot(s): A screenshot of your app's landing page and any other screenshots of interest.
@@ -174,7 +186,7 @@ The Nextfit App is an evolving project with room for further enhancements and ex
 
 - **Generate Outfits By Color And Style:** Optimize algorithms to generate outfits based on colors and styles.
 
-- **Weather-Based Outfit Generation:** Enhance existing outfit generator algorithm to include future weather forecasts. 
+- **Weather-Based Outfit Generation:** Enhance existing outfit generator algorithm to include future weather forecasts.
 
 - **Personalized Styling Recommendations:** Implement machine learning models to provide personalized outfit suggestions based on users' fashion history, preferences, and body shape.
 

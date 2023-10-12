@@ -1,5 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { logOutService, deleteUserService } from "../../utilities/users-service";
+import {
+  logOutService,
+  deleteUserService,
+} from "../../utilities/users-service";
 import { TbUserSquare } from "react-icons/tb";
 import { PiPantsThin, PiTShirtThin, PiPlusSquareFill } from "react-icons/pi";
 import Swal from "sweetalert2";
@@ -45,25 +48,27 @@ function NavBar({ user, setUser }) {
 
   const handleDeactivate = async (e) => {
     e.preventDefault();
-  
+
     const prompt = await Swal.fire({
       ...swalBasicSettings("Proceed to delete account?", "warning"),
       text: "Deleting your account cannot be undone. All data and progress will be lost. Make sure you want to do this.",
-      input: 'text',
-      inputPlaceholder: 'type your username',
+      input: "text",
+      inputPlaceholder: "type your username",
       inputAttributes: { autocomplete: "off" },
       showCancelButton: true,
       confirmButtonText: "DELETE",
-      cancelButtonText: "CANCEL", 
-  }).then((result) => {
+      cancelButtonText: "CANCEL",
+    }).then((result) => {
       if (result.value) {
         return result.value;
       }
-  });
-  
+    });
+
     if (prompt === user.username) {
       try {
-        Swal.fire(swalBasicSettings("Successfully deleted account!", "success"));
+        Swal.fire(
+          swalBasicSettings("Successfully deleted account!", "success")
+        );
         await deleteUserService();
         setUser(null);
         navigate("/");
@@ -75,7 +80,12 @@ function NavBar({ user, setUser }) {
         });
       }
     } else {
-      Swal.fire(swalBasicSettings("You did not type your username. Account not deleted.", "warning"));
+      Swal.fire(
+        swalBasicSettings(
+          "You did not type your username. Account not deleted.",
+          "warning"
+        )
+      );
     }
   };
 
@@ -108,7 +118,7 @@ function NavBar({ user, setUser }) {
             <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
               <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-48 font-bebas tracking-widest bg-opacity-50 text-lg">
+            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52 font-bebas tracking-widest bg-opacity-50 text-lg">
               <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
               <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
                 {user.email}

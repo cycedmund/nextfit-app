@@ -1,4 +1,4 @@
-import { signUpAPI, loginAPI, checkTokenAPI, deleteUserAPI } from "./users-api";
+import { signUpAPI, loginAPI, deleteUserAPI } from "./users-api";
 
 export async function signUpService(userData) {
   const data = await signUpAPI(userData);
@@ -34,10 +34,10 @@ export function getUser() {
   return token === null ? null : JSON.parse(atob(token.split(".")[1])).user;
 }
 
-export function checkTokenService() {
-  return checkTokenAPI().then((dateStr) => new Date(dateStr));
-}
-//change above to async
+// export function checkTokenService() {
+//   return checkTokenAPI().then((dateStr) => new Date(dateStr));
+// }
+// //change above to async
 
 export async function deleteUserService() {
   await deleteUserAPI();

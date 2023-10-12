@@ -77,7 +77,10 @@ function ApparelRow({
 
   return (
     <div className="px-6 relative">
-      <header className="mx-4 px-6 font-inter font-thin text-2xl" id={`${mainCategory}`}>
+      <header
+        className="mx-4 px-6 font-inter font-thin text-2xl"
+        id={`${mainCategory}`}
+      >
         {mainCategory}
         {"s"}
       </header>
@@ -136,6 +139,7 @@ function ApparelRow({
               item={item}
               handleDelete={handleDelete}
               handleUpdate={handleUpdate}
+              handleUpdateWornFreq={handleUpdateWornFreq}
             />
           ))}
         </Slider>

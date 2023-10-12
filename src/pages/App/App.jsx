@@ -15,6 +15,7 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
+import ErrorPage from "../ErrorPage/ErrorPage";
 
 const log = debug("nextfit:src:App");
 localStorage.debug = "nextfit:*";
@@ -112,6 +113,7 @@ function App() {
                   />
                 }
               />
+              <Route path="*" element={<ErrorPage />} />
             </Routes>
           )}
         </>
@@ -121,6 +123,7 @@ function App() {
           <Route path="/" element={<AuthPage setUser={setUser} />}>
             <Route path="signup" element={<SignUpForm />} />
             <Route path="login" element={<LoginForm />} />
+            <Route path="*" element={<ErrorPage />} />
           </Route>
         </Routes>
       )}

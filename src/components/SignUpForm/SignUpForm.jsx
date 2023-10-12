@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import Swal from "sweetalert2";
 import { swalBasicSettings } from "../../utilities/wardrobe-service";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 function SignUpForm() {
   const [setUser, visibility, handlePasswordVisibility, status, setStatus] =
@@ -187,6 +188,11 @@ function SignUpForm() {
           </button>
         )}
       </form>
+      <Link to="/login">
+        <span className="text-white text-md btn btn-ghost btn-sm bg-[#E50A14] hover:bg-[#c11119] rounded-md absolute top-4 right-4 normal-case">
+          Sign In
+        </span>
+      </Link>
     </div>
   );
 }

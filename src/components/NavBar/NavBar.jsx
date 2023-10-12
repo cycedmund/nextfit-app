@@ -118,7 +118,7 @@ function NavBar({ user, setUser }) {
             <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
               <TbUserSquare className="text-4xl text-[#E50914] mr-2" />
             </summary>
-            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52 font-bebas tracking-widest bg-opacity-50 text-lg">
+            <ul className="p-2 shadow menu dropdown-content z-[2] bg-base-100 rounded-box w-52 font-bebas tracking-widest bg-opacity-70 text-lg">
               <li className="ml-4 mt-2  text-neutral-400">{user.username}</li>
               <li className="ml-4 mt-2 mb-2 text-sm  text-neutral-400 break-all">
                 {user.email}

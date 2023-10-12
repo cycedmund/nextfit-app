@@ -5,6 +5,7 @@ import ApparelForm from "../ApparelForm/ApparelForm";
 import ApparelEditForm from "../ApparelEditForm/ApparelEditForm";
 import { getUniqueCategories } from "../../utilities/wardrobe-service";
 import WardrobeHero from "../../pages/WardrobePage/WardrobeHero";
+import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 
 function WardrobeRoutes({ apparel, setApparel, handleUpdateWornFreq }) {
   const mainCategories = getUniqueCategories(apparel);
@@ -47,6 +48,7 @@ function WardrobeRoutes({ apparel, setApparel, handleUpdateWornFreq }) {
         path="/:apparelId/edit"
         element={<ApparelEditForm apparel={apparel} setApparel={setApparel} />}
       />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }

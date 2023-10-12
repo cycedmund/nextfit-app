@@ -6,7 +6,8 @@ import { swalBasicSettings } from "../../utilities/wardrobe-service";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 function SignUpForm() {
-  const [setUser, visibility, handlePasswordVisibility] = useOutletContext();
+  const [setUser, visibility, handlePasswordVisibility, status, setStatus] =
+    useOutletContext();
   const [userData, setUserData] = useState({
     email: "",
     username: "",
@@ -24,6 +25,7 @@ function SignUpForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setStatus("loading");
     if (userData.password !== userData.repeat) {
       Swal.fire({
         ...swalBasicSettings("Error", "error"),
@@ -57,6 +59,9 @@ function SignUpForm() {
           confirmButtonText: "Try Again",
         });
       }
+      setStatus("error");
+    } finally {
+      setStatus(null);
     }
   };
 
@@ -169,12 +174,18 @@ function SignUpForm() {
             </button>
           </div>
         </div>
-        <button
-          type="submit"
-          className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
-        >
-          SIGN UP
-        </button>
+        {status === "loading" ? (
+          <div className="flex items-center justify-center">
+            <span className="loading loading-dots loading-lg bg-gray-500 px-3 py-2.5 "></span>
+          </div>
+        ) : (
+          <button
+            type="submit"
+            className="text-white bg-[#E50A14] hover:bg-[#c11119] focus:ring-2 focus:outline-none focus:ring-gray-400 font-bebas font-normal text-3xl px-3 py-2.5 text-center w-full"
+          >
+            SIGN UP
+          </button>
+        )}
       </form>
     </div>
   );

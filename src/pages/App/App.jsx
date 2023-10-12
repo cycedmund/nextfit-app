@@ -31,7 +31,6 @@ function App() {
   const fetchApparelData = async () => {
     try {
       const allApparel = await getAllApparelService();
-      console.log("allapparel", allApparel);
       setApparel(allApparel);
     } catch (err) {
       console.error(err);

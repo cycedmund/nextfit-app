@@ -5,8 +5,6 @@ const { Rembg } = require("rembg-node");
 const debug = require("debug")("nextfit:config:uploadToS3");
 const { v4: uuidv4 } = require("uuid");
 const Wardrobe = require("../models/wardrobeModel");
-const fs = require("fs");
-const path = require("path");
 
 const AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const AWS_REGION = process.env.AWS_REGION;
@@ -45,43 +43,34 @@ module.exports = {
       debug("received files in multer: %o", req.files);
       try {
         for (const file of req.files) {
-          // const imagePath = path.join(
-          //   __dirname,
-          //   `../uploads/${file.originalname}`
-          // );
-          // fs.writeFileSync(imagePath, file.buffer);
           const input = sharp(file.buffer);
           const removedBackground = await rembg.remove(input);
           const resizedImage = await removedBackground
-            .resize(250, 300, { fit: sharp.fit.fill })
-            .flatten({ background: "#FBFBF9" })
+            // .resize(250, 300, { fit: sharp.fit.fill })
+            // .flatten({ background: "#FBFBF9" })
             .toFormat("png")
-            .png({ quality: 80 })
+            // .png({ quality: 80 })
             .toBuffer();
 
           debug("processed image: %o", resizedImage);
+          debug("imagefile", file);
 
           const params = {
             Bucket: AWS_BUCKET_NAME,
-            Key: `${uniqueID}-${file.originalname.replace(
-              /\.[^.]+$/,
-              ".jpeg"
-            )}`,
+            Key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+            // Key: `${uniqueID}-${file.originalname}`,
             Body: removedBackground,
-            ContentType: "image/jpeg",
+            ContentType: "image/png",
           };
 
           const processed = await s3.upload(params).promise();
           debug("uploaded process image: %o", processed);
 
-          // fs.unlinkSync(imagePath);
-
           file.processedImage = {
-            key: `${uniqueID}-${file.originalname.replace(
-              /\.[^.]+$/,
-              ".jpeg"
-            )}`,
+            key: `${uniqueID}-${file.originalname.replace(/\.[^.]+$/, ".png")}`,
+            // key: `${uniqueID}-${file.originalname}`,
           };
+          debug("file.processedimage", file.processedImage);
         }
 
         return next();

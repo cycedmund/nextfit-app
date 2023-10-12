@@ -13,7 +13,7 @@ function NavBar({ user, setUser }) {
         location.pathname === "/wardrobe/new"
           ? "text-white"
           : "text-neutral-500"
-      } hover:text-white hover:text-3xl text-2xl`}
+      } hover:text-white hover:text-3xl text-2xl mr-4`}
     >
       <Link to="/wardrobe/new" className="flex items-center justify-center">
         <div
@@ -65,9 +65,7 @@ function NavBar({ user, setUser }) {
           ))}
         </div>
         <div className="flex justify-center items-center">
-          <Link to="/wardrobe/new" className="mr-2">
-            {renderAddApparelComponent()}
-          </Link>
+          {renderAddApparelComponent()}
           <details className="dropdown dropdown-end">
             <summary className="btn bg-black btn-ghost pt-1 hover:bg-black">
               <TbUserSquare className="text-4xl text-[#E50914] mr-2" />

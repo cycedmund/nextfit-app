@@ -49,19 +49,21 @@ async function getAll(req, res) {
   try {
     const apparel = await Wardrobe.find({ user: req.user._id });
     debug("found apparel by user: %o", apparel);
-    res.status(200).json({
-      status: "success",
-      data: {
-        apparel,
-      },
-    });
+    sendResponse(res, 200, { apparel });
+    // res.status(200).json({
+    //   status: "success",
+    //   data: {
+    //     apparel,
+    //   },
+    // });
   } catch (err) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error getting all apparel",
-      error: err,
-    });
+    sendResponse(res, 500, null, "Error getting all apparel");
+    // res.status(500).json({
+    //   status: "error",
+    //   code: 500,
+    //   message: "Error getting all apparel",
+    //   error: err,
+    // });
   }
 }
 
@@ -83,14 +85,16 @@ async function del(req, res) {
       user: req.user._id,
     });
     debug("delete apparel by user: %o", apparel);
-    res.status(200).json({ status: "success" });
+    sendResponse(res, 200);
+    // res.status(200).json({ status: "success" });
   } catch (err) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error deleting apparel",
-      error: err,
-    });
+    sendResponse(res, 500, null, "Error deleting apparel");
+    // res.status(500).json({
+    //   status: "error",
+    //   code: 500,
+    //   message: "Error deleting apparel",
+    //   error: err,
+    // });
   }
 }
 
@@ -109,19 +113,21 @@ async function updateOne(req, res) {
       { new: true }
     );
     debug("found apparel by user: %o", updatedApparel);
-    res.status(200).json({
-      status: "success",
-      data: {
-        apparel: updatedApparel,
-      },
-    });
+    sendResponse(res, 200, { apparel: updatedApparel });
+    // res.status(200).json({
+    //   status: "success",
+    //   data: {
+    //     apparel: updatedApparel,
+    //   },
+    // });
   } catch (err) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error in editing particular apparel",
-      error: err,
-    });
+    sendResponse(res, 500, null, "Error editing apparel");
+    // res.status(500).json({
+    //   status: "error",
+    //   code: 500,
+    //   message: "Error in editing particular apparel",
+    //   error: err,
+    // });
   }
 }
 
@@ -129,17 +135,19 @@ async function updateWornFreq(req, res) {
   const { apparelIDs } = req.body;
   try {
     const apparelWithIDs = await Wardrobe.updateWornFrequency(apparelIDs);
-    res.status(200).json({
-      status: "success",
-      data: apparelWithIDs,
-    });
+    sendResponse(res, 200, apparelWithIDs);
+    // res.status(200).json({
+    //   status: "success",
+    //   data: apparelWithIDs,
+    // });
   } catch (err) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Error updating worn frequency",
-      error: err,
-    });
+    sendResponse(res, 500, null, "Error updating worn frequency");
+    // res.status(500).json({
+    //   status: "error",
+    //   code: 500,
+    //   message: "Error updating worn frequency",
+    //   error: err,
+    // });
   }
 }
 

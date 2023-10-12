@@ -126,7 +126,7 @@ function SignUpForm() {
               value={userData.password}
               onChange={handleChange}
               autoComplete="off"
-              placeholder="Repeat Password"
+              placeholder="Password"
               className="bg-neutral-300 text-gray-900 text-sm focus:ring-zinc-500 block w-full p-2.5 cursor-text font-inter font-extralight border-none"
               required
             />

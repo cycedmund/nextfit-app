@@ -38,7 +38,8 @@ async function create(req, res) {
       for (const field in err.errors) {
         errors[field] = err.errors[field].message;
       }
-      return sendResponse(res, 400, null, errors);
+      const errorMessage = Object.keys(errors)[0];
+      return sendResponse(res, 400, null, errors[errorMessage]);
     }
     sendResponse(res, 500, null, "Error saving apparel");
   }
@@ -97,6 +98,16 @@ async function updateOne(req, res) {
     debug("found apparel by user: %o", updatedApparel);
     sendResponse(res, 200, { apparel: updatedApparel });
   } catch (err) {
+    debug("Error saving: %o", err);
+    if (err.name === "ValidationError") {
+      const errors = {};
+      debug("Error saving errors:", err.errors);
+      for (const field in err.errors) {
+        errors[field] = err.errors[field].message;
+      }
+      const errorMessage = Object.keys(errors)[0];
+      return sendResponse(res, 400, null, errors[errorMessage]);
+    }
     sendResponse(res, 500, null, "Error editing apparel");
   }
 }

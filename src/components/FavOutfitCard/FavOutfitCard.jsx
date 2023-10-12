@@ -11,10 +11,7 @@ const log = debug("nextfit:src:components:FavOutfitCard");
 function FavOutfitCard({ outfit, updateDeleted }) {
   log(outfit);
 
-  // console.log(outfit.apparels.top);
-
   const apparels = [outfit.apparels.top, outfit.apparels.bottom];
-  // console.log(apparels);
 
   const handleDelete = async (outfitID) => {
     const prompt = await Swal.fire({

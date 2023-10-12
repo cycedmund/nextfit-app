@@ -6,7 +6,11 @@ const wardrobeSchema = new Schema(
     mainCategory: {
       type: String,
       required: [true, "Please input a Main Category"],
-      enum: ["Top", "Bottom", "Outerwear", "Overall"],
+      enum: {
+        values: ["Top", "Bottom", "Outerwear", "Overall"],
+        message:
+          "Main Category must be either Top, Bottom, Outerwear or Overall",
+      },
     },
     subCategory: {
       type: String,
@@ -44,7 +48,7 @@ const wardrobeSchema = new Schema(
     },
     imageURL: {
       type: String,
-      required: true,
+      required: [true, "Please provide a valid image url"],
     },
     user: {
       type: Schema.Types.ObjectId,

@@ -36,6 +36,5 @@ export default async function sendRequest(
     const errorRes = await res.json();
     throw new Error(errorRes.message);
   }
-  // console.log(res);
   // throw new Error(res.statusText);
 }

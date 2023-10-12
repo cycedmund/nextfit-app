@@ -43,7 +43,7 @@ function WardrobePage({
         console.error(err);
         Swal.fire({
           ...swalBasicSettings("Error", "error"),
-          text: "Something went wrong",
+          text: "Unable to delete. Please try again!",
         });
       }
     }

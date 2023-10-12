@@ -1,4 +1,4 @@
-import { signUpAPI, loginAPI, checkTokenAPI } from "./users-api";
+import { signUpAPI, loginAPI, checkTokenAPI, deleteUserAPI } from "./users-api";
 
 export async function signUpService(userData) {
   const data = await signUpAPI(userData);
@@ -38,3 +38,8 @@ export function checkTokenService() {
   return checkTokenAPI().then((dateStr) => new Date(dateStr));
 }
 //change above to async
+
+export async function deleteUserService() {
+  await deleteUserAPI();
+  localStorage.removeItem("token");
+}

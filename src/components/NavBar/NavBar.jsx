@@ -1,7 +1,9 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { logOutService } from "../../utilities/users-service";
+import { logOutService, deleteUserService } from "../../utilities/users-service";
 import { TbUserSquare } from "react-icons/tb";
 import { PiPantsThin, PiTShirtThin, PiPlusSquareFill } from "react-icons/pi";
+import Swal from "sweetalert2";
+import { swalBasicSettings } from "../../utilities/wardrobe-service";
 
 function NavBar({ user, setUser }) {
   const navigate = useNavigate();
@@ -41,6 +43,42 @@ function NavBar({ user, setUser }) {
     navigate("/");
   };
 
+  const handleDeactivate = async (e) => {
+    e.preventDefault();
+  
+    const prompt = await Swal.fire({
+      ...swalBasicSettings("Proceed to delete account?", "warning"),
+      text: "Deleting your account cannot be undone. All data and progress will be lost. Make sure you want to do this.",
+      input: 'text',
+      inputPlaceholder: 'type your username',
+      inputAttributes: { autocomplete: "off" },
+      showCancelButton: true,
+      confirmButtonText: "DELETE",
+      cancelButtonText: "CANCEL", 
+  }).then((result) => {
+      if (result.value) {
+        return result.value;
+      }
+  });
+  
+    if (prompt === user.username) {
+      try {
+        Swal.fire(swalBasicSettings("Successfully deleted account!", "success"));
+        await deleteUserService();
+        setUser(null);
+        navigate("/");
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: "Something went wrong",
+        });
+      }
+    } else {
+      Swal.fire(swalBasicSettings("You did not type your username. Account not deleted.", "warning"));
+    }
+  };
+
   return (
     <nav>
       <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen p-4 font-inter font-extralight">
@@ -78,6 +116,11 @@ function NavBar({ user, setUser }) {
               <li className="border-t border-white">
                 <Link to="/" onClick={handleLogOut} className="text-lg">
                   Logout
+                </Link>
+              </li>
+              <li className="border-t border-white">
+                <Link to="/" onClick={handleDeactivate} className="text-lg">
+                  Deactivate Account
                 </Link>
               </li>
             </ul>

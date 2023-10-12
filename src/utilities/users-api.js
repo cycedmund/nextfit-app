@@ -13,3 +13,7 @@ export function loginAPI(credentials) {
 export function checkTokenAPI() {
   return sendRequest(`${BASE_URL}/check-token`);
 }
+
+export async function deleteUserAPI() {
+  return sendRequest(BASE_URL, "DELETE");
+}

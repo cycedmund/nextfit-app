@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const Wardrobe = require("../models/wardrobeModel");
+const Outfit = require("../models/outfitModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const debug = require("debug")("nextfit:controllers:usersCtrl");
@@ -61,10 +63,28 @@ async function login(req, res) {
   }
 }
 
+async function deactivate(req, res) {
+  debug("delete user: %o", req.user._id);
+  try {
+    await User.findOneAndDelete({
+      _id: req.user._id,
+    });
+    await Wardrobe.deleteMany({
+      user: req.user._id,
+    });
+    await Outfit.deleteMany({
+      user: req.user._id,
+    });
+    sendResponse(res, 200);
+  } catch (err) {
+    sendResponse(res, 500, null, "Error deleting account");
+  }
+}
+
 //* ===== Helper Functions ===== *//
 
 function createJWT(user) {
   return jwt.sign({ user }, process.env.SECRET, { expiresIn: "24h" });
 }
 
-module.exports = { create, login };
+module.exports = { create, login, deactivate };

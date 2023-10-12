@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 
 function AuthPage({ setUser }) {
   const [visibility, setVisibility] = useState(false);
+  const [status, setStatus] = useState(null);
 
   const handlePasswordVisibility = () => {
     setVisibility((prev) => !prev);
@@ -18,7 +19,15 @@ function AuthPage({ setUser }) {
       </span>
 
       <main className="text-white p-4 container flex mx-auto min-h-screen items-center justify-center">
-        <Outlet context={[setUser, visibility, handlePasswordVisibility]} />
+        <Outlet
+          context={[
+            setUser,
+            visibility,
+            handlePasswordVisibility,
+            status,
+            setStatus,
+          ]}
+        />
       </main>
     </>
   );

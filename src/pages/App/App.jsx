@@ -1,6 +1,6 @@
 import debug from "debug";
 import { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import LandingPage from "../LandingPage/LandingPage";
 import AuthPage from "../AuthPage/AuthPage";
@@ -24,6 +24,8 @@ log("Start React");
 function App() {
   const [user, setUser] = useState(getUser());
   const [apparel, setApparel] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (user) {
@@ -32,8 +34,11 @@ function App() {
         setApparel(allApparel);
       };
       fetchApparelData();
+      if (location.pathname === "/") {
+        navigate("/home");
+      }
     }
-  }, [user]);
+  }, [user, navigate, location]);
 
   const handleUpdateWornFreq = async (apparelIDs) => {
     console.log("IDs", apparelIDs);
@@ -73,7 +78,6 @@ function App() {
     <main className="min-h-screen min-w-screen bg-black text-white">
       {user ? (
         <>
-          {/* {apparel.length !== 0} */}
           <NavBar user={user} setUser={setUser} />
           <Routes>
             <Route

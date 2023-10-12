@@ -16,9 +16,7 @@ function WardrobeHero({ mainCategories }) {
                 </span>
                 !
                 <br />
-                <span className="text-xl">
-                  Add one more different main category to get started!
-                </span>
+                <span className="text-xl">Add the other to get started!</span>
               </small>
             ) : (
               <small className="text-2xl font-medium">

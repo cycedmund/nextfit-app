@@ -23,6 +23,5 @@ export function patchApparelFrequencyAPI(apparelIDs) {
 }
 
 export function updateApparelAPI(apparelID, apparelData) {
-  return sendRequest(`${BASE_URL}/${apparelID}/edit`, "PATCH", apparelData);
+  return sendRequest(`${BASE_URL}/${apparelID}/edit`, "PUT", apparelData);
 }
-

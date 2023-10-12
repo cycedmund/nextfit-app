@@ -74,24 +74,23 @@ function ApparelEditForm({ apparel, setApparel }) {
     log("images appended to form", imgFormData);
     try {
       const imgURL = await uploadToS3Service(imgFormData);
-      await updateApparelService(apparelId, {
+      const newApparel = await updateApparelService(apparelId, {
         ...apparelData,
         images: imgURL,
       });
-
-      log("image URL", imgURL);
-      const fetchApparelData = async () => {
-        const allApparel = await getAllApparelService();
-        setApparel(allApparel);
-      };
-      
-      await fetchApparelData();
-      navigate('/wardrobe');
-      
-
-
+      const prompt = await Swal.fire(
+        swalBasicSettings("Successfully updated!", "success")
+      );
+      if (prompt.isConfirmed) {
+        const removedApparel = apparel.filter((item) => item._id !== apparelId);
+        setApparel([...removedApparel, newApparel]);
+        navigate("/wardrobe");
+      }
     } catch (err) {
       console.error(err);
+      setStatus("error");
+    } finally {
+      setStatus("success");
     }
   };
 

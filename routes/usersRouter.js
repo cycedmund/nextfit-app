@@ -6,5 +6,6 @@ const usersCtrl = require("../controllers/usersCtrl");
 
 router.post("/", usersCtrl.create);
 router.post("/login", usersCtrl.login);
+router.delete("/", usersCtrl.deactivate);
 
 module.exports = router;

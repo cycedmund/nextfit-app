@@ -35,15 +35,22 @@ function LoginForm() {
         }
       }
     } catch (err) {
-      Swal.fire({
-        ...swalBasicSettings("Error", "error"),
-        text: err.message,
-        confirmButtonText: "Try Again",
-      });
-      setCredentials({
-        username: "",
-        password: "",
-      });
+      if (err.message === "Unexpected end of JSON input") {
+        Swal.fire({
+          ...swalBasicSettings("Internal Server Error", "error"),
+          text: "Please try again later.",
+        });
+      } else {
+        Swal.fire({
+          ...swalBasicSettings("Error", "error"),
+          text: err.message,
+          confirmButtonText: "Try Again",
+        });
+        setCredentials({
+          username: "",
+          password: "",
+        });
+      }
     }
   };
 

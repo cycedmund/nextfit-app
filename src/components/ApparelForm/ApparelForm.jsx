@@ -80,9 +80,9 @@ function ApparelForm({ apparel, setApparel }) {
       resetApparelForm();
     } catch (err) {
       console.error(err);
-      setStatus("Submission failed, please try again");
+      setStatus("error");
     } finally {
-      setStatus("Apparel saved!");
+      setStatus("success");
     }
   };
 
